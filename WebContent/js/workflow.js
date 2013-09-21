@@ -1,11 +1,18 @@
 
 $(function () {
 
-	$("#newProject").click(function(){
-			$('#myModal').modal();
+	var newWorkflow 	= $('#new-workflow');
+	var persistWorkflow = $('#persistWorkflow'); 
+	var cancel			= $('#cancel');
+	
+	
+	newWorkflow.on('click', function() {
+		redirectTo('/bugsys/workflow');
 	});
-
-	$("#filtros").click(function () {
-		$('#filtros').popover('show');
+	
+	cancel.on('click', function(){
+		redirectTo('/bugsys/workflow/list');
 	});
+	
+	
 });

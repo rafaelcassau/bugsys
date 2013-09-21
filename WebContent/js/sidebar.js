@@ -23,7 +23,7 @@ $(function (){
 	});
 
 	linkWorkflows.on('click', function() {
-		redirectTo('bugsys/workflows');
+		redirectTo('/bugsys/workflow/list');
 	});
 	
 	linkUsers.on('click', function(){
