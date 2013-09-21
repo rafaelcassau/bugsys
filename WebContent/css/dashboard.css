@@ -1,0 +1,91 @@
+
+
+html, body{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+#wrapper { 
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	background-color: #f2f2f2;
+} 
+
+#header {
+	background: #444444;
+	position: relative;
+	top: 0;
+	height: 50px;
+	padding: 0;
+}
+
+	#header-logo {
+		background-color: #222222;
+		height: 100%;
+	}
+
+	#header-user-info {
+		background-color: #222222;
+		height: 100%;
+	}
+
+#content {
+	position: absolute;
+	top: 50px;
+	padding: 0;
+	margin: 0;
+	height: 92.5%;
+}
+
+
+#sidebar {
+	background: #91c46b;
+	position: relative;
+	left: 0;
+	bottom: 0;
+	height: 100%;
+}
+
+	#sidebar-menu {
+		list-style: none;
+		margin: 0;
+		padding: 20px 0 0 25px;
+	}
+
+	#sidebar-menu li {
+		margin-bottom: 20px;
+	}
+
+	#sidebar-menu li a{
+		font-size: 2em;
+		color: #57893e;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	#sidebar-menu li a:hover {
+		color: #305729;
+	}
+
+
+#aside {
+	padding: 0;
+}
+	#aside-header{
+		background-color: #FFFFFF;
+		border-bottom: 1px solid rgba(0,0,0,0.2);
+		height: 60px;
+		-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+		   -moz-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+		        box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	}
+
+	.aside-header-title {
+		margin-left: 2%;
+	}
+	
+	.aside-header-title {
+		font-size: 1.5em;
+	}

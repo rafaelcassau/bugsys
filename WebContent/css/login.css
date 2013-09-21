@@ -1,0 +1,34 @@
+
+html, body{
+	margin: 0;
+	padding: 0;
+	height: 100%;
+}
+
+.container {
+	background: #293541;
+	height: 100%;
+	max-width: 100% !important;
+	width: 100% !important;
+	padding: 0;
+}
+
+#bgsys-logo {
+	position: relative;
+	top: 10%;
+	left: 42%;
+}
+
+	#bgsys-logo h3 {
+		color: #FFFFFF;
+		font-size: 2em;
+	}
+
+#login-content {
+	background: #FFFFFF;
+	border: 1px solid #000000;
+	position: absolute;
+	top: 20%;
+	left: 30%;
+	padding: 2em;
+}
