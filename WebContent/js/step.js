@@ -1,9 +1,84 @@
 
-
-	
-	var Step = ( function ( $ , localStorage ) { 
+	var Storage = ( function ( localStorage ) {
 		
-		var array = [];
+		var store = function (base, data) {
+			localStorage.setItem(base, JSON.stringify(data));
+		};
+
+		var drop = function () {
+			localStorage.clear();
+		};
+		
+		var get = function (base){
+			return localStorage.getItem(base);
+		};
+		
+		var update = function (base, data){
+			drop();
+			store(base, data);
+		};
+		
+		return {
+			store : store,
+			drop  : drop,
+			get   : get,
+			update: update
+		};
+		
+	})( window.localStorage );
+
+ 	var StepModel = ( function ( storage ) {
+ 		
+ 		var Steps = [];
+ 		
+ 		var save = function(step){
+ 			Steps.push(step);
+ 		};
+ 		
+ 		var refresh = function(){
+ 			storage.update("steps", Steps);
+ 		};
+ 		
+ 		var getAll = function () {
+ 			return storage.get("steps");
+ 		};
+ 		
+ 		var count = function(){
+ 			return Steps.length;
+ 		};
+ 		
+ 		var empty = function(){
+ 			Steps.length = 0;
+ 		};
+ 		
+		var commit = function (){
+ 			storage.store("steps", Steps);
+ 		};
+ 		
+ 		var deleteStep = function ( stepID ) {
+ 			for(var i = 0; i < Steps.length; i++){
+				if(Steps[i].id == stepID){
+					Steps.splice(i, 1);
+					break;
+				}
+			}
+		};
+ 		
+ 		return {
+ 			save      : save,
+ 			refresh	  : refresh,
+ 			deleteStep: deleteStep,
+ 			getAll	  : getAll,
+ 			count     : count,
+ 			empty	  : empty,
+ 			commit    :commit
+ 		};
+ 		
+ 	})( Storage );
+ 	
+ 	
+ 	
+	var Step = ( function ( $ , localStorage , model) { 
 		
 		var el = {
 			body  : $("body"),
@@ -35,13 +110,14 @@
 			
 			if ( validInput() ) {
 				
-				var step = new Object();
-				step.id = count();
-				step.description = el.input.val();
+				var step = { 
+					id  : model.count(), 
+					desc: el.input.val() 
+				};
 				
-				el.list.append(newStep(step));
+				model.save(step);
 				
-				array.push(step);
+				el.list.append(addStep(step));
 				
 				el.input.val("");
 				
@@ -49,29 +125,31 @@
 				el.input.addClass(cssClass.error);
 			}
 			
-			storage();
+			model.commit();
 		};
 		
 		var dataBind = function () {
 			
-			var stepsHistory = JSON.parse(localStorage.getItem("steps"));
+			var steps = JSON.parse(model.getAll());
 			
-			clearList();
-			
-			if(stepsHistory){
-				$.each( stepsHistory , function (index, step) {
-					el.list.append(newStep(step));
-					array.push(step);
+			if(steps) { 
+		
+				clearList();
+				
+				$.each( steps , function (index, step) {
+					el.list.append(addStep(step));
+					model.save(step);
 				});
+				
+				model.commit();
 			}
 		};
 		
-		//remove step
 		var remove = function () {
 		
-			deleteStep(this.getAttribute("id"));
+			model.deleteStep(this.getAttribute("id"));
 			
-			updateStorage();
+			model.refresh();
 			
 			$(this).parent().remove();
 			
@@ -80,16 +158,11 @@
 		
 		var clearList = function () {
 			el.list.html("");
-			array.length = 0;
+			model.empty();
 		};
-		
-		var clearStorage = function () {
-			localStorage.clear();
-		};
-		
-		//create new step
-		var newStep = function (step) {
-			return  $('<li class="list-group-item"> ' + step.description + '<a href="#" id="' + step.id + '" class="close" aria-hidden="true">&times;</a> </li>');
+
+		var addStep = function (step) {
+			return  $('<li class="list-group-item"> ' + step.desc + '<a href="#" id="' + step.id + '" class="close" aria-hidden="true">&times;</a> </li>');
 		};
 		
 		//valid input
@@ -97,48 +170,11 @@
 			return el.input.val() != '';
 		};
 		
-		//count step
-		var count = function (){
-			return array.length + 1;
-		};
-		
-		
-		var storage = function () {
-			localStorage.setItem("steps", JSON.stringify(array));
-		};
-		
-		var updateStorage = function () {
-			clearStorage();
-			storage();
-		};
-
-		var findStepByID = function (stepID) {
-			for(var i = 0; i < array.length; i++){
-				if(array[i].id == stepID) {
-					return array[i];
-				}
-			}
-		};
-		
-		var deleteStep = function(stepID){
-			for(var i = 0; i < array.length; i++){
-				if(array[i].id == stepID){
-					array.splice(i, 1);
-					break;
-				}
-			}
-		};
-		
-		//public methods
 		return {
-			init: init,
-			findStepByID: findStepByID,
-			deleteStep: deleteStep,
-			count: count,
-			clearStorage: clearStorage
+			init: init
 		};
 		
-	})( jQuery,  window.localStorage );
+	})( jQuery,  window.localStorage , StepModel);
 	
 	//Initialize
 	window.onload = function() {
