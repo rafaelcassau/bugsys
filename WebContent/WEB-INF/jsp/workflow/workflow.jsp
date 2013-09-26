@@ -27,6 +27,11 @@
 			
 		          	<input type="hidden" class="id" id="id" value="${workflow.id}">
 				    
+				    <div class="col-lg-6">
+			          <label for="user">Título: </label>
+			          <input type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
+			    	</div>
+				    
 				    <div class="col-lg-12">
 			          <label for="user">Descrição: </label>
 			          <textarea class="form-control input-bgsys without-radius" rows="3">${workflow.description}</textarea>
@@ -64,8 +69,8 @@
 
 	<%@ include file="/footer.jsp" %>
 	
-	<script type="text/javascript" src="<c:url value="/js/workflow.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/step.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/js/workflow.js"/>"></script>
 	
 	
 	

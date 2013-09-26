@@ -23,11 +23,10 @@
 	    			 
 	    			 $(item).addClass('input-error');
 	    		
-	    			 $(item).on('blur', function(){
-	    				 $(this).removeClass('input-error');
-	    			 });
+	    			 $(item).on('blur', function(){ $(this).removeClass('input-error'); });
 	    			 
 	    			 success = false;
+
 	    		 } else {
 	    			 $(item).removeClass('input-error');
 	    		 }

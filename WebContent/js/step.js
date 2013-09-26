@@ -1,46 +1,149 @@
+
+
 	
-	$(function() {
+	var Step = ( function ( $ , localStorage ) { 
 		
-		var step_add		= $('#step-add');
-		var step_input  	= $('#step-input');
-		var step_list_items = $('#step-list-items');
+		var array = [];
 		
-		step_add.on('click', add);
-		
-		function add() {
-			
-			 if( validStep() ) {
-				 
-				 var count = countStep();
-				 
-				 var step = new Object();
-				 step.id = count;
-				 step.description = step_input.val();
-				
-				 step_list_items.append(newStep(step));
-				 
-			 } else {
-				 step_input.addClass('input-error');
-			 }
+		var el = {
+			body  : $("body"),
+			add   : $("#step-add"),
+			input : $("#step-input"),
+			list  : $("#step-list-items")
 		};
 		
-		function newStep(step){
-			var html = $('<li class="list-group-item"> ' + step.description + '<a href="#" id="' + step.id + '" class="close" aria-hidden="true">&times;</a> </li>');
+		var cssClass = {
+			error : "input-error"
+		};
+		
+		//bind events
+		var init = function () {
+			el.add  .on('click', add);
+			el.body .on('click', 'a.close', remove);
+			el.input.on('blur', function () { $(this).removeClass(cssClass.error); });
+			el.input.on('keypress', function (e) {
+				if(e.keyCode == 13){
+					add();
+				}		
+			});
+			
+			dataBind();
+		};
+		
+		//add step
+		var add = function () {
+			
+			if ( validInput() ) {
 				
-				html.find('.close').on('click', function(ev, ui) { 
-					
+				var step = new Object();
+				step.id = count();
+				step.description = el.input.val();
+				
+				el.list.append(newStep(step));
+				
+				array.push(step);
+				
+				el.input.val("");
+				
+			} else {
+				el.input.addClass(cssClass.error);
+			}
+			
+			storage();
+		};
+		
+		var dataBind = function () {
+			
+			var stepsHistory = JSON.parse(localStorage.getItem("steps"));
+			
+			clearList();
+			
+			if(stepsHistory){
+				$.each( stepsHistory , function (index, step) {
+					el.list.append(newStep(step));
+					array.push(step);
 				});
+			}
+		};
+		
+		//remove step
+		var remove = function () {
+		
+			deleteStep(this.getAttribute("id"));
 			
-				return html;
+			updateStorage();
+			
+			$(this).parent().remove();
+			
+			dataBind();
 		};
 		
-		function validStep(){
-			return step_input.val() != '';
+		var clearList = function () {
+			el.list.html("");
+			array.length = 0;
 		};
 		
-		function countStep(){
-			return step_list_items.find("li").length + 1;
-		}
-	});
+		var clearStorage = function () {
+			localStorage.clear();
+		};
+		
+		//create new step
+		var newStep = function (step) {
+			return  $('<li class="list-group-item"> ' + step.description + '<a href="#" id="' + step.id + '" class="close" aria-hidden="true">&times;</a> </li>');
+		};
+		
+		//valid input
+		var validInput = function () {
+			return el.input.val() != '';
+		};
+		
+		//count step
+		var count = function (){
+			return array.length + 1;
+		};
+		
+		
+		var storage = function () {
+			localStorage.setItem("steps", JSON.stringify(array));
+		};
+		
+		var updateStorage = function () {
+			clearStorage();
+			storage();
+		};
+
+		var findStepByID = function (stepID) {
+			for(var i = 0; i < array.length; i++){
+				if(array[i].id == stepID) {
+					return array[i];
+				}
+			}
+		};
+		
+		var deleteStep = function(stepID){
+			for(var i = 0; i < array.length; i++){
+				if(array[i].id == stepID){
+					array.splice(i, 1);
+					break;
+				}
+			}
+		};
+		
+		//public methods
+		return {
+			init: init,
+			findStepByID: findStepByID,
+			deleteStep: deleteStep,
+			count: count,
+			clearStorage: clearStorage
+		};
+		
+	})( jQuery,  window.localStorage );
+	
+	//Initialize
+	window.onload = function() {
+		Step.init();		
+	};
+	
 	
 	
