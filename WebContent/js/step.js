@@ -78,7 +78,7 @@
  	
  	
  	
-	var Step = ( function ( $ , localStorage , model) { 
+	var Step = ( function ( $ , model) { 
 		
 		var el = {
 			body  : $("body"),
@@ -174,11 +174,15 @@
 			init: init
 		};
 		
-	})( jQuery,  window.localStorage , StepModel);
+	})( jQuery, StepModel );
+	
+	
 	
 	//Initialize
 	window.onload = function() {
+	
 		Step.init();		
+	
 	};
 	
 	
