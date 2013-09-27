@@ -19,7 +19,7 @@ $(function (){
 	});
 	
 	linkProjetcs.on('click', function() {
-		redirectTo('bugsys/projects');
+		redirectTo('/bugsys/usecase/list'); //TODO temporario
 	});
 
 	linkWorkflows.on('click', function() {

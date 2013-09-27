@@ -2,7 +2,7 @@ package br.com.bugsys.util;
 
 public enum AjaxResponseEnum {
 
-	SUCESS("sucess"),
+	SUCCESS("success"),
 	ERROR("error");
 	
 	private String response;

@@ -103,7 +103,7 @@ public class ClientController {
 
 		this.clientDAO.deleteClientById(id);
 
-		message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
 	
@@ -145,7 +145,7 @@ public class ClientController {
 			
 			this.clientDAO.persistClient(client);
 			
-			message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);	
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);	
 		}
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
@@ -199,7 +199,7 @@ public class ClientController {
 			
 			this.clientDAO.persistClient(client);
 			
-			message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);	
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);	
 		}
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();

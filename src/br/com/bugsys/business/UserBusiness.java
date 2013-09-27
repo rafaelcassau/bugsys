@@ -28,7 +28,7 @@ public class UserBusiness {
 		
 		if(message.isEmpty()){
 			this.userDAO.persistUser(user);
-			message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
 		}
 		
 		return message;
@@ -94,7 +94,7 @@ public class UserBusiness {
 		if (message.isEmpty()) {
 			this.userDAO.persistUser(user);
 			
-			message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);
 			
 			return message;
 		}
@@ -114,7 +114,7 @@ public class UserBusiness {
 			this.userDAO.deleteUserById(id);
 		}
 		
-		message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
 		
 		return message;
 	}

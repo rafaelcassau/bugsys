@@ -48,7 +48,7 @@ public class LoginController {
 		if (currentUser == null) {
 			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_LOGIN_INCORRECT);
 		} else {
-			message.put(AjaxResponseEnum.SUCESS.getResponse(), Messages.MSG_EMPTY);
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_EMPTY);
 			this.userSession.login(currentUser);
 		}
 		

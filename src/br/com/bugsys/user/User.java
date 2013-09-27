@@ -1,7 +1,5 @@
 package br.com.bugsys.user;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

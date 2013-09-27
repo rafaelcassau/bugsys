@@ -56,15 +56,31 @@ public class UserController {
 		EmployeeType employeeTypeEntity = this.employeeTypeDAO.findEmployeeTypeById(employeeTypeId);
 		
 		if (id == null || id.trim().isEmpty()) {
-			this.addUser(new User().setUsername(username).setPassword(password).setName(name).setMail(mail).setEmployeeType(employeeTypeEntity));
+			
+			User user = new User().setUsername(username)
+								  .setPassword(password)
+								  .setName(name)
+								  .setMail(mail)
+								  .setEmployeeType(employeeTypeEntity);
+			this.addUser(user);
+			
 		} else {
+			
 			Integer userID = Integer.valueOf(id);
-			this.updateUser(new User().setId(userID).setUsername(username).setPassword(password).setName(name).setMail(mail).setEmployeeType(employeeTypeEntity));
+
+			User user = new User().setId(userID)
+								  .setUsername(username)
+								  .setPassword(password)
+								  .setName(name)
+								  .setMail(mail)
+								  .setEmployeeType(employeeTypeEntity);
+			
+			this.updateUser(user);
 		}
 	}
 	
 	@Get("/user/{id}")
-	public User user(int id) {
+	public User user(Integer id) {
 		
        User user = this.userDAO.findUserById(id);
 		

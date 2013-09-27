@@ -22,6 +22,9 @@
         <mapping class="br.com.bugsys.user.User" />
         <mapping class="br.com.bugsys.employeeType.EmployeeType" />
         <mapping class="br.com.bugsys.client.Client" />
+        <mapping class="br.com.bugsys.project.Project" />
+        <mapping class="br.com.bugsys.usecase.UseCase" />
+        <mapping class="br.com.bugsys.userproject.UserProject" />
           
     </session-factory>  
       

@@ -28,7 +28,7 @@
 		          	<input type="hidden" class="id" id="id" value="${user.id}">
 				    
 				    <div class="col-lg-6">
-			          <label for="user">Usu&aacute;rio: </label>
+			          <label for="username">Usu&aacute;rio: </label>
 			          <input type="text" class="form-control input-bgsys without-radius" id="username" value="${user.username}">
 			    	</div>
 			    	

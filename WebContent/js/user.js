@@ -52,7 +52,7 @@ $(function () {
 				var status   = data[0][0];
 		    	var message  = data[0][1];
 		    	
-		    	if (status == 'sucess') {
+		    	if (status == 'success') {
 		    		
 		    		modal_excluir.hide();
 		    		
@@ -98,7 +98,7 @@ $(function () {
     				var status   = data[0][0];
 			    	var message  = data[0][1];
 			    	
-			    	if (status == 'sucess') {
+			    	if (status == 'success') {
 			    		
 			    		if(id.val() == ""){
 				    		toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');

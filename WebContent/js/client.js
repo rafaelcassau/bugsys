@@ -85,7 +85,7 @@ $(function() {
 					var status   = data[0][0];
 			    	var message  = data[0][1];
 			    	
-			    	if (status == 'sucess') {
+			    	if (status == 'success') {
 			    		
 			    		if (idClient.val() == "") {
 				    		toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
@@ -125,7 +125,7 @@ $(function() {
 				var status   = data[0][0];
 		    	var message  = data[0][1];
 		    	
-		    	if (status == 'sucess') {
+		    	if (status == 'success') {
 		    		
 		    		modal_excluir.hide();
 		    		

@@ -73,9 +73,12 @@ public class UserDAO {
 		User userReturn = null;
 		
 		if(user.getId() == null){
+			
 			int id = (Integer) this.session.save(user);
 			userReturn = this.findUserById(id);
+			
 		} else {
+			
 			this.session.update(user);
 			userReturn = user;
 		}

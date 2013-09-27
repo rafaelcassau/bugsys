@@ -13,4 +13,6 @@ public interface Messages {
 	String MSG_EXISTS_CORPORATE	= "J&aacute; existe um registro cadastrado com o Nome da Empresa informado.";
 	String MSG_EXISTS_FANCY		= "J&aacute; existe um registro cadastrado com o Nome Fantasia informado.";
 	String MSG_EXISTS_CNPJ		= "J&aacute; existe um registro cadastrado com o CNPJ informado.";
+	String MSG_EXISTS_USECASE_NAME = "J&aacute; existe um registro cadastrado com o Nome informado.";
+	String MSG_EXISTS_USECASE_CODE = "J&aacute; existe um registro cadastrado com o Código informado.";
 }
