@@ -1,12 +1,12 @@
 package br.com.bugsys.step;
 
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.Entity;
 
 import br.com.bugsys.workflow.Workflow;
 
@@ -19,7 +19,7 @@ public class Step {
 	private String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "fk_workflow")
+	@JoinColumn(name = "workflow_FK")
 	private Workflow workflow;
 
 	public Integer getId() {

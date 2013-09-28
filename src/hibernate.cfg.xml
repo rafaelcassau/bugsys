@@ -25,6 +25,8 @@
         <mapping class="br.com.bugsys.project.Project" />
         <mapping class="br.com.bugsys.usecase.UseCase" />
         <mapping class="br.com.bugsys.userproject.UserProject" />
+        <mapping class="br.com.bugsys.step.Step" />
+        <mapping class="br.com.bugsys.workflow.Workflow" />
           
     </session-factory>  
       

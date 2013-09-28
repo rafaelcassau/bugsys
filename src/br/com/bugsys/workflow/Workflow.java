@@ -3,13 +3,12 @@ package br.com.bugsys.workflow;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Entity;
+import javax.persistence.OneToMany;
 
 import br.com.bugsys.step.Step;
-
 
 @Entity
 public class Workflow {
@@ -19,6 +18,7 @@ public class Workflow {
 	private Integer id;
 	private String description;
 	
+	@OneToMany(mappedBy = "workflow")
 	private List<Step> listSteps;
 		
 	public Integer getId() {

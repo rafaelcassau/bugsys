@@ -40,9 +40,7 @@
 			    	
 			    	<div class="col-lg-12">
 			          <label for="description">Descrição: </label>
-			          <textarea id="description" class="form-control" rows="3">
-			          	${useCase.description}
-			          </textarea>
+			          <textarea id="description" class="form-control input-bgsys without-radius" rows="3">${useCase.description}</textarea>
 			    	</div>
 			    	
 			  </form>
