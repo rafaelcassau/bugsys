@@ -30,10 +30,10 @@
 						<td>${user.mail}</td>
 						<td>
 							<div class="btn-group">
-							  <a class="btn btn-link editUser" href="<c:url value="/user/${user.id}"/>">
+							  <a class="btn btn-link editWorkflow" href="<c:url value="/user/${user.id}"/>">
 							  	 <span class="glyphicon glyphicon-edit"></span> Editar
 							  </a>
-							  <a data-toggle="modal" class="btn btn-link deleteUser" href="#">
+							  <a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${user.id}">
 							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
 							  </a>
 							</div>
@@ -45,6 +45,25 @@
 			</tbody>
 		</table>
 	</div>
+	
+	<!-- Modal confirm delete user -->
+	  <div class="modal fade" id="modal-excluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	          <h4 class="modal-title">Confirmação</h4>
+	        </div>
+	        <div class="modal-body">
+	          <p>Deseja realmente excluir o workflow selecionado?</p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancelar</button>
+	          <button type="button" class="btn btn-primary confirm">Confirmar</button>
+	        </div>
+	      </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	  </div><!-- /.modal -->
 			
    <%@ include file="/footer.jsp" %>
 					

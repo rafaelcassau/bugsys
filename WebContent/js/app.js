@@ -15,6 +15,13 @@
 		return validEmail.test(email);
 	}
 	 
+	 function dataReturn(data){
+		 return  {
+			 status : data[0][0],
+			 message: data[0][1]
+		 };
+	 }
+	 
 	 function formIsValid() {
 	    	var success = true;
 	    	$('[valid="valid"]').each(

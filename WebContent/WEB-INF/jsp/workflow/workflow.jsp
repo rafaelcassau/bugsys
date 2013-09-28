@@ -23,18 +23,18 @@
 			
 				<div class="alert alert-danger fade in not-display" id="error-list"> </div>
 			
-				<form id="formUser" class="form-inline bgsys-form-inline">
-			
-		          	<input type="hidden" class="id" id="id" value="${workflow.id}">
-				    
+				<form id="formWorkflow" class="form-inline bgsys-form-inline">
+		
+		          	<input type="hidden" id="id" value="${workflow.id}">
+	
 				    <div class="col-lg-6">
 			          <label for="user">Título: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
+			          <input id="title" valid="valid" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
 			    	</div>
 				    
 				    <div class="col-lg-12">
 			          <label for="user">Descrição: </label>
-			          <textarea valid="valid" class="form-control input-bgsys without-radius" rows="3">${workflow.description}</textarea>
+			          <textarea id="description" valid="valid" class="form-control input-bgsys without-radius" rows="3">${workflow.description}</textarea>
 			    	</div>
 			    	
 			    	<div class="col-lg-12">
@@ -46,17 +46,13 @@
 							      <input id="step-input" type="text" class="form-control input-bgsys without-radius">
 							      <span class="input-group-btn">
 							        <button id="step-add" class="btn btn-primary" type="button">
-							             &nbsp;
-							        	<span class="glyphicon glyphicon-plus"></span>
-							        	 &nbsp;
+							             &nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;
 							        </button>
 							      </span>
 							    </div><!-- /input-group -->
 					        </div>
 					    	<div class="row step-list">
-						    	<ul id="step-list-items" class="list-group">
-								  	
-								</ul>
+						    	<ul id="step-list-items" class="list-group"></ul>
 					    	</div>
 						  </div>
 						</div>
