@@ -34,7 +34,7 @@
 	 * */
 	
 	var id    	    = $("#id"),
-		title       = $("#titulo"),
+		title       = $("#title"),
 		description = $("#description");
 	
 	
@@ -51,7 +51,8 @@
 			$.post('/bugsys/workflow/workflow/', { 
 				   'id' 	     : id.val(),
 				   'title' 		 : title.val(),
-				   'description' : description.val()
+				   'description' : description.val(),
+				   'steps'       : StepModel.getAll()
 				   }, 
 				   function ( data ) {
 				
