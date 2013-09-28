@@ -17,7 +17,7 @@
 	 
 	 function formIsValid() {
 	    	var success = true;
-	    	$('input[class != "id"]').each(
+	    	$('[valid="valid"]').each(
 	    	   function(key, item) {
 	    		 if($(item).val() == "") {
 	    			 

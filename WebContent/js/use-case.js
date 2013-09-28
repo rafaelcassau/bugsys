@@ -38,11 +38,11 @@ $(function() {
 		if (formIsValid()) {
 			
 			$.post('/bugsys/usecase/usecase',{
-				'id' : id.val(),
-				'code' : code.val(),
-				'name' : name.val(),
+				'id'          : id.val(),
+				'code'        : code.val(),
+				'name'        : name.val(),
 				'description' : description.val(),
-				'projectID' : projectID.val()
+				'projectID'   : projectID.val()
 			}, function(data) {
 				
 				var status   = data[0][0];

@@ -25,17 +25,17 @@
 			
 				<form id="formUseCase" class="form-inline bgsys-form-inline">
 			
-		          	<input type="hidden" class="id" id="id" value="${useCase.id}">
-		          	<input type="hidden" class="id" id="projectID" value="1">
+		          	<input type="hidden" id="id" value="${useCase.id}">
+		          	<input type="hidden" id="projectID" value="1">
 				    
 			    	<div class="col-lg-3">
 			          <label for="code">Código: </label>
-			          <input type="text" class="form-control input-bgsys without-radius" id="code" value="${useCase.code}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="code" value="${useCase.code}">
 			    	</div>
 
 				    <div class="col-lg-9">
 			          <label for="name">Nome: </label>
-			          <input type="text" class="form-control input-bgsys without-radius" id="name" value="${useCase.name}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="name" value="${useCase.name}">
 			    	</div>
 			    	
 			    	<div class="col-lg-12">

@@ -1,5 +1,5 @@
 
-;(function ( $ , Step) {
+;(function ( $ , StepModel) {
 	
 	var newWorkflow 	= $('#new-workflow');
 	var persistWorkflow = $('#persistWorkflow'); 
@@ -10,9 +10,17 @@
 	});
 	
 	cancel.on('click', function () {
-		Step.clearStorage();
+		StepModel.empty();
+		Storage  .drop();
 		redirectTo('/bugsys/workflow/list');
 	});
 	
+	persistWorkflow.on('click', function() {
+		
+		if ( formIsValid() ) {
+			
+		}
+		
+	});
 	
-})( jQuery , Step );
+})( jQuery , StepModel );

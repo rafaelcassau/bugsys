@@ -25,31 +25,31 @@
 			
 				<form id="formUser" class="form-inline bgsys-form-inline">
 			
-		          	<input type="hidden" class="id" id="id" value="${user.id}">
+		          	<input type="hidden" id="id" value="${user.id}">
 				    
 				    <div class="col-lg-6">
 			          <label for="username">Usu&aacute;rio: </label>
-			          <input type="text" class="form-control input-bgsys without-radius" id="username" value="${user.username}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="username" value="${user.username}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
 			          <label for="password">Senha: </label>
-			          <input type="password" class="form-control input-bgsys without-radius" id="password" value="${user.password}">
+			          <input valid="valid" type="password" class="form-control input-bgsys without-radius" id="password" value="${user.password}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
 			          <label for="confirm">Confirma&ccedil;&atilde;o: </label>
-			          <input type="password" class="form-control input-bgsys without-radius" id="confirm" value="${user.password}">
+			          <input valid="valid" type="password" class="form-control input-bgsys without-radius" id="confirm" value="${user.password}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
 			          <label for="name">Nome: </label>
-			          <input type="text" class="form-control input-bgsys without-radius" id="name" value="${user.name}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="name" value="${user.name}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
 			          <label for="email">E-mail: </label>
-			          <input type="text" class="form-control input-bgsys without-radius" id="mail" value="${user.mail}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="mail" value="${user.mail}">
 			    	</div>
 			    	
 					<div class="col-lg-6">
