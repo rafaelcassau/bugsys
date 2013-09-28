@@ -13,7 +13,7 @@
 		<div class="col-lg-3 pull-right" id="content-toolbar-buttons-right"></div>
 	</div>
 	<div class="col-lg-11" id="content-body">
-		<table class="table table-bgsys" id="tableUser">
+		<table class="table table-bgsys" id="table-workflow">
 			<thead>
 				<tr>
 					<th>Descrição</th>
@@ -21,27 +21,24 @@
 				</tr>
 			</thead>
 			<tbody>
-			<!-- 
-				<c:forEach items="${userList}" var="user">
+				<c:forEach items="${workflowList}" var="workflow">
 					<tr>
-						<td class="id-hidden">${user.id}</td>
-					    <td>${user.username}</td>
-					    <td>${user.employeeType.employeeType}</td>
-						<td>${user.mail}</td>
+						<td class="id-hidden">${workflow.id}</td>
+					    <td>${workflow.username}</td>
+					    <td>${workflow.employeeType.employeeType}</td>
+						<td>${workflow.mail}</td>
 						<td>
 							<div class="btn-group">
-							  <a class="btn btn-link editWorkflow" href="<c:url value="/user/${user.id}"/>">
+							  <a class="btn btn-link editWorkflow" href="<c:url value="/user/${workflow.id}"/>">
 							  	 <span class="glyphicon glyphicon-edit"></span> Editar
 							  </a>
-							  <a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${user.id}">
+							  <a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
 							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
 							  </a>
 							</div>
 						</td>
 					</tr>
 				</c:forEach>
-			-->
-			
 			</tbody>
 		</table>
 	</div>
