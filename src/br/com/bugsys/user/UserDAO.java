@@ -64,6 +64,19 @@ public class UserDAO {
 		return user;
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	public List<User> findAllUsers() {
+		
+		String hql = "FROM User u WHERE u.id NOT IN (SELECT c.user.id FROM Client c) ";
+
+		Query query = this.session.createQuery(hql);
+		
+		List<User> listUsers = (List<User>) query.list();
+		
+		return listUsers;
+	}
+	
 	public User persistUser(User user) {
 		
 		this.session.clear();
@@ -82,24 +95,12 @@ public class UserDAO {
 			this.session.update(user);
 			userReturn = user;
 		}
-
+		
 		transaction.commit();
 		
 		return userReturn;
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers() {
-		
-		String hql = "FROM User u WHERE u.id NOT IN (SELECT c.user.id FROM Client c) ";
-
-		Query query = this.session.createQuery(hql);
-		
-		List<User> listUsers = (List<User>) query.list();
-		
-		return listUsers;
-	}
-	
 	public void deleteUserById(Integer id) {
 
 		this.session.clear();

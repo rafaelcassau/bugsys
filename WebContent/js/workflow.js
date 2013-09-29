@@ -12,6 +12,8 @@
 	 
 	
 	newWorkflow.on('click', function() {
+		StepModel.empty();
+		Storage  .drop();
 		redirectTo('/bugsys/workflow');
 	});
 	
@@ -48,7 +50,7 @@
     			 return;
 			}
 			
-			$.post('/bugsys/workflow/workflow/', { 
+			$.post('/bugsys/workflow/workflow', { 
 				   'id' 	     : id.val(),
 				   'title' 		 : title.val(),
 				   'description' : description.val(),
@@ -74,7 +76,7 @@
 					   }
 				   
 				   } else {
-					   toastr.error('clique aqui para fechar!', message);
+					   toastr.error('clique aqui para fechar!', result.message);
 			    	   return;
 				   }
 			});
@@ -98,7 +100,7 @@
     	});
     	
     	confirm.on('click', function() {
-    		$.post('/bugsys/client/delete', 
+    		$.post('/bugsys/workflow/delete', 
     			{ 'id': id }, 
     			
     			function ( data ) {
@@ -115,7 +117,7 @@
 			    		}, 1500);
 			    		
 			    	} else {
-			    		toastr.error('clique aqui para fechar!', message);
+			    		toastr.error('clique aqui para fechar!', result.message);
 			    		return;
 			    	}
 			});

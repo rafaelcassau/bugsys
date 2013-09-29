@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import br.com.bugsys.client.Client;
 import br.com.bugsys.usecase.UseCase;
 import br.com.bugsys.userproject.UserProject;
+import br.com.bugsys.workflow.Workflow;
 
 @Entity
 public class Project {
@@ -41,7 +42,9 @@ public class Project {
 	@OneToMany(mappedBy = "project")
 	private List<UseCase> listUseCases;
 	
-	private String workflow; //TODO mock
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "workflow_FK")
+	private Workflow workflow;
 	
 	private String description;
 
@@ -110,13 +113,16 @@ public class Project {
 		this.listUseCases = listUseCases;
 	}
 	
-	public String getWorkflow() {
+	public Workflow getWorkflow() {
+		if (workflow == null) {
+			workflow = new Workflow();
+		}
 		return workflow;
 	}
-	public void setWorkflow(String workflow) {
+	public void setWorkflow(Workflow workflow) {
 		this.workflow = workflow;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}

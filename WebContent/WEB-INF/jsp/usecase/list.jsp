@@ -16,10 +16,10 @@
 		<table class="table table-bgsys" id="tableUseCase">
 			<thead>
 				<tr>
-					<th>Nome</th>
-					<th>Código</th>
-					<th>Projeto</th>
-					<th>Ações</th>
+					<th width="30%">Nome</th>
+					<th width="20%">Código</th>
+					<th width="30%">Projeto</th>
+					<th width="20%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>

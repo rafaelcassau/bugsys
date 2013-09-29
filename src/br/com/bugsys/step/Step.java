@@ -16,34 +16,31 @@ public class Step {
 	@Id
 	@GeneratedValue
 	private Integer id;
-	private String description;
+	private String title;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "workflow_FK")
 	private Workflow workflow;
-
+	
 	public Integer getId() {
 		return id;
 	}
-
 	public Step setId(Integer id) {
 		this.id = id;
 		return this;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public Step setDescription(String description) {
-		this.description = description;
+	public Step setTitle(String title) {
+		this.title = title;
 		return this;
+	}
+	public String getTitle() {
+		return title;
 	}
 
 	public Workflow getWorkflow() {
 		return workflow;
 	}
-
 	public Step setWorkflow(Workflow workflow) {
 		this.workflow = workflow;
 		return this;

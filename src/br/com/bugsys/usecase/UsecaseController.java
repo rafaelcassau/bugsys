@@ -38,7 +38,7 @@ public class UsecaseController {
 	@Get
 	public List<UseCase> list() {
 		
-		List<UseCase> listUseCases = this.useCaseDAO.findUseCasesByProject(1);
+		List<UseCase> listUseCases = this.useCaseDAO.findUseCasesByProject(2);
 		
 		return listUseCases;
 	}

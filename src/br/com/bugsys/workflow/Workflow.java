@@ -16,6 +16,7 @@ public class Workflow {
 	@Id
 	@GeneratedValue
 	private Integer id;
+	private String title;
 	private String description;
 	
 	@OneToMany(mappedBy = "workflow")
@@ -29,10 +30,17 @@ public class Workflow {
 		return this;
 	}
 	
+	public String getTitle() {
+		return title;
+	}
+	public Workflow setTitle(String title) {
+		this.title = title;
+		return this;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
-
 	public Workflow setDescription(String description) {
 		this.description = description;
 		return this;
@@ -44,10 +52,8 @@ public class Workflow {
 		}
 		return listSteps;
 	}
-	
 	public Workflow setListSteps(List<Step> listSteps) {
 		this.listSteps = listSteps;
 		return this;
 	}
-
 }

@@ -1,5 +1,7 @@
 package br.com.bugsys.project;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 
@@ -26,5 +28,18 @@ public class ProjectDAO {
 		Project project = (Project) query.uniqueResult();
 		
 		return project;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Project> findProjectsByWorkflowID(Integer workflowID) {
+		
+		String hql = "FROM Project p WHERE p.workflow.id = :workflowID";
+		
+		Query query = this.session.createQuery(hql)
+				.setParameter("workflowID", workflowID);
+		
+		List<Project> projects = (List<Project>) query.list();
+		
+		return projects;
 	}
 }

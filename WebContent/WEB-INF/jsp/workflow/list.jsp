@@ -16,22 +16,17 @@
 		<table class="table table-bgsys" id="table-workflow">
 			<thead>
 				<tr>
-					<th>Descrição</th>
-					<th>Ações</th>
+					<th width="80%">Descrição</th>
+					<th width="20%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${workflowList}" var="workflow">
 					<tr>
 						<td class="id-hidden">${workflow.id}</td>
-					    <td>${workflow.username}</td>
-					    <td>${workflow.employeeType.employeeType}</td>
-						<td>${workflow.mail}</td>
+						<td>${workflow.title}</td>
 						<td>
 							<div class="btn-group">
-							  <a class="btn btn-link editWorkflow" href="<c:url value="/user/${workflow.id}"/>">
-							  	 <span class="glyphicon glyphicon-edit"></span> Editar
-							  </a>
 							  <a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
 							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
 							  </a>

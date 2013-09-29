@@ -16,10 +16,10 @@
 		<table class="table table-bgsys" id="tableUser">
 			<thead>
 				<tr>
-					<th>Nome</th>
-					<th>Cargo</th>
-					<th>E-mail</th>
-					<th>Ações</th>
+					<th width="30%">Nome</th>
+					<th width="30%">Cargo</th>
+					<th width="20%">E-mail</th>
+					<th width="20%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>

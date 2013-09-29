@@ -26,7 +26,7 @@
 				<form id="formUseCase" class="form-inline bgsys-form-inline">
 			
 		          	<input type="hidden" id="id" value="${useCase.id}">
-		          	<input type="hidden" id="projectID" value="1">
+		          	<input type="hidden" id="projectID" value="2">
 				    
 			    	<div class="col-lg-3">
 			          <label for="code">Código: </label>
