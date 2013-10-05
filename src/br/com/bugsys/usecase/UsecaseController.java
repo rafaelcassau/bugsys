@@ -47,7 +47,7 @@ public class UsecaseController {
 	public void usecase() {}
 	
 	@Post
-	public void usecase(String id, String code, String name, String description, String projectID) {
+	public void usecase(String id, String code, String name, String descriptionUseCase, String projectID) {
 		
 		Integer idProject = Integer.valueOf(projectID);
 		
@@ -57,7 +57,7 @@ public class UsecaseController {
 			
 			UseCase useCase = new UseCase().setCode(code)
 										   .setName(name)
-										   .setDescription(description)
+										   .setDescription(descriptionUseCase)
 										   .setProject(project);
 			this.addUseCase(useCase);
 			
@@ -68,7 +68,7 @@ public class UsecaseController {
 			UseCase useCase = new UseCase().setId(useCaseID)
 										   .setCode(code)
 										   .setName(name)
-										   .setDescription(description)
+										   .setDescription(descriptionUseCase)
 										   .setProject(project);
 
 			this.updateUseCase(useCase);

@@ -8,8 +8,6 @@ import java.util.Map;
 import br.com.bugsys.business.UserBusiness;
 import br.com.bugsys.employeeType.EmployeeType;
 import br.com.bugsys.employeeType.EmployeeTypeDAO;
-import br.com.bugsys.util.AjaxResponseEnum;
-import br.com.bugsys.util.Messages;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;

@@ -41,7 +41,7 @@
 		</div>
 	</body>
 	
-	<script type="text/javascript" src="<c:url value="/assets/jquery/jquery-1.10.2.min.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/assets/jquery/js/jquery-1.10.2.min.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/assets/bootstrap/js/bootstrap.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/login.js"/>"></script>
 	

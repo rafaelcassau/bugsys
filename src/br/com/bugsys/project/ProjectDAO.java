@@ -42,4 +42,34 @@ public class ProjectDAO {
 		
 		return projects;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Project> findProjectsByUserID(Integer userID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM Project p")
+			.append(" JOIN UserProject up")
+			.append(" WHERE p.id = up.project.id")
+			.append(" AND")
+			.append(" up.id = :userID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("userID", userID);
+		
+		List<Project> projects = (List<Project>) query.list();
+		
+		return projects;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Project> findAllProjects() {
+		
+		String hql = " FROM Project";
+		
+		Query query = this.session.createQuery(hql);
+		
+		List<Project> projects = (List<Project>) query.list();
+		
+		return projects;
+	}
 }

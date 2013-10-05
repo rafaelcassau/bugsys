@@ -12,13 +12,14 @@
 	
 		<link rel="stylesheet" type="text/css" href="<c:url value="/assets/bootstrap/css/bootstrap.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/assets/datatable/css/jquery.dataTables.css"/>">
+		<link rel="stylesheet" type="text/css" href="<c:url value="/assets/jquery/css/jquery-ui-1.10.3.custom.min.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/assets/icons/css/bootstrap-glyphicons.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/assets/notification/toastr.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/user-info.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/sidebar.css"/>">
 		<link rel="stylesheet" type="text/css" href="<c:url value="/css/base.css"/>">
-		
 	</head>
+	
 	<body>
 		<span class="loading">
 		  <img alt="teste" src="<c:url value="/img/loading.gif"/>">

@@ -24,7 +24,6 @@
 				<div class="alert alert-danger fade in not-display" id="error-list"> </div>
 			
 				<form id="formUseCase" class="form-inline bgsys-form-inline">
-			
 		          	<input type="hidden" id="id" value="${useCase.id}">
 		          	<input type="hidden" id="projectID" value="2">
 				    
@@ -42,7 +41,6 @@
 			          <label for="description">Descrição: </label>
 			          <textarea id="description" class="form-control input-bgsys without-radius" rows="3">${useCase.description}</textarea>
 			    	</div>
-			    	
 			  </form>
 			</div>
 		</div>
