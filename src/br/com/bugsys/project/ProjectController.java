@@ -50,7 +50,7 @@ public class ProjectController {
 		
 	}
 	
-	@Get
+	@Get("/project/{id}")
 	public Project project(Integer id) {
 		
 		Project project = this.projectDAO.findProjectById(id); 
