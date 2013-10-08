@@ -9,6 +9,7 @@ import br.com.bugsys.business.UserBusiness;
 import br.com.bugsys.employeeType.EmployeeType;
 import br.com.bugsys.employeeType.EmployeeTypeDAO;
 import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.Options;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -87,6 +88,14 @@ public class UserController {
 	   this.result.include("employeeTypeList", employeeTypeList);
 	   
 	   return user;
+	}
+	
+	@Get
+	public void user(String name) {
+		
+	   List<User> users = this.userDAO.findUsersLikeName(name);
+	   
+	   this.result.use(Results.json()).withoutRoot().from(users).include("employeeType").serialize();
 	}
 	
 	@Post

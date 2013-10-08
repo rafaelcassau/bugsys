@@ -65,6 +65,7 @@
 
 	<%@ include file="/footer.jsp" %>
 	
+	<script type="text/javascript" src="<c:url value="/assets/storage/sessionstorage.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/step.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/workflow.js"/>"></script>
 	

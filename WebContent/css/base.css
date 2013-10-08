@@ -125,6 +125,10 @@ html, body{
 	.workflow-step-panel .panel-body {
 		padding: .8em; 
 	}
+
+.panel-pad {
+	padding: .2em;
+}
 		
 
 /*  FORM  */

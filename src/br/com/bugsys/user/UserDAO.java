@@ -77,6 +77,23 @@ public class UserDAO {
 		return listUsers;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<User> findUsersLikeName(String name) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM User u")
+			.append(" WHERE")
+			.append(" u.id NOT IN (SELECT c.user.id FROM Client c)")
+			.append(" AND u.name")
+			.append(" LIKE " + "'%" + name + "%'");
+
+		Query query = this.session.createQuery(hql.toString());
+		
+		List<User> listUsers = (List<User>) query.list();
+		
+		return listUsers;
+	}
+	
 	public User persistUser(User user) {
 		
 		this.session.clear();

@@ -79,51 +79,39 @@
 			          <textarea id="description" class="form-control input-bgsys without-radius" rows="3">${project.description}</textarea>
 			    	</div>
 			    	
-			    	<div class="col-lg-12">
-				    	<div class="panel panel-primary member-panel">
-				    	
-						  <div class="panel-heading">Membros da Equipe</div>
-						
-						  <div class="panel-body">
-						     <div class="row">
-						     	<div class="input-group">
-							       <w:select class="form-control input-bgsys without-radius" 
-							        		  name="member" 
-							        		  id="member"
-							        		  items="${userList}" 
-							        		  value="id" 
-							        		  var="user">
-						           		${user.name}
-							       </w:select>
-							      
-							      <span class="input-group-btn">
-							        <button id="member-add" class="btn btn-primary" type="button">
-							             &nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;
-							        </button>
-							      </span>
-							    </div><!-- /input-group -->
-					        </div>
-					    
-					    	<div class="row member-list">
-						    	<ul id="member-list-items" class="list-group"></ul>
-					    	</div>
-					    	
-						  </div>
+			    	<div class="col-lg-5">
+				    	<div class="panel panel-primary">
+				    	  <div class="panel-heading">Membros da Equipe</div>
+							  <div class="panel-body panel-pad ">
+							     <div class="row">
+							     	   <input type="text" class="form-control input-bgsys without-radius" name="member" id="member-input" />
+							     </div>
+						    	<div class="row member-list">
+						    	    <br/>
+							    	<ul id="member-list-items" class="list-group">
+							    	</ul>
+						    	</div>
+							  </div>
 						</div>
 			    	</div>
 			    	
-			    	<div class="col-lg-12">
+			    	<div class="col-lg-7">
 				    	<div class="panel panel-primary use-case-panel">
 				    	
-						  <div class="panel-heading">Casos de Uso</div>
+						  <div class="panel-heading">
+						      <div class="clearfix">
+						   		Casos de Uso
+							  	<div class="col-lg-2 pull-right">
+						  	        <a href="#" id="use-case-add" class="btn btn-primary">
+							            <span class="glyphicon glyphicon-plus"></span>
+							        </a>
+								</div>
+							</div>
+						  </div>
 						
 						  <div class="panel-body">
 						     <div class="row">
-							      <span class="input-group-btn">
-							        <button id="use-case-add" class="btn btn-primary" type="button">
-							             &nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;
-							        </button>
-							      </span>
+							 
 					        </div>
 					    
 					    	<div class="row use-case-list">
@@ -177,6 +165,8 @@
 
 	<%@ include file="/footer.jsp" %>
 	
+	<script type="text/javascript" src="<c:url value="/assets/storage/sessionstorage.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/js/member-project.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/use-case.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/project.js"/>"></script>
 	
