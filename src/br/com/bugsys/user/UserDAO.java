@@ -94,6 +94,21 @@ public class UserDAO {
 		return listUsers;
 	}
 	
+	public List<User> findUsersByIds(String userIds) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM User u")
+			.append(" WHERE")
+			.append(" u.id IN (:userIds)");
+
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("userIds", userIds);
+		
+		List<User> listUsers = (List<User>) query.list();
+		
+		return listUsers;
+	}
+	
 	public User persistUser(User user) {
 		
 		this.session.clear();

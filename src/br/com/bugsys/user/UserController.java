@@ -90,14 +90,6 @@ public class UserController {
 	   return user;
 	}
 	
-	@Get
-	public void user(String name) {
-		
-	   List<User> users = this.userDAO.findUsersLikeName(name);
-	   
-	   this.result.use(Results.json()).withoutRoot().from(users).include("employeeType").serialize();
-	}
-	
 	@Post
 	public void delete(Integer id){
 		
