@@ -31,7 +31,9 @@
 			
 			<div class="col-lg-10" id="content">
 				<header class="col-lg-12" id="content-header">
-					<h3 class="col-lg-1 content-header-title current-action"></h3>
+					<h3 class="col-lg-1 content-header-title current-action">
+						<c:out value="${userSession.functionality.functionality}"></c:out>
+					</h3>
 					<div class="col-lg-3 pull-right" id="content-header-user-info">
 						<ul class="user-info">
 							<!-- NOTIFICATION -->

@@ -38,7 +38,7 @@
 		</table>
 	</div>
 	
-	<!-- Modal confirm delete user -->
+	<!-- Modal confirm delete workflow -->
 	  <div class="modal fade" id="modal-excluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
 	      <div class="modal-content">

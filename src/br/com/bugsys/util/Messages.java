@@ -17,4 +17,5 @@ public interface Messages {
 	String MSG_EXISTS_USECASE_CODE = 	"J&aacute; existe um caso de uso cadastrado com o Código informado.";
 	String MSG_EXISTS_WORKFLOW_TITLE = 	"J&aacute; existe um workflow cadastrado com o titulo informado.";
 	String MSG_WORKFLOW_BOUND_PROJECT = "Workflow não pode ser excluído pois está relacionado a um Projeto.";
+	String MSG_EXISTS_PROJECT_NAME =	"J&aacute; existe um registro cadastrado com o Nome do Projeto informado.";
 }

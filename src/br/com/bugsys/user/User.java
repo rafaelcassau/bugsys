@@ -19,6 +19,8 @@ public class User {
 	private String password;
 	private String name;
 	private String mail;
+	private String functionality;
+	
 	@OneToOne(cascade = CascadeType.DETACH, optional = true, fetch = FetchType.EAGER)
 	private EmployeeType employeeType;
 	
@@ -68,5 +70,12 @@ public class User {
 	public User setEmployeeType(EmployeeType employeeType) {
 		this.employeeType = employeeType;
 		return this;
+	}
+	
+	public void setFunctionality(String functionality) {
+		this.functionality = functionality;
+	}
+	public String getFunctionality() {
+		return functionality;
 	}
 }

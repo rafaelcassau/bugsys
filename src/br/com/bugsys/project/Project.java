@@ -51,36 +51,41 @@ public class Project {
 	public Integer getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public Project setId(Integer id) {
 		this.id = id;
+		return this;
 	}
 	
 	public String getProjectName() {
 		return projectName;
 	}
-	public void setProjectName(String projectName) {
+	public Project setProjectName(String projectName) {
 		this.projectName = projectName;
+		return this;
 	}
 	
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public Project setStartDate(Date startDate) {
 		this.startDate = startDate;
+		return this;
 	}
 	
 	public Date getEstimatedEndDate() {
 		return estimatedEndDate;
 	}
-	public void setEstimatedEndDate(Date estimatedEndDate) {
+	public Project setEstimatedEndDate(Date estimatedEndDate) {
 		this.estimatedEndDate = estimatedEndDate;
+		return this;
 	}
 	
 	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public Project setEndDate(Date endDate) {
 		this.endDate = endDate;
+		return this;
 	}
 	
 	public Client getClient() {
@@ -89,8 +94,9 @@ public class Project {
 		}
 		return client;
 	}
-	public void setClient(Client client) {
+	public Project setClient(Client client) {
 		this.client = client;
+		return this;
 	}
 	
 	public List<UserProject> getListUserProject() {
@@ -99,8 +105,9 @@ public class Project {
 		}
 		return listUserProject;
 	}
-	public void setListUserProject(List<UserProject> listUserProject) {
+	public Project setListUserProject(List<UserProject> listUserProject) {
 		this.listUserProject = listUserProject;
+		return this;
 	}
 	
 	public List<UseCase> getListUseCases() {
@@ -109,8 +116,9 @@ public class Project {
 		}
 		return listUseCases;
 	}
-	public void setListUseCases(List<UseCase> listUseCases) {
+	public Project setListUseCases(List<UseCase> listUseCases) {
 		this.listUseCases = listUseCases;
+		return this;
 	}
 	
 	public Workflow getWorkflow() {
@@ -119,14 +127,16 @@ public class Project {
 		}
 		return workflow;
 	}
-	public void setWorkflow(Workflow workflow) {
+	public Project setWorkflow(Workflow workflow) {
 		this.workflow = workflow;
+		return this;
 	}
 
 	public String getDescription() {
 		return description;
 	}
-	public void setDescription(String description) {
+	public Project setDescription(String description) {
 		this.description = description;
+		return this;
 	}
 }

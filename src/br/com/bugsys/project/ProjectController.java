@@ -1,17 +1,26 @@
 package br.com.bugsys.project;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.cedarsoftware.util.io.JsonReader;
+
 import br.com.bugsys.client.Client;
 import br.com.bugsys.client.ClientDAO;
+import br.com.bugsys.interceptors.Functionality;
+import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.usecase.UseCase;
 import br.com.bugsys.usecase.UseCaseDAO;
 import br.com.bugsys.user.User;
 import br.com.bugsys.user.UserDAO;
+import br.com.bugsys.userproject.UserProject;
 import br.com.bugsys.util.AjaxResponseEnum;
+import br.com.bugsys.util.FunctionalityEnum;
 import br.com.bugsys.util.Messages;
+import br.com.bugsys.util.Utils;
 import br.com.bugsys.workflow.Workflow;
 import br.com.bugsys.workflow.WorkflowDAO;
 import br.com.caelum.vraptor.Get;
@@ -28,26 +37,28 @@ public class ProjectController {
 	private ClientDAO clientDAO;
 	private UseCaseDAO useCaseDAO;
 	private UserDAO userDAO;
+	private UserSession userSession;
 	private Result result;
 	
 	/***
 	 * Lógica de negocios referente ao caso de uso de projetos
 	 */
 	
-	public ProjectController(ProjectDAO projectDAO, WorkflowDAO workflowDAO, ClientDAO clientDAO, UseCaseDAO useCaseDAO, UserDAO userDAO, Result result) {
+	public ProjectController(ProjectDAO projectDAO, WorkflowDAO workflowDAO, ClientDAO clientDAO, UseCaseDAO useCaseDAO, UserDAO userDAO, UserSession userSession, Result result) {
 		this.projectDAO = projectDAO;
 		this.workflowDAO = workflowDAO;
 		this.clientDAO = clientDAO;
 		this.useCaseDAO = useCaseDAO;
 		this.userDAO = userDAO;
+		this.userSession = userSession;
 		this.result = result;
-		
-		List<User> listUsers = this.userDAO.findUsersByIds("34,35,37,38,40");
 	}
 	
 	@Get
 	public List<Project> list() {
 		
+		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.PROJECTS.getFunctionality()));
+
 		List<Project> listProjects = this.projectDAO.findAllProjects();
 		
 		return listProjects;
@@ -61,13 +72,32 @@ public class ProjectController {
 		
 		this.result.include("workflowList", workflowList);
 		this.result.include("clientList", clientList);
-		
 	}
 	
 	@Post
-	public void project(String membersProject) {
+	public void project(
+			String id, 
+			String projectName, 
+			String startDate,
+			String estimatedEndDate,
+			String endDate,
+			String client,
+			String workflow,
+			String description,
+			String membersProject,
+			String useCases) {
 		
-		List<User> listUsers = this.userDAO.findUsersByIds(membersProject);
+		Project project = this.populateProject(id, projectName, startDate, estimatedEndDate, endDate, client, workflow, description);
+		
+		if (project.getId() == null) {
+			
+			this.saveProject(project, membersProject, useCases);
+			
+		} else {
+			
+			this.updateProject(project, membersProject, useCases);
+		}
+		
 	}
 	
 	@Get("/project/{id}")
@@ -75,9 +105,47 @@ public class ProjectController {
 		
 		Project project = this.projectDAO.findProjectById(id); 
 		
-//		List<UseCase> useCaseList = this.useCaseDAO.findUseCasesByProject(id);
-		
 		return project;
+	}
+	
+	@Get
+	public void delete(Integer projectID) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		this.projectDAO.deleteProjectById(projectID);
+		
+		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+		
+		this.result.use(Results.json()).withoutRoot().from(message).serialize();
+	}
+	
+	private Map<String, String> projectAddIsValid(Project project) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		Project projectByName = this.projectDAO.findProjectByName(project.getProjectName());
+		
+		if (projectByName != null) {
+			
+			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_PROJECT_NAME);
+		}
+		
+		return message;
+	}
+	
+	private Map<String, String> projectUpdateIsValid(Project project) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		Project projectByName = this.projectDAO.findProjectByName(project.getProjectName());
+		
+		if (projectByName != null && !projectByName.getId().equals(projectByName.getId())) {
+			
+			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_PROJECT_NAME);
+		}
+		
+		return message;
 	}
 	
 	@Get
@@ -96,143 +164,128 @@ public class ProjectController {
 		this.result.use(Results.json()).withoutRoot().from(listUsers).serialize();
 	}
 	
-	/***
-	 * Lógica de negocios referente a persistencia dos casos de uso referente aos projetos
-	 */
-	
-	@Get("/list/{id}")
-	public List<UseCase> list(Integer projectID) {
+	private Project populateProject(
+			String id, 
+			String projectName, 
+			String startDate,
+			String estimatedEndDate,
+			String endDate,
+			String client,
+			String workflow,
+			String description) {
 		
-		List<UseCase> listUseCases = this.useCaseDAO.findUseCasesByProject(projectID);
+		Integer projectID = null;
 		
-		return listUseCases;
-	}
-	
-	@Get("/usecase")
-	public void usecase() {}
-	
-	@Get("/usecase/{id}")
-	public UseCase usecase(Integer id) {
-		
-		UseCase useCase = this.useCaseDAO.findUseCaseById(id);
-		
-		return useCase;
-	}
-	
-	@Post
-	public void usecase(String id, String code, String name, String descriptionUseCase, String projectID) {
-		
-		Integer idProject = Integer.valueOf(projectID);
-		
-		Project project = this.projectDAO.findProjectById(idProject);
-		
-		if (id == null || id.trim().isEmpty()) {
-			
-			UseCase useCase = new UseCase().setCode(code)
-										   .setName(name)
-										   .setDescription(descriptionUseCase)
-										   .setProject(project);
-			this.addUseCase(useCase);
-			
-		} else {
-			
-			Integer useCaseID = Integer.valueOf(id);
-			
-			UseCase useCase = new UseCase().setId(useCaseID)
-										   .setCode(code)
-										   .setName(name)
-										   .setDescription(descriptionUseCase)
-										   .setProject(project);
-
-			this.updateUseCase(useCase);
+		if (id != null && !id.trim().isEmpty()) {
+			projectID = Integer.valueOf(id);
 		}
-	}
-	
-	@Post
-	public void delete(Integer id) {
-		
-		Map<String, String> message = new HashMap<String, String>();
-		
-		this.useCaseDAO.deleteUseCaseById(id);
-		
-		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
-		
-		this.result.use(Results.json()).withoutRoot().from(message).serialize();
-	}
-	
-	private void addUseCase(UseCase useCase) {
-		
-		Map<String, String> message = new HashMap<String, String>();
-		
-		message = addUseCaseIsValid(useCase); 
-		
-		if(message.isEmpty()) {
 
-			this.useCaseDAO.persistUseCase(useCase);
+		Integer clientID = Integer.valueOf(client);
+		Integer workflowID = Integer.valueOf(workflow);
+		
+		Client entityClient = this.clientDAO.findClientById(clientID);
+		Workflow entityWorkflow = this.workflowDAO.findWorkflowById(workflowID);
+		
+		Date dStartDate = Utils.convertDateStringToDate(startDate);
+		Date dEstimatedEndDate = Utils.convertDateStringToDate(estimatedEndDate);
+		Date dEndDate = Utils.convertDateStringToDate(endDate);
+		
+		Project project = new Project()
+			.setId(projectID)
+			.setStartDate(dStartDate)
+			.setEstimatedEndDate(dEstimatedEndDate)
+			.setEndDate(dEndDate)
+			.setProjectName(projectName)
+			.setDescription(description)
+			.setClient(entityClient)
+			.setWorkflow(entityWorkflow);
+		
+		return project;
+	}
+	
+	private void saveProject(Project project, String membersProject, String useCases) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		message = projectAddIsValid(project);
+		
+		if (message.isEmpty()) {
+			
+			project = this.projectDAO.persistProject(project);
+			
+			List<User> listUsersAddInProject = this.userDAO.findUsersByIds(membersProject);
+			
+			for (User user : listUsersAddInProject) {
+				
+				UserProject userProject = new UserProject()
+				.setProject(project)
+				.setUser(user)
+				.setStartDate(new Date());
+				
+				this.projectDAO.persistUserProject(userProject);
+			}
+
+			try {
+				
+				@SuppressWarnings("unchecked")
+				List<UseCase> listUseCases = (List<UseCase>) JsonReader.jsonToJava(useCases);
+				
+				for (UseCase useCase : listUseCases) {
+					this.useCaseDAO.persistUseCase(useCase);
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
 		}
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
 	
-	private void updateUseCase(UseCase useCase) {
+	private void updateProject(Project project, String membersProject, String useCases) {
 		
 		Map<String, String> message = new HashMap<String, String>();
 		
-		message = updateUseCaseIsValid(useCase); 
+		message = projectUpdateIsValid(project);
 		
-		if(message.isEmpty()) {
+		if (message.isEmpty()) {
+			
+			project = this.projectDAO.persistProject(project);
+			
+			List<User> listUsersAddInProject = this.userDAO.findUsersByIds(membersProject);
 
-			this.useCaseDAO.persistUseCase(useCase);
+			this.projectDAO.deleteUsersProjectByProjectID(project.getId());
+			
+			for (User user : listUsersAddInProject) {
+				
+				UserProject userProject = new UserProject()
+				.setProject(project)
+				.setUser(user)
+				.setStartDate(new Date());
+				
+				this.projectDAO.persistUserProject(userProject);
+			}
+			
+			try {
+				
+				@SuppressWarnings("unchecked")
+				List<UseCase> listUseCases = (List<UseCase>) JsonReader.jsonToJava(useCases);
+				
+				this.projectDAO.deleteUserCasesByProjectID(project.getId());
+				
+				for (UseCase useCase : listUseCases) {
+					this.useCaseDAO.persistUseCase(useCase);
+				}
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);
 		}
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
-	}
-	
-	private Map<String, String> addUseCaseIsValid(UseCase useCase) {
-		
-		Map<String, String> message = new HashMap<String, String>();
-
-		UseCase useCaseByCode = this.useCaseDAO.findUseCaseByCode(useCase.getCode(), useCase.getProject().getId());
-		
-		if (useCaseByCode != null) {
-
-			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_USECASE_CODE);
-			return message;
-		}
-		
-		UseCase useCaseByName = this.useCaseDAO.findUseCaseByName(useCase.getName(), useCase.getProject().getId());
-
-		if (useCaseByName != null) {
-			
-			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_USECASE_NAME);
-			return message;
-		}
-		
-		return message;
-	}
-	
-	private Map<String, String> updateUseCaseIsValid(UseCase useCase) {
-		
-		Map<String, String> message = new HashMap<String, String>();
-		
-		UseCase useCaseByCode = this.useCaseDAO.findUseCaseByCode(useCase.getCode(), useCase.getProject().getId());
-		
-		if (useCaseByCode != null && !useCase.getId().equals(useCaseByCode.getId())) {
-
-			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_USECASE_CODE);
-			return message;
-		}
-		
-		UseCase useCaseByName = this.useCaseDAO.findUseCaseByName(useCase.getName(), useCase.getProject().getId());
-
-		if (useCaseByName != null && !useCase.getId().equals(useCaseByName.getId())) {
-			
-			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_EXISTS_USECASE_NAME);
-			return message;
-		}
-		
-		return message;
 	}
 }

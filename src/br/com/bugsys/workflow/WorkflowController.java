@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.bugsys.interceptors.Functionality;
+import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.project.Project;
 import br.com.bugsys.project.ProjectDAO;
 import br.com.bugsys.step.Step;
 import br.com.bugsys.util.AjaxResponseEnum;
+import br.com.bugsys.util.FunctionalityEnum;
 import br.com.bugsys.util.Messages;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
@@ -23,15 +26,19 @@ public class WorkflowController {
 	private Result result;
 	private WorkflowDAO workflowDAO;
 	private ProjectDAO projectDAO;
+	private UserSession userSession;
 	
-	public WorkflowController(WorkflowDAO workflowDAO, ProjectDAO projectDAO, Result result) {
+	public WorkflowController(WorkflowDAO workflowDAO, ProjectDAO projectDAO, UserSession userSession, Result result) {
 		this.workflowDAO = workflowDAO;
 		this.projectDAO = projectDAO;
+		this.userSession = userSession;
 		this.result = result;
 	}
 
 	@Get
 	public List<Workflow> list() {
+		
+		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.WORKFLOWS.getFunctionality()));
 		
 		List<Workflow> listWorkflows = this.workflowDAO.findAllWorkflows();
 		

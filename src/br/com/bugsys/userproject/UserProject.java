@@ -35,8 +35,9 @@ public class UserProject {
 		}
 		return user;
 	}
-	public void setUser(User user) {
+	public UserProject setUser(User user) {
 		this.user = user;
+		return this;
 	}
 	
 	public Project getProject() {
@@ -45,21 +46,24 @@ public class UserProject {
 		}
 		return project;
 	}
-	public void setProject(Project project) {
+	public UserProject setProject(Project project) {
 		this.project = project;
+		return this;
 	}
 	
 	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public UserProject setStartDate(Date startDate) {
 		this.startDate = startDate;
+		return this;
 	}
 
 	public Date getEndDate() {
 		return endDate;
 	}
-	public void setEndDate(Date endDate) {
+	public UserProject setEndDate(Date endDate) {
 		this.endDate = endDate;
+		return this;
 	}
 }

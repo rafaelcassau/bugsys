@@ -3,11 +3,13 @@ package br.com.bugsys.login;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.bugsys.interceptors.Functionality;
 import br.com.bugsys.interceptors.Public;
 import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.user.User;
 import br.com.bugsys.user.UserDAO;
 import br.com.bugsys.util.AjaxResponseEnum;
+import br.com.bugsys.util.FunctionalityEnum;
 import br.com.bugsys.util.Messages;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
@@ -24,12 +26,12 @@ public class LoginController {
 	
 	public LoginController(UserDAO userDAO, Result result, UserSession userSession) {
 		this.userDAO = userDAO;
-		this.result = result;
 		this.userSession = userSession;
+		this.result = result;
 	}
 	
 	/***
-	 *  Action responsável por direncionar para login/login
+	 *  Action responsavel por direncionar para login/login
 	 */
 	
 	@Public
@@ -49,7 +51,8 @@ public class LoginController {
 			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_LOGIN_INCORRECT);
 		} else {
 			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_EMPTY);
-			this.userSession.login(currentUser);
+			
+			this.userSession.setUser(currentUser);
 		}
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();	

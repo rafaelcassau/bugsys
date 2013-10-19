@@ -9,9 +9,9 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 public class UserSession {
 
 	private User user;
-	private String functionality = "Dashboard";
+	private Functionality functionality;
 	
-	public void login(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 	
@@ -26,12 +26,12 @@ public class UserSession {
 	public boolean isLogado() {
 		return user != null;
 	}
-	
-	public void setFunctionality(String functionality) {
-		this.functionality = functionality;
+
+	public Functionality getFunctionality() {
+		return functionality;
 	}
-	
-	public String getFunctionality(String functionality) {
-		return this.functionality;
+
+	public void setFunctionality(Functionality functionality) {
+		this.functionality = functionality;
 	}
 }

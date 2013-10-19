@@ -4,50 +4,50 @@
 	<div class="col-lg-11" id="content-toolbar">
 		<div class="col-lg-3 pull-left" id="content-toolbar-buttons-left">
 			
-			<a id="newUseCase" href="#" class="btn btn-bgsys btn-blue-bgsys">
+			<a id="new-workflow" href="#" class="btn btn-bgsys btn-blue-bgsys">
 				<span class="glyphicon glyphicon-plus-sign"></span>
-				Novo caso de uso
+				Novo projeto
 			</a>
 			
 		</div>
 		<div class="col-lg-3 pull-right" id="content-toolbar-buttons-right"></div>
 	</div>
 	<div class="col-lg-11" id="content-body">
-		<table class="table table-bgsys" id="tableUseCase">
+		<table class="table table-bgsys" id="table-project">
 			<thead>
 				<tr>
-					<th width="30%">Nome</th>
-					<th width="20%">Código</th>
-					<th width="30%">Projeto</th>
+					<th width="20%">Nome</th>
+					<th width="20%">Data de Inicio</th>
+					<th width="20%">Data Estimada de Termino</th>
+					<th width="20%">Cliente</th>
 					<th width="20%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${useCaseList}" var="useCase">
+				<c:forEach items="${projectList}" var="project">
 					<tr>
-						<td class="id-hidden">${useCase.id}</td>
-					    <td>${useCase.name}</td>
-						<td>${useCase.code}</td>
-					    <td>${useCase.project.projectName}</td>
+						<td class="id-hidden">${project.id}</td>
+						<td>${project.projectName}</td>
+						<td>${project.startDate}</td>
+						<td>${project.estimatedEndDate}</td>
+						<td>${project.client.fancyName}</td>
 						<td>
 							<div class="btn-group">
-							  <a class="btn btn-link editUseCase" href="<c:url value="/usecase/${useCase.id}"/>">
+							  <a class="btn btn-link editProject" href="<c:url value="/project/${project.id}"/>">
 							  	 <span class="glyphicon glyphicon-edit"></span> Editar
 							  </a>
-							  <a data-toggle="modal" class="btn btn-link deleteUseCase" href="#">
+							  <a data-toggle="modal" class="btn btn-link deleteProject" href="${project.id}">
 							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
 							  </a>
 							</div>
 						</td>
 					</tr>
 				</c:forEach>
-			
 			</tbody>
 		</table>
 	</div>
-			
- 
-	 <!-- Modal confirm delete useCase -->
+	
+	<!-- Modal confirm delete project -->
 	  <div class="modal fade" id="modal-excluir" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
@@ -56,7 +56,7 @@
 	          <h4 class="modal-title">Confirmação</h4>
 	        </div>
 	        <div class="modal-body">
-	          <p>Deseja realmente excluir o caso de uso selecionado?</p>
+	          <p>Deseja realmente excluir o projeto selecionado?</p>
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancelar</button>
@@ -65,9 +65,9 @@
 	      </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
 	  </div><!-- /.modal -->
+			
+   <%@ include file="/footer.jsp" %>
 					
-  <%@ include file="/footer.jsp" %>
-					
-  <script type="text/javascript" src="<c:url value="/js/use-case.js"/>"></script>
-  
+  <script type="text/javascript" src="<c:url value="/assets/storage/sessionstorage.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/js/project.js"/>"></script>
   

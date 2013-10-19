@@ -8,6 +8,9 @@ import java.util.Map;
 import br.com.bugsys.business.UserBusiness;
 import br.com.bugsys.employeeType.EmployeeType;
 import br.com.bugsys.employeeType.EmployeeTypeDAO;
+import br.com.bugsys.interceptors.Functionality;
+import br.com.bugsys.interceptors.UserSession;
+import br.com.bugsys.util.FunctionalityEnum;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Options;
 import br.com.caelum.vraptor.Post;
@@ -22,19 +25,21 @@ public class UserController {
 	private UserDAO userDAO;
 	private EmployeeTypeDAO employeeTypeDAO;
 	private UserBusiness userBusiness = new UserBusiness();
+	private UserSession userSession;
 	
-	public UserController(UserDAO userDAO, Result result, EmployeeTypeDAO employeeTypeDAO) {
+	public UserController(UserDAO userDAO, EmployeeTypeDAO employeeTypeDAO, UserSession userSession, Result result) {
 		this.userDAO = userDAO;
-		this.result = result;
 		this.employeeTypeDAO = employeeTypeDAO;
+		this.userSession = userSession;
+		this.result = result;
 	}
 	
 	@Get
 	public List<User> list() {
 		
-		List<User> listUsers = new ArrayList<User>();
+		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.USERS.getFunctionality()));
 		
-		listUsers = this.userDAO.findAllUsers();
+		List<User> listUsers = this.userDAO.findAllUsers();
 		
 		return listUsers;
 	}

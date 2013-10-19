@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.bugsys.business.UserBusiness;
+import br.com.bugsys.interceptors.Functionality;
+import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.user.User;
 import br.com.bugsys.util.AjaxResponseEnum;
+import br.com.bugsys.util.FunctionalityEnum;
 import br.com.bugsys.util.Messages;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Post;
@@ -20,19 +23,21 @@ public class ClientController {
 
 	private ClientDAO clientDAO;
 	private Result result;
+	private UserSession userSession;
 	private UserBusiness userBusiness = new UserBusiness();
 	
-	public ClientController(ClientDAO clientDAO, Result result) {
+	public ClientController(ClientDAO clientDAO, UserSession userSession, Result result) {
 		this.clientDAO = clientDAO;
+		this.userSession = userSession;
 		this.result = result;
 	}
 
 	@Get
 	public List<Client> list() {
 		
-		List<Client> listClients = new ArrayList<Client>();
-		
-		listClients = this.clientDAO.findAllClients();
+		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.CLIENTS.getFunctionality()));
+
+		List<Client> listClients = this.clientDAO.findAllClients();
 		
 		return listClients;
 	}
