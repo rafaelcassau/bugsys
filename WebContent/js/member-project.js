@@ -1,5 +1,5 @@
 
-	var MemberModel = ( function ( store ) {
+	var MemberModel = ( function ( jQ, store ) {
 		
 		var url = {
 			base: '/bugsys/user'
@@ -15,8 +15,8 @@
 			store.store("member", Members);
 		};
 		
-		var get = function( req, value, callback ) {
-			 req.get( url.base + '/user', { 'name': value }, function( result ) {
+		var get = function( value, callback ) {
+			 jQ.get( url.base + '/user', { 'name': value }, function( result ) {
 				if ( callback )
 					 callback( result );
 			 });
@@ -43,7 +43,7 @@
 			commit   : commit
 		};
 		
-	}) ( SessionStorage );
+	}) ( jQuery, SessionStorage );
 	
 	
 	
@@ -84,7 +84,7 @@
 			
 			el.input.autocomplete({
 		        source: function (request, response) {
-		        	model.get($, request.term, function( result ) {
+		        	model.get( request.term, function( result ) {
 		        	   response(
 	                        $.map(result, function (item) {
 	                        	if( model.findByID(item.id) == null ) {
