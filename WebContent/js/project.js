@@ -44,87 +44,87 @@ $(function() {
 	/***
 	 * Cadastro de casos de uso
 	 */
-	var useCaseAdd = 	$('#use-case-add');
-	var useCaseModal = 	$('#modal-use-case');
-	var saveUseCase =   $('.save-use-case');
-	var cancelUseCase = $('.cancel-use-case');
+//	var useCaseAdd = 	$('#use-case-add');
+//	var useCaseModal = 	$('#modal-use-case');
+//	var saveUseCase =   $('.save-use-case');
+//	var cancelUseCase = $('.cancel-use-case');
 	
 	/***
 	 * dados caso de uso
 	 */
+//	
+//	var useCaseID =   			$('#id');
+//	var code = 					$('#code');
+//	var name = 					$('#name');
+//	var descriptionUseCase = 	$('#descriptionUseCase');
+//	var projectID =     		$('#projectID');
 	
-	var useCaseID =   			$('#id');
-	var code = 					$('#code');
-	var name = 					$('#name');
-	var descriptionUseCase = 	$('#descriptionUseCase');
-	var projectID =     		$('#projectID');
+//	useCaseAdd.on('click', function() {
+//		useCaseModal.modal();
+//	});
 	
-	useCaseAdd.on('click', function() {
-		useCaseModal.modal();
-	});
+//	saveUseCase.on('click', function() {
+//		
+//		if (formUseCaseIsValid()) {
+//			
+//			$.post('/bugsys/usecase/usecase',{
+//				'useCaseID'   			: useCaseID.val(),
+//				'code'        			: code.val(),
+//				'name'        			: name.val(),
+//				'descriptionUseCase'	: descriptionUseCase.val(),
+//				'projectID'   			: projectID.val()
+//				
+//			}, function(data) {
+//				
+//				var status   = data[0][0];
+//				var message  = data[0][1];
+//				
+//				if (status == 'success') {
+//					
+//					if (id.val() == "") {
+//						
+//						toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
+//						setTimeout(function(){
+////							redirectTo('/bugsys/usecase/list');
+//						}, 1500);
+//						
+//					} else {
+//						
+//						toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
+//						setTimeout(function(){
+////							redirectTo('/bugsys/usecase/list');
+//						}, 1500);
+//					}
+//					
+//				} else {
+//					toastr.error('clique aqui para fechar!', message);
+//				}
+//			});
+//		}
+//		
+//	});
 	
-	saveUseCase.on('click', function() {
-		
-		if (formUseCaseIsValid()) {
-			
-			$.post('/bugsys/usecase/usecase',{
-				'useCaseID'   			: useCaseID.val(),
-				'code'        			: code.val(),
-				'name'        			: name.val(),
-				'descriptionUseCase'	: descriptionUseCase.val(),
-				'projectID'   			: projectID.val()
-				
-			}, function(data) {
-				
-				var status   = data[0][0];
-				var message  = data[0][1];
-				
-				if (status == 'success') {
-					
-					if (id.val() == "") {
-						
-						toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
-						setTimeout(function(){
-//							redirectTo('/bugsys/usecase/list');
-						}, 1500);
-						
-					} else {
-						
-						toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
-						setTimeout(function(){
-//							redirectTo('/bugsys/usecase/list');
-						}, 1500);
-					}
-					
-				} else {
-					toastr.error('clique aqui para fechar!', message);
-				}
-			});
-		}
-		
-	});
+//	cancelUseCase.on('click', function() {
+//		useCaseModal.hide();
+//	});
 	
-	cancelUseCase.on('click', function() {
-		useCaseModal.hide();
-	});
-	
-	function formUseCaseIsValid() {
-    	var success = true;
-    	$('[usecase="usecase"]').each(
-    	   function(key, item) {
-    		 if($(item).val() == "") {
-    			 
-    			 $(item).addClass('input-error');
-    		
-    			 $(item).on('blur', function(){ $(this).removeClass('input-error'); });
-    			 
-    			 success = false;
-
-    		 } else {
-    			 $(item).removeClass('input-error');
-    		 }
-    	   }
-        );
-    	return success;
-     }
+//	function formUseCaseIsValid() {
+//    	var success = true;
+//    	$('[usecase="usecase"]').each(
+//    	   function(key, item) {
+//    		 if($(item).val() == "") {
+//    			 
+//    			 $(item).addClass('input-error');
+//    		
+//    			 $(item).on('blur', function(){ $(this).removeClass('input-error'); });
+//    			 
+//    			 success = false;
+//
+//    		 } else {
+//    			 $(item).removeClass('input-error');
+//    		 }
+//    	   }
+//        );
+//    	return success;
+//     }
 });

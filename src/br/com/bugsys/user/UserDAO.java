@@ -99,10 +99,9 @@ public class UserDAO {
 		StringBuilder hql = new StringBuilder()
 			.append(" FROM User u")
 			.append(" WHERE")
-			.append(" u.id IN (:userIds)");
+			.append(" u.id IN (" + userIds + ")");
 
-		Query query = this.session.createQuery(hql.toString())
-				.setParameter("userIds", userIds);
+		Query query = this.session.createQuery(hql.toString());
 		
 		List<User> listUsers = (List<User>) query.list();
 		

@@ -79,7 +79,48 @@
 			          <textarea id="description" class="form-control input-bgsys without-radius" rows="3">${project.description}</textarea>
 			    	</div>
 			    	
-			    	<div class="col-lg-5">
+			    	
+			    	<div class="col-lg-12">
+				    	<div class="panel panel-primary use-case-panel">
+				    	
+						  <div class="panel-heading">
+						      <div class="clearfix">
+						   		Casos de Uso
+							  	<div class="col-lg-1 pull-right">
+						  	        <a href="#" id="use-case-add" class="btn btn-primary">
+							            <span class="glyphicon glyphicon-plus"></span>
+							        </a>
+								</div>
+							</div>
+						  </div>
+						
+						  <div class="panel-body">
+						    <div class="row">
+							 
+					        </div>
+					    
+					    	<div class="row use-case-list panel-pad">
+						    	<!-- <ul id="use-case-list-items" class="list-group"></ul> -->
+						    	<table class="table table-bordered">
+						    	  <thead>
+						    	     <tr>
+						    	        <th>Código</th>
+						    	        <th>Nome</th>
+						    	        <th>Descrição</th>
+						    	        <th>Ações</th>
+						    	     </tr>
+						    	  </thead>
+						    	  <tbody id="use-case-list-items">
+						    	   
+						    	  </tbody>
+						    	</table>
+					    	</div>
+					    	
+						  </div>
+						</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
 				    	<div class="panel panel-primary">
 				    	  <div class="panel-heading">Membros da Equipe</div>
 							  <div class="panel-body panel-pad ">
@@ -94,35 +135,7 @@
 							  </div>
 						</div>
 			    	</div>
-			    	
-			    	<div class="col-lg-7">
-				    	<div class="panel panel-primary use-case-panel">
-				    	
-						  <div class="panel-heading">
-						      <div class="clearfix">
-						   		Casos de Uso
-							  	<div class="col-lg-2 pull-right">
-						  	        <a href="#" id="use-case-add" class="btn btn-primary">
-							            <span class="glyphicon glyphicon-plus"></span>
-							        </a>
-								</div>
-							</div>
-						  </div>
-						
-						  <div class="panel-body">
-						     <div class="row">
-							 
-					        </div>
-					    
-					    	<div class="row use-case-list">
-						    	<ul id="use-case-list-items" class="list-group"></ul>
-					    	</div>
-					    	
-						  </div>
-						</div>
-			    	</div>
-			    	
-			  </form>
+				 </form>
 			</div>
 		</div>
 	</div>
@@ -141,6 +154,7 @@
 	        	<form id="formUseCase" class="form-inline bgsys-form-inline">
 		          	
 		          	<input type="hidden" id="useCaseID" value="${useCase.id}">
+		          	<input type="hidden" id="flag-isedit">
 		          	<input type="hidden" id="projectID" value="2">
 				    
 			          <label for="code">Código: </label>
@@ -156,7 +170,7 @@
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default cancel-use-case" data-dismiss="modal">Cancelar</button>
-	          <button type="button" class="btn btn-primary save-use-case">Salvar</button>
+	          <button id="save-use-case" type="button" class="btn btn-primary save-use-case">Salvar</button>
 	        </div>
 	      </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->
@@ -167,7 +181,7 @@
 	
 	<script type="text/javascript" src="<c:url value="/assets/storage/sessionstorage.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/member-project.js"/>"></script>
-	<script type="text/javascript" src="<c:url value="/js/use-case.js"/>"></script>
+	<script type="text/javascript" src="<c:url value="/js/use-case-project.js"/>"></script>
 	<script type="text/javascript" src="<c:url value="/js/project.js"/>"></script>
 	
 	

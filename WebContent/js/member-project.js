@@ -31,6 +31,7 @@
 		};
 		
 		var getMembersByID = function( value, callback ) {
+			console.log(value);
 			 jQ.get( url.base + '/getMembersPopulateAutoCompleteJSON', { 'membersProject': value }, function( result ) {
 				if ( callback )
 					 callback( result );
@@ -130,11 +131,11 @@
 			
 			if ( members ) {
 			
-				for ( var i = 0; i <= members.length; i++ ) {
-					model.getMembersByID(members[i], function (member) {
+				model.getMembersByID(members, function ( membersReturn ) {
+					$.each(membersReturn, function( key, member ) {
 						add(member);
 					});
-				};
+				});
 			}
 		};
 		

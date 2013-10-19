@@ -111,7 +111,31 @@ public class ProjectController {
 	@Get
 	public void delete(Integer projectID) {
 		
+<<<<<<< HEAD
 		Map<String, String> message = new HashMap<String, String>();
+=======
+	   List<User> users = this.userDAO.findUsersLikeName(name);
+	   
+	   this.result.use(Results.json()).withoutRoot().from(users).include("employeeType").serialize();
+	}
+	
+	@Get
+	public void getMembersPopulateAutoCompleteJSON(String membersProject) {
+	
+		List<User> listUsers = this.userDAO.findUsersByIds(membersProject);
+		
+		this.result.use(Results.json()).withoutRoot().from(listUsers).include("employeeType").serialize();
+	}
+	
+	/***
+	 * LÛgica de negocios referente a persistencia dos casos de uso referente aos projetos
+	 */
+	
+	@Get("/list/{id}")
+	public List<UseCase> list(Integer projectID) {
+		
+		List<UseCase> listUseCases = this.useCaseDAO.findUseCasesByProject(projectID);
+>>>>>>> front-end projetos conclu√≠do
 		
 		this.projectDAO.deleteProjectById(projectID);
 		
