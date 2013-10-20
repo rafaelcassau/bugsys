@@ -33,20 +33,20 @@
 			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="projectName" value="${project.name}">
 			    	</div>
 			    	
-			    	<div class="col-lg-4">
+			    	<div class="col-lg-6">
 			          <label for="startDate">Data de Inicio: </label>
 			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="startDate" value="${project.startDate}">
 			    	</div>
 
-			    	<div class="col-lg-4">
+			    	<div class="col-lg-6">
 			          <label for="estimatedEndDate">Data de Termino Estimada: </label>
 			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="estimatedEndDate" value="${project.estimatedEndDate}">
 			    	</div>
 
-			    	<div class="col-lg-4">
+			    	<!-- <div class="col-lg-4">
 			          <label for="endDate">Data de Termino: </label>
 			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="endDate" value="${project.endDate}">
-			    	</div>
+			    	</div>  -->
 
 			    	<div class="col-lg-6">
 			    		<label for="client">Cliente: </label>

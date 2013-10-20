@@ -1,12 +1,18 @@
 
-$(function() {
+;(function ( $ , MemberModel, UCModel ) {
 	
 	/***
 	 * Inputs Project
 	 */ 
-	var startDate = 		$('#startDate');
-	var estimatedEndDate = 	$('#estimatedEndDate');
-	var endDate = 			$('#endDate');
+	var startDate 		 = $('#startDate'),
+		estimatedEndDate = $('#estimatedEndDate'),
+		nameProject		 = $('#projectName'),
+		description		 = $('#description');
+	
+	
+	startDate       .mask("99/99/9999");
+	endDate         .mask("99/99/9999");
+	estimatedEndDate.mask("99/99/9999");
 	
 	startDate.datepicker({
 	    dateFormat: 'dd/mm/yy',
@@ -30,101 +36,74 @@ $(function() {
 		prevText: 'Anterior'
 	});
 
-	endDate.datepicker({
-		dateFormat: 'dd/mm/yy',
-		dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-		dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-		dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-		monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-		monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-		nextText: 'Próximo',
-		prevText: 'Anterior'
+	
+	/*
+	 * Actions
+	 * */
+	
+	var newproject 	   = $("#new-project"),
+		persistProject = $("#persistProject"), 
+		cancel         = $("#cancel");
+	
+	
+	newproject.on('click', function(){
+		redirectTo("/bugsys/project/project");
 	});
 	
-	/***
-	 * Cadastro de casos de uso
-	 */
-//	var useCaseAdd = 	$('#use-case-add');
-//	var useCaseModal = 	$('#modal-use-case');
-//	var saveUseCase =   $('.save-use-case');
-//	var cancelUseCase = $('.cancel-use-case');
+	cancel.on('click', function(){
+		redirectTo("/bugsys/project/list");
+	});
 	
-	/***
-	 * dados caso de uso
-	 */
-//	
-//	var useCaseID =   			$('#id');
-//	var code = 					$('#code');
-//	var name = 					$('#name');
-//	var descriptionUseCase = 	$('#descriptionUseCase');
-//	var projectID =     		$('#projectID');
-	
-//	useCaseAdd.on('click', function() {
-//		useCaseModal.modal();
-//	});
-	
-//	saveUseCase.on('click', function() {
-//		
-//		if (formUseCaseIsValid()) {
-//			
-//			$.post('/bugsys/usecase/usecase',{
-//				'useCaseID'   			: useCaseID.val(),
-//				'code'        			: code.val(),
-//				'name'        			: name.val(),
-//				'descriptionUseCase'	: descriptionUseCase.val(),
-//				'projectID'   			: projectID.val()
-//				
-//			}, function(data) {
-//				
-//				var status   = data[0][0];
-//				var message  = data[0][1];
-//				
-//				if (status == 'success') {
-//					
-//					if (id.val() == "") {
-//						
-//						toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
-//						setTimeout(function(){
-////							redirectTo('/bugsys/usecase/list');
-//						}, 1500);
-//						
-//					} else {
-//						
-//						toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
-//						setTimeout(function(){
-////							redirectTo('/bugsys/usecase/list');
-//						}, 1500);
-//					}
-//					
-//				} else {
-//					toastr.error('clique aqui para fechar!', message);
-//				}
-//			});
-//		}
-//		
-//	});
-	
-//	cancelUseCase.on('click', function() {
-//		useCaseModal.hide();
-//	});
-	
-//	function formUseCaseIsValid() {
-//    	var success = true;
-//    	$('[usecase="usecase"]').each(
-//    	   function(key, item) {
-//    		 if($(item).val() == "") {
-//    			 
-//    			 $(item).addClass('input-error');
-//    		
-//    			 $(item).on('blur', function(){ $(this).removeClass('input-error'); });
-//    			 
-//    			 success = false;
-//
-//    		 } else {
-//    			 $(item).removeClass('input-error');
-//    		 }
-//    	   }
-//        );
-//    	return success;
-//     }
-});
+	persistProject.on('click', function() {
+		
+		if(formIsValid()) {
+			
+			if ( UCModel.count() == 0 ){
+				 toastr.error('clique aqui para fechar', 'É necessário cadastrar ao menos um caso de uso para o projeto!');
+    			 return;
+			};
+			
+			if ( MemberModel.count() == 0 ){
+				 toastr.error('clique aqui para fechar', 'É necessário cadastrar ao menos um membro para o projeto!');
+    			 return;
+			};
+			
+			$.post('/bugsys/project/project', {
+				 'id'	 			: id.val(),
+				 'projectName' 		: projectName.val(),
+				 'startDate' 		: startDate.val(),
+				 'estimatedEndDate' : estimatedEndDate.val(),
+				 'endDate' 		 	: endDate.val(),
+				 'client' 	 		: client.val(),
+				 'workflow' 	    : workflow.val(),
+				 'description' 	    : description.val(),
+				 'membersProject'   : JSON.parse(MemberModel.getAll()),
+				 'useCases'      	: JSON.parse("[" + UCModel.getAll() + "]") 
+				}, function(data) {
+				
+					var status   = data[0][0];
+			    	var message  = data[0][1];
+			    	
+			    	if (status == 'success') {
+			    		
+			    		if (idClient.val() == "") {
+				    		toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
+				    		setTimeout(function(){
+				    			redirectTo('/bugsys/client/list');
+				    		}, 1500);
+			    		} else {
+			    			toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
+				    		setTimeout(function() {
+				    			redirectTo('/bugsys/client/list');
+				    		}, 1500);
+			    		}
+			    	} else {
+			    		toastr.error('clique aqui para fechar!', message);
+			    		return;
+			    	}
+			}); 
+		}
+	});
+
+})( jQuery , MemberModel, UCModel );
+

@@ -19,6 +19,10 @@
 			Members.length = 0;
 		};
 		
+		var count = function(){
+ 			return Members.length;
+ 		};
+		
 		var refresh = function(){
  			storage.update("member", Members);
  		};
@@ -81,6 +85,7 @@
 			find	       : find, 
 			commit         : commit,
 			empty	       : empty,
+			count		   : count,
 			refresh		   : refresh,
 			deleteMember   : deleteMember,
 			getAll		   : getAll,

@@ -19,6 +19,10 @@
 			UCases.length = 0;
 		};
 		
+		var count = function(){
+ 			return UCases.length;
+ 		};
+		
 		var refresh = function (){
  			storage.update("ucases", UCases);
  		};
@@ -65,6 +69,7 @@
 			save           : save,
 			commit         : commit,
 			empty	       : empty,
+			count		   : count,
 			refresh		   : refresh,
 			getAll		   : getAll,
 			findByCode	   : findByCode,

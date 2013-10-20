@@ -4,7 +4,7 @@
 	<div class="col-lg-11" id="content-toolbar">
 		<div class="col-lg-3 pull-left" id="content-toolbar-buttons-left">
 			
-			<a id="new-workflow" href="#" class="btn btn-bgsys btn-blue-bgsys">
+			<a id="new-project" href="#" class="btn btn-bgsys btn-blue-bgsys">
 				<span class="glyphicon glyphicon-plus-sign"></span>
 				Novo projeto
 			</a>
