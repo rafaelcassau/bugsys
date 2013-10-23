@@ -1,6 +1,5 @@
 package br.com.bugsys.user;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import br.com.bugsys.interceptors.Functionality;
 import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.util.FunctionalityEnum;
 import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.Options;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;

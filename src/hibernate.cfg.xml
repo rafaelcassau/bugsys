@@ -27,6 +27,9 @@
         <mapping class="br.com.bugsys.userproject.UserProject" />
         <mapping class="br.com.bugsys.step.Step" />
         <mapping class="br.com.bugsys.workflow.Workflow" />
+        <mapping class="br.com.bugsys.event.Event" />
+        <mapping class="br.com.bugsys.eventStatus.Status" />
+        <mapping class="br.com.bugsys.descriptionEvent.DescriptionEvent" />
           
     </session-factory>  
       

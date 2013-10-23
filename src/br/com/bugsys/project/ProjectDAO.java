@@ -18,7 +18,6 @@ public class ProjectDAO {
 	private Session session;
 	
 	public ProjectDAO() {
-		
 		this.session = HibernateUtil.getSessionFactory().openSession();
 	}
 	
