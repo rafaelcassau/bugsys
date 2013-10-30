@@ -58,7 +58,7 @@
  			commit    :commit
  		};
  		
- 	})( LocalStorage );
+ 	})( SessionStorage );
  	
  	
  	

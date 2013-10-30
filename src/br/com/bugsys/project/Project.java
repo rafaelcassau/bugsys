@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.usecase.UseCase;
@@ -29,6 +30,12 @@ public class Project {
 	private Date startDate;
 	
 	private Date estimatedEndDate;
+	
+	@Transient
+	private String startDateString;
+	
+	@Transient
+	private String estimatedEndDateString;
 	
 	private Date endDate;
 	
@@ -137,6 +144,22 @@ public class Project {
 	}
 	public Project setDescription(String description) {
 		this.description = description;
+		return this;
+	}
+	
+	public String getStartDateString() {
+		return startDateString;
+	}
+	public Project setStartDateString(String startDateString) {
+		this.startDateString = startDateString;
+		return this;
+	}
+
+	public String getEstimatedEndDateString() {
+		return estimatedEndDateString;
+	}
+	public Project setEstimatedEndDateString(String estimatedEndDateString) {
+		this.estimatedEndDateString = estimatedEndDateString;
 		return this;
 	}
 }

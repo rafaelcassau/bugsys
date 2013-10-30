@@ -106,5 +106,29 @@
 		          return false;
 		           
 		    return true;
-		}
+	 }
+	 
+	 function afterTime(date1, date2) {
+		 
+		 var firstDate = populeDateObject(date1);
+		 var endDate = populeDateObject(date2);
+		 
+		 return firstDate < endDate;
+	 }
+	 
+	 function populeDateObject(date) {
+		 
+		 var dateArray = date.split('/');
+			
+		 var year  = dateArray[2];
+		 var month = (dateArray[1] - 1);
+		 var day   = dateArray[0];
+			
+		 var date = new Date();
+		 
+		 date.setFullYear(year, month, day);
+		 date.setHours(0, 0, 0, 0);
+		 
+		 return date;
+	 }
 	 

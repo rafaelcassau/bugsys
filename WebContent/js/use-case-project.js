@@ -193,6 +193,7 @@
 			var uc = JSON.parse("[" + ucases + "]");
 			
 			if ( ucases ) {
+				
 				$.map(uc, function ( ucase ) {
 				   el.list.append(append(ucase));
 				   model.save(JSON.stringify(ucase));

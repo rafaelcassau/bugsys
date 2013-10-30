@@ -4,14 +4,16 @@
 	/***
 	 * Inputs Project
 	 */ 
-	var startDate 		 = $('#startDate'),
+	var id               = $('#id'),
+		projectName		 = $('#projectName'),
+		startDate 		 = $('#startDate'),
 		estimatedEndDate = $('#estimatedEndDate'),
-		nameProject		 = $('#projectName'),
+		client           = $('#client'),
+		workflow         = $('#workflow'),
 		description		 = $('#description');
 	
 	
 	startDate       .mask("99/99/9999");
-	endDate         .mask("99/99/9999");
 	estimatedEndDate.mask("99/99/9999");
 	
 	startDate.datepicker({
@@ -42,15 +44,25 @@
 	 * */
 	
 	var newproject 	   = $("#new-project"),
-		persistProject = $("#persistProject"), 
+		persistProject = $("#persistProject"),
+		deleteProject  = $(".deleteProject"),
+		modal		   = $('#modal-excluir'),
+		tableProject   = $("#table-project"),
 		cancel         = $("#cancel");
+		search	       = $('#search');
 	
 	
 	newproject.on('click', function(){
+		UCModel.empty();
+		MemberModel.empty();
+		SessionStorage.drop();
 		redirectTo("/bugsys/project/project");
 	});
 	
 	cancel.on('click', function(){
+		UCModel.empty();
+		MemberModel.empty();
+		SessionStorage.drop();
 		redirectTo("/bugsys/project/list");
 	});
 	
@@ -58,12 +70,17 @@
 		
 		if(formIsValid()) {
 			
-			if ( UCModel.count() == 0 ){
+			if (!afterTime(startDate.val(), estimatedEndDate.val())) {
+				toastr.error('clique aqui para fechar', 'A data de inicio do projeto deve ser anterior a data de termino prevista!');
+   			 	return;
+			}
+			
+			if ( UCModel.count() == 0 ) {
 				 toastr.error('clique aqui para fechar', 'É necessário cadastrar ao menos um caso de uso para o projeto!');
     			 return;
 			};
 			
-			if ( MemberModel.count() == 0 ){
+			if ( MemberModel.count() == 0 ) {
 				 toastr.error('clique aqui para fechar', 'É necessário cadastrar ao menos um membro para o projeto!');
     			 return;
 			};
@@ -73,12 +90,11 @@
 				 'projectName' 		: projectName.val(),
 				 'startDate' 		: startDate.val(),
 				 'estimatedEndDate' : estimatedEndDate.val(),
-				 'endDate' 		 	: endDate.val(),
 				 'client' 	 		: client.val(),
 				 'workflow' 	    : workflow.val(),
 				 'description' 	    : description.val(),
-				 'membersProject'   : JSON.parse(MemberModel.getAll()),
-				 'useCases'      	: JSON.parse("[" + UCModel.getAll() + "]") 
+				 'membersProject'   : MemberModel.getAll(),
+				 'useCases'      	: UCModel.getAll() 
 				}, function(data) {
 				
 					var status   = data[0][0];
@@ -86,15 +102,15 @@
 			    	
 			    	if (status == 'success') {
 			    		
-			    		if (idClient.val() == "") {
+			    		if (id.val() == "") {
 				    		toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
 				    		setTimeout(function(){
-				    			redirectTo('/bugsys/client/list');
+				    			redirectTo('/bugsys/project/list');
 				    		}, 1500);
 			    		} else {
 			    			toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
 				    		setTimeout(function() {
-				    			redirectTo('/bugsys/client/list');
+				    			redirectTo('/bugsys/project/list');
 				    		}, 1500);
 			    		}
 			    	} else {
@@ -104,6 +120,75 @@
 			}); 
 		}
 	});
+	
+	
+	deleteProject.on('click', function() {
+		
+		var id      = $(this).attr('href');
+		var cancel  = $('.cancel');
+    	var confirm = $('.confirm');
+    	
+    	modal.modal();
+
+    	cancel.on('click', function() {
+    		modal.hide();
+    	});
+    	
+    	confirm.on('click', function() {
+    		$.post('/bugsys/project/delete', 
+    			{ 'id': id }, 
+    			
+    			function ( data ) {
+				
+					var result   = dataReturn(data);
+			    	
+			    	if (result.status == 'success') {
+			    		
+			    		modal.hide();
+			    		
+			    		toastr.success('clique aqui para fechar!', 'Registro excluído com sucesso!');
+			    		setTimeout( function () {
+			    			redirectTo('/bugsys/project/list');
+			    		}, 1500);
+			    		
+			    	} else {
+			    		toastr.error('clique aqui para fechar!', result.message);
+			    		return;
+			    	}
+			});
+    	});
+	});
+	
+	
+	var oTable = tableProject.dataTable({
+    	"bFilter": true,
+        "bLengthChange": false,
+        "sPaginationType": "four_button",
+        "iDisplayLength" : 8,
+        "oLanguage" : {
+            "sProcessing":   "Processando...",
+            "sLengthMenu":   "Mostrar _MENU_ registros",
+            "sZeroRecords":  "Não foram encontrados resultados",
+            "sInfo":         " ",
+            "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registros",
+            "sInfoFiltered": "(filtrado de _MAX_ registros no total)",
+            "sInfoPostFix":  "",
+            "sSearch":       "Pesquisar: ",
+            "sUrl":          "",
+            "oPaginate": {
+                "sPrevious": "Anterior",
+                "sNext":     "Seguinte",
+                "contentPaginate": "content-toolbar-buttons-right"
+            }
+        }
+    });
+	
+	search.on('keypress', function(){
+    	if(this.value.length >= 3){
+    		oTable.fnFilter(this.value, 1, true);
+    		oTable.fnDraw();
+    	}
+    });
 
 })( jQuery , MemberModel, UCModel );
 

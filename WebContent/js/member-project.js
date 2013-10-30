@@ -35,7 +35,6 @@
 		};
 		
 		var getMembersByID = function( value, callback ) {
-			console.log(value);
 			 jQ.get( url.base + '/getMembersPopulateAutoCompleteJSON', { 'membersProject': value }, function( result ) {
 				if ( callback )
 					 callback( result );
@@ -135,7 +134,7 @@
 			var members = model.getAll();
 			
 			if ( members ) {
-			
+				
 				model.getMembersByID(members, function ( membersReturn ) {
 					$.each(membersReturn, function( key, member ) {
 						add(member);

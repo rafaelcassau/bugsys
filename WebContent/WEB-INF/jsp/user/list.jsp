@@ -13,13 +13,8 @@
 		<div class="col-lg-3 pull-right" id="content-toolbar-buttons-right"></div>
 	</div>
 	<div class="col-lg-11" id="content-body">
-<<<<<<< HEAD:WebContent/WEB-INF/jsp/user/list.jsp
 		<table class="table table-bgsys" id="tableUser">
 			<thead>
-=======
-		<table class="table table-bgsys" id="tableUseCase">
-			<thead class="table table-bordered">
->>>>>>> front-end projetos concluído:WebContent/WEB-INF/jsp/usecase/list.jsp
 				<tr>
 					<th width="30%">Nome</th>
 					<th width="30%">Cargo</th>

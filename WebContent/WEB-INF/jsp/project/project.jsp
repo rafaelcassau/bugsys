@@ -43,11 +43,6 @@
 			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="estimatedEndDate" value="${project.estimatedEndDate}">
 			    	</div>
 
-			    	<!-- <div class="col-lg-4">
-			          <label for="endDate">Data de Termino: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="endDate" value="${project.endDate}">
-			    	</div>  -->
-
 			    	<div class="col-lg-6">
 			    		<label for="client">Cliente: </label>
 				        <w:select class="form-control input-bgsys without-radius" 

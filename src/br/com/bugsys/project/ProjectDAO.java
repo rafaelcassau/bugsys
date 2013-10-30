@@ -7,9 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.bugsys.infra.HibernateUtil;
+import br.com.bugsys.usecase.UseCase;
 import br.com.bugsys.user.User;
 import br.com.bugsys.userproject.UserProject;
-import br.com.bugsys.workflow.Workflow;
 import br.com.caelum.vraptor.ioc.Component;
 
 @Component
@@ -45,13 +45,12 @@ public class ProjectDAO {
 		return project;
 	}
 	
-	public UserProject findUserProjectById(Integer projectID, Integer userID) {
+	public UserProject findUserProjectById(Integer userProjectID) {
 		
-		String hql = "FROM UserProject up WHERE up.user.id = :userID AND up.project.id projectID";
+		String hql = "FROM UserProject up WHERE up.id = :userProjectID";
 		
 		Query query = this.session.createQuery(hql)
-				      .setParameter("projectID", projectID)
-				      .setParameter("userID", userID);
+				      .setParameter("userProjectID", userProjectID);
 		
 		UserProject userProject = (UserProject) query.uniqueResult();
 		
@@ -144,21 +143,33 @@ public class ProjectDAO {
 		return projectReturn;
 	}
 	
-	public UserProject persistUserProject(UserProject userProject) {
+	public void persistListUserProject(List<UserProject> listUserProject) {
 		
 		this.session.clear();
 		
 		Transaction transaction = this.session.beginTransaction();
 		
-		UserProject userProjectReturn = null;
+		for (UserProject userProject : listUserProject) {
 			
-		this.session.save(userProject);
-			
-		userProjectReturn = this.findUserProjectById(userProject.getProject().getId(), userProject.getUser().getId());
+			this.session.save(userProject);
+		}
 			
 		transaction.commit();
 		
-		return userProjectReturn;
+	}
+	
+	public void persistListUseCasesProject(List<UseCase> listUseCasesProject) {
+		
+		this.session.clear();
+		
+		Transaction transaction = this.session.beginTransaction();
+		
+		for (UseCase useCase : listUseCasesProject) {
+			
+			this.session.save(useCase);
+		}
+		
+		transaction.commit();
 	}
 	
 	public void deleteProjectById(Integer projectID) {

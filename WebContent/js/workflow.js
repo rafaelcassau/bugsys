@@ -13,7 +13,7 @@
 	
 	newWorkflow.on('click', function() {
 		StepModel.empty();
-		Storage  .drop();
+		SessionStorage.drop();
 		redirectTo('/bugsys/workflow');
 	});
 	
@@ -25,7 +25,7 @@
 	
 	cancel.on('click', function () {
 		StepModel.empty();
-		Storage  .drop();
+		SessionStorage.drop();
 		redirectTo('/bugsys/workflow/list');
 	});
 	

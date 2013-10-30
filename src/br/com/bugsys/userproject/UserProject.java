@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -13,33 +13,31 @@ import br.com.bugsys.project.Project;
 import br.com.bugsys.user.User;
 
 @Entity
-@IdClass(UserProjectId.class)
 public class UserProject {
 
 	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_fk")
-	private User user;
+	@GeneratedValue
+	private Integer id;
 	
-	@Id
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "project_fk")
 	private Project project;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_fk")
+	private User user;
+	
 	private Date startDate;
+	
 	private Date endDate;
 	
-	public User getUser() {
-		if (user == null) {
-			user = new User();
-		}
-		return user;
+	public Integer getId() {
+		return id;
 	}
-	public UserProject setUser(User user) {
-		this.user = user;
-		return this;
+	public void setId(Integer id) {
+		this.id = id;
 	}
-	
+
 	public Project getProject() {
 		if (project == null) {
 			project = new Project();
@@ -48,6 +46,17 @@ public class UserProject {
 	}
 	public UserProject setProject(Project project) {
 		this.project = project;
+		return this;
+	}
+
+	public User getUser() {
+		if (user == null) {
+			user = new User();
+		}
+		return user;
+	}
+	public UserProject setUser(User user) {
+		this.user = user;
 		return this;
 	}
 	

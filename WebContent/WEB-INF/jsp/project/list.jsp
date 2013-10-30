@@ -28,8 +28,8 @@
 					<tr>
 						<td class="id-hidden">${project.id}</td>
 						<td>${project.projectName}</td>
-						<td>${project.startDate}</td>
-						<td>${project.estimatedEndDate}</td>
+						<td>${project.startDateString}</td>
+						<td>${project.estimatedEndDateString}</td>
 						<td>${project.client.fancyName}</td>
 						<td>
 							<div class="btn-group">
@@ -69,5 +69,8 @@
    <%@ include file="/footer.jsp" %>
 					
   <script type="text/javascript" src="<c:url value="/assets/storage/sessionstorage.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/js/member-project.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/js/use-case-project.js"/>"></script>
   <script type="text/javascript" src="<c:url value="/js/project.js"/>"></script>
+  
   

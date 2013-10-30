@@ -1,6 +1,8 @@
 package br.com.bugsys.event;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -53,8 +55,8 @@ public class Event {
 	@JoinColumn(name = "status_FK")
 	private Status currentStatus;
 	
-	@OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
-	private DescriptionEvent descriptionEvent;
+	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
+	private List<DescriptionEvent> descriptionEventList;
 	
 	private Date creationDate;
 	
@@ -147,17 +149,6 @@ public class Event {
 		return this;
 	}
 
-	public DescriptionEvent getDescriptionEvent() {
-		if (descriptionEvent == null) {
-			descriptionEvent = new DescriptionEvent();
-		}
-		return descriptionEvent;
-	}
-	public Event setDescriptionEvent(DescriptionEvent descriptionEvent) {
-		this.descriptionEvent = descriptionEvent;
-		return this;
-	}
-
 	public Date getCreationDate() {
 		return creationDate;
 	}
@@ -170,5 +161,15 @@ public class Event {
 	}
 	public void setFinallyDate(Date finallyDate) {
 		this.finallyDate = finallyDate;
+	}
+
+	public List<DescriptionEvent> getDescriptionEventList() {
+		if (descriptionEventList == null) {
+			descriptionEventList = new ArrayList<DescriptionEvent>();
+		}
+		return descriptionEventList;
+	}
+	public void setDescriptionEventList(List<DescriptionEvent> descriptionEventList) {
+		this.descriptionEventList = descriptionEventList;
 	}
 }

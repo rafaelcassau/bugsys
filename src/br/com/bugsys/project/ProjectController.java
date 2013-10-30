@@ -1,19 +1,22 @@
 package br.com.bugsys.project;
 
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.cedarsoftware.util.io.JsonReader;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.client.ClientDAO;
 import br.com.bugsys.interceptors.Functionality;
 import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.usecase.UseCase;
-import br.com.bugsys.usecase.UseCaseDAO;
 import br.com.bugsys.user.User;
 import br.com.bugsys.user.UserDAO;
 import br.com.bugsys.userproject.UserProject;
@@ -35,7 +38,6 @@ public class ProjectController {
 	private ProjectDAO projectDAO;
 	private WorkflowDAO workflowDAO;
 	private ClientDAO clientDAO;
-	private UseCaseDAO useCaseDAO;
 	private UserDAO userDAO;
 	private UserSession userSession;
 	private Result result;
@@ -44,22 +46,33 @@ public class ProjectController {
 	 * Lógica de negocios referente ao caso de uso de projetos
 	 */
 	
-	public ProjectController(ProjectDAO projectDAO, WorkflowDAO workflowDAO, ClientDAO clientDAO, UseCaseDAO useCaseDAO, UserDAO userDAO, UserSession userSession, Result result) {
+	public ProjectController(ProjectDAO projectDAO, WorkflowDAO workflowDAO, ClientDAO clientDAO, UserDAO userDAO, UserSession userSession, Result result) {
 		this.projectDAO = projectDAO;
 		this.workflowDAO = workflowDAO;
 		this.clientDAO = clientDAO;
-		this.useCaseDAO = useCaseDAO;
 		this.userDAO = userDAO;
 		this.userSession = userSession;
 		this.result = result;
 	}
 	
 	@Get
-	public List<Project> list() {
+	public List<Project> list() throws ParseException {
 		
 		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.PROJECTS.getFunctionality()));
 
 		List<Project> listProjects = this.projectDAO.findAllProjects();
+		
+		for (Project project : listProjects) {
+			
+			if (project.getStartDate() != null && project.getEstimatedEndDate() != null) {
+
+				String startDateString = new SimpleDateFormat("dd/MM/yyyy").format(project.getStartDate());
+				project.setStartDateString(startDateString);
+				
+				String estimatedEndDateString = new SimpleDateFormat("dd/MM/yyyy").format(project.getEstimatedEndDate());
+				project.setEstimatedEndDateString(estimatedEndDateString);
+			}
+		}
 		
 		return listProjects;
 	}
@@ -80,14 +93,13 @@ public class ProjectController {
 			String projectName, 
 			String startDate,
 			String estimatedEndDate,
-			String endDate,
 			String client,
 			String workflow,
 			String description,
 			String membersProject,
 			String useCases) {
 		
-		Project project = this.populateProject(id, projectName, startDate, estimatedEndDate, endDate, client, workflow, description);
+		Project project = this.populateProject(id, projectName, startDate, estimatedEndDate, client, workflow, description);
 		
 		if (project.getId() == null) {
 			
@@ -108,12 +120,12 @@ public class ProjectController {
 		return project;
 	}
 	
-	@Get
-	public void delete(Integer projectID) {
+	@Post
+	public void delete(Integer id) {
 		
 		Map<String, String> message = new HashMap<String, String>();
 		
-		this.projectDAO.deleteProjectById(projectID);
+		this.projectDAO.deleteProjectById(id);
 		
 		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
 		
@@ -169,7 +181,6 @@ public class ProjectController {
 			String projectName, 
 			String startDate,
 			String estimatedEndDate,
-			String endDate,
 			String client,
 			String workflow,
 			String description) {
@@ -188,13 +199,11 @@ public class ProjectController {
 		
 		Date dStartDate = Utils.convertDateStringToDate(startDate);
 		Date dEstimatedEndDate = Utils.convertDateStringToDate(estimatedEndDate);
-		Date dEndDate = Utils.convertDateStringToDate(endDate);
 		
 		Project project = new Project()
 			.setId(projectID)
 			.setStartDate(dStartDate)
 			.setEstimatedEndDate(dEstimatedEndDate)
-			.setEndDate(dEndDate)
 			.setProjectName(projectName)
 			.setDescription(description)
 			.setClient(entityClient)
@@ -215,29 +224,45 @@ public class ProjectController {
 			
 			List<User> listUsersAddInProject = this.userDAO.findUsersByIds(membersProject);
 			
+			List<UserProject> listUserProject = new ArrayList<UserProject>();
+			
 			for (User user : listUsersAddInProject) {
 				
 				UserProject userProject = new UserProject()
-				.setProject(project)
-				.setUser(user)
-				.setStartDate(new Date());
+					.setProject(project)
+					.setUser(user)
+					.setStartDate(new Date());
 				
-				this.projectDAO.persistUserProject(userProject);
+				listUserProject.add(userProject);
 			}
+			
+			this.projectDAO.persistListUserProject(listUserProject);
 
 			try {
 				
-				@SuppressWarnings("unchecked")
-				List<UseCase> listUseCases = (List<UseCase>) JsonReader.jsonToJava(useCases);
+				JSONArray listUseCasesJSON = new JSONArray("[" + useCases + "]");
 				
-				for (UseCase useCase : listUseCases) {
-					this.useCaseDAO.persistUseCase(useCase);
+				List<UseCase> listUseCasesProject = new ArrayList<UseCase>();
+				
+				for (int i = 0; i < listUseCasesJSON.length(); i++) {
+					
+					JSONObject jsonObject = listUseCasesJSON.getJSONObject(i);
+					
+					UseCase useCase = new UseCase()
+						.setCode(jsonObject.getString("code"))
+						.setName(jsonObject.getString("name"))
+						.setDescription(jsonObject.getString("description"))
+						.setProject(project);
+					
+					listUseCasesProject.add(useCase);
 				}
 				
-			} catch (IOException e) {
+				this.projectDAO.persistListUseCasesProject(listUseCasesProject);
+				
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-			
+				
 			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
 		}
 		
@@ -258,6 +283,8 @@ public class ProjectController {
 
 			this.projectDAO.deleteUsersProjectByProjectID(project.getId());
 			
+			List<UserProject> listUserProject = new ArrayList<UserProject>();
+			
 			for (User user : listUsersAddInProject) {
 				
 				UserProject userProject = new UserProject()
@@ -265,23 +292,18 @@ public class ProjectController {
 				.setUser(user)
 				.setStartDate(new Date());
 				
-				this.projectDAO.persistUserProject(userProject);
+				listUserProject.add(userProject);
+				
 			}
 			
-			try {
+			this.projectDAO.persistListUserProject(listUserProject);
 				
-				@SuppressWarnings("unchecked")
-				List<UseCase> listUseCases = (List<UseCase>) JsonReader.jsonToJava(useCases);
+			this.projectDAO.deleteUserCasesByProjectID(project.getId());
 				
-				this.projectDAO.deleteUserCasesByProjectID(project.getId());
-				
-				for (UseCase useCase : listUseCases) {
-					this.useCaseDAO.persistUseCase(useCase);
-				}
-				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+//				for (UseCase useCase : listUseCases) {
+//					this.useCaseDAO.persistUseCase(useCase);
+//				}
+			
 			
 			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_UPDATE_SUCCESS);
 		}
