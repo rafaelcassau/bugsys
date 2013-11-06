@@ -24,7 +24,7 @@
  		};
 		
 		var refresh = function(){
- 			storage.update("member", Members);
+ 			storage.store("member", Members);
  		};
 		
 		var getByName = function( value, callback ) {
@@ -78,6 +78,16 @@
 			return result;
 		};
 		
+		var populate = function ( membersProject ) {
+			
+			for (var i = 0; i < membersProject.length; i++) {
+				
+				save(membersProject[i].id);
+			}
+			
+			commit();
+		};
+		
 		return {
 			getByName      : getByName,
 			save           : save,
@@ -88,8 +98,8 @@
 			refresh		   : refresh,
 			deleteMember   : deleteMember,
 			getAll		   : getAll,
-			getMembersByID : getMembersByID
-			
+			getMembersByID : getMembersByID,
+			populate       : populate
 		};
 		
 	}) ( jQuery, SessionStorage );

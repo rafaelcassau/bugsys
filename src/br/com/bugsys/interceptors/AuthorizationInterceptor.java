@@ -28,7 +28,7 @@ public class AuthorizationInterceptor implements Interceptor{
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object resourceInstance) throws InterceptionException {
 		
 		if (userSession.getUser() == null) {
-			result.include("errors", Arrays.asList(new ValidationMessage("Favor realizar a autenticaÃ§Ã£o no sistema.", "user")));
+			result.include("errors", Arrays.asList(new ValidationMessage("Favor realizar a autenticação no sistema.", "user")));
 			result.redirectTo(LoginController.class).login();
 		} else {
 			stack.next(method, resourceInstance);

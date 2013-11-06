@@ -21,7 +21,7 @@ public class ProjectDAO {
 		this.session = HibernateUtil.getSessionFactory().openSession();
 	}
 	
-	public Project findProjectById(Integer projectID) {
+	public Project findProjectByID(Integer projectID) {
 		
 		String hql = "FROM Project p WHERE p.id = :projectID";
 		
@@ -45,7 +45,7 @@ public class ProjectDAO {
 		return project;
 	}
 	
-	public UserProject findUserProjectById(Integer userProjectID) {
+	public UserProject findUserProjectByID(Integer userProjectID) {
 		
 		String hql = "FROM UserProject up WHERE up.id = :userProjectID";
 		
@@ -71,14 +71,12 @@ public class ProjectDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Project> findProjectsByUser(Integer userID) {
+	public List<Project> findProjectsByUserID(Integer userID) {
 		
 		StringBuilder hql = new StringBuilder()
-			.append(" FROM Project p")
-			.append(" JOIN UserProject up")
-			.append(" WHERE p.id = up.project.id")
-			.append(" AND")
-			.append(" up.user.id = :userID");
+			.append(" SELECT up.project ")
+			.append(" FROM UserProject up")
+			.append(" WHERE up.user.id = :userID");
 		
 		Query query = this.session.createQuery(hql.toString())
 				.setParameter("userID", userID);
@@ -89,14 +87,27 @@ public class ProjectDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<User> findUsersByProject(Integer projectID) {
+	public List<Project> findProjectsByClientID(Integer clientID) {
 		
 		StringBuilder hql = new StringBuilder()
-			.append(" FROM User u")
-			.append(" JOIN UserProject up")
-			.append(" WHERE u.id = up.user.id")
-			.append(" AND")
-			.append(" up.project.id = :projectID");
+			.append(" SELECT p ")
+			.append(" FROM Project p")
+			.append(" WHERE p.client.id = :clientID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("clientID", clientID);
+		
+		List<Project> projects = (List<Project>) query.list();
+		
+		return projects;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> findUsersByProjectID(Integer projectID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" SELECT up.user FROM UserProject up")
+			.append(" WHERE up.project.id = :projectID");
 		
 		Query query = this.session.createQuery(hql.toString())
 				.setParameter("projectID", projectID);
@@ -118,6 +129,48 @@ public class ProjectDAO {
 		return projects;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<UseCase> findUseCasesByProjectID(Integer projectID) {
+		
+		String hql = " FROM UseCase uc WHERE uc.project.id = :projectID";
+		
+		Query query = this.session.createQuery(hql)
+				.setParameter("projectID", projectID);
+		
+		List<UseCase> listUseCases = (List<UseCase>) query.list();
+		
+		return listUseCases;
+	}
+	
+	private UseCase findUseCaseByID(Integer useCaseID) {
+		
+		String hql = "FROM UseCase uc WHERE uc.id = :useCaseID";
+		
+		Query query = session.createQuery(hql)
+			.setParameter("useCaseID", useCaseID);
+		
+		UseCase useCase = (UseCase) query.uniqueResult();
+		
+		return useCase;
+	}
+	
+	public UserProject findUserProjectByProjectIDUserID(Integer projectID, Integer userID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM UserProject up")
+			.append(" WHERE up.project.id = :projectID")
+			.append(" AND")
+			.append(" up.user.id = :userID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("projectID", projectID)
+				.setParameter("userID", userID);
+		
+		UserProject userProject = (UserProject) query.uniqueResult();
+		
+		return userProject;
+	}
+	
 	public Project persistProject(Project project) {
 		
 		this.session.clear();
@@ -130,7 +183,7 @@ public class ProjectDAO {
 			
 			Integer id = (Integer) this.session.save(project);
 			
-			projectReturn = this.findProjectById(id);
+			projectReturn = this.findProjectByID(id);
 			
 		} else {
 			
@@ -158,18 +211,32 @@ public class ProjectDAO {
 		
 	}
 	
-	public void persistListUseCasesProject(List<UseCase> listUseCasesProject) {
+	public UseCase saveUseCasesProject(UseCase useCase) {
+		
+		this.session.clear();
+		
+		Transaction transaction = this.session.beginTransaction();
+			
+		int id = (Integer) this.session.save(useCase);
+		
+		transaction.commit();
+		
+		UseCase useCaseReturn = this.findUseCaseByID(id);
+		
+		return useCaseReturn;
+	}
+	
+	public UseCase updateUseCasesProject(UseCase useCase) {
 		
 		this.session.clear();
 		
 		Transaction transaction = this.session.beginTransaction();
 		
-		for (UseCase useCase : listUseCasesProject) {
-			
-			this.session.save(useCase);
-		}
+		this.session.update(useCase);
 		
 		transaction.commit();
+		
+		return useCase;
 	}
 	
 	public void deleteProjectById(Integer projectID) {
@@ -220,7 +287,7 @@ public class ProjectDAO {
 		query.executeUpdate();
 	}
 	
-	public void deleteUserCasesByProjectID(Integer projectID) {
+	public void deleteUseCasesByProjectID(Integer projectID) {
 		
 		this.session.clear();
 		
@@ -241,5 +308,42 @@ public class ProjectDAO {
 				.setParameter("projectID", projectID);
 		
 		query.executeUpdate();
+	}
+
+	public void deleteUserProjectByProjectIDUserID(Integer projectID, Integer userID) {
+		
+		this.session.clear();
+		
+		Transaction transaction = this.session.beginTransaction();
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" DELETE FROM UserProject up")
+			.append(" WHERE up.project.id = :projectID")
+			.append(" AND")
+			.append(" up.user.id = :userID");
+	
+		Query query = this.session.createQuery(hql.toString())
+			.setParameter("projectID", projectID)
+			.setParameter("userID", userID);
+	
+		query.executeUpdate();
+		
+		transaction.commit();
+	}
+
+	public void deleteUseCaseByID(Integer useCaseID) {
+		
+		this.session.clear();
+		
+		Transaction transaction = this.session.beginTransaction();
+		
+		String hql = "DELETE FROM UseCase uc WHERE uc.id = :useCaseID";
+		
+		Query query = this.session.createQuery(hql)
+			.setParameter("useCaseID", useCaseID);
+		
+		query.executeUpdate();
+		
+		transaction.commit();
 	}
 }

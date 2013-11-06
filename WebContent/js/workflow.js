@@ -1,14 +1,14 @@
 
 ;(function ( $ , StepModel) {
 	
-	var newWorkflow 	= $('#new-workflow'),
-	    persistWorkflow = $('#persistWorkflow'),
-	    edit			= $('.editWorkflow'),
-	    deleteWorkflow  = $('.deleteWorkflow'),
-	    cancel			= $('#cancel'),
-	    modal			= $('#modal-excluir'),
-	    tableWorkflow   = $('#table-workflow'),
-		search	        = $('#search');
+	var newWorkflow 		= $('#new-workflow'),
+	    persistWorkflow 	= $('#persistWorkflow'),
+	    deleteWorkflow  	= $('.deleteWorkflow'),
+	    visualizeWorkflow	= $('.visualizeWorkflow');
+	    cancel				= $('#cancel'),
+	    modal				= $('#modal-excluir'),
+	    tableWorkflow   	= $('#table-workflow'),
+		search	        	= $('#search');
 	 
 	
 	newWorkflow.on('click', function() {
@@ -17,10 +17,14 @@
 		redirectTo('/bugsys/workflow');
 	});
 	
-	edit.on('click', function(){
-		url = $(this).attr('href');
-    	redirectTo(url);
-    	return false;
+	visualizeWorkflow.on('click', function(){
+		
+		StepModel.empty();
+		SessionStorage.drop();
+		
+		var href  = $(this).attr('href');
+		
+		redirectTo(href);
 	});
 	
 	cancel.on('click', function () {

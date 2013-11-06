@@ -16,8 +16,8 @@
 		<table class="table table-bgsys" id="table-workflow">
 			<thead>
 				<tr>
-					<th width="80%">Descrição</th>
-					<th width="20%">Ações</th>
+					<th width="70%">Descrição</th>
+					<th width="30%">Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -27,9 +27,14 @@
 						<td>${workflow.title}</td>
 						<td>
 							<div class="btn-group">
-							  <a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
-							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
-							  </a>
+							
+								<a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
+							  		<span class="glyphicon glyphicon-remove"></span> Excluir
+							  	</a>
+							
+							  	<a data-toggle="modal" class="btn btn-link visualizeWorkflow" href="<c:url value="/workflow/${workflow.id}"/>">
+							  	 	<span class="glyphicon glyphicon-edit"></span> Visualizar
+							  	</a>
 							</div>
 						</td>
 					</tr>

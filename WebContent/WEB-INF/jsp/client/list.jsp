@@ -26,7 +26,7 @@
 				<c:forEach items="${clientList}" var="client">
 					<tr>
 						<td class="id-hidden">${client.id}</td>
-					    <td class>${client.fancyName}</td>
+					    <td>${client.fancyName}</td>
 					    <td>${client.user.name}</td>
 						<td>${client.phone}</td>
 						<td>

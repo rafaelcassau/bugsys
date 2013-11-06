@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.bugsys.infra.HibernateUtil;
-import br.com.bugsys.project.Project;
 import br.com.caelum.vraptor.ioc.Component;
 
 @Component
@@ -20,18 +19,50 @@ public class EventDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Event> findEvent() {
+	public List<Event> findEventByProjectID(Integer projectID) {
 		
 		StringBuilder hql = new StringBuilder()
-			.append("")
-			.append("");
+			.append(" FROM Event e")
+			.append(" WHERE e.project.id = :projectID");
 		
 		Query query = this.session.createQuery(hql.toString())
-				.setParameter("", "");
+				.setParameter("projectID", projectID);
 		
 		List<Event> listEvents = (List<Event>) query.list();
 		
 		return listEvents;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Event> findEventByUserID(Integer userID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM Event e")
+			.append(" WHERE")
+			.append(" (e.userCreator.id = :userID")
+			.append(" OR")
+			.append(" e.userResponsible.id = :userID)");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("userID", userID);
+		
+		List<Event> listEvents = (List<Event>) query.list();
+		
+		return listEvents;
+	}
+	
+	public Event findEventById(Integer eventID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM Event e")
+			.append(" WHERE e.id = :eventID");
+		
+		Query query = this.session.createQuery(hql.toString())
+			.setParameter("eventID", eventID);
+		
+		Event event = (Event) query.uniqueResult();
+		
+		return event;
 	}
 	
 	public Event persistEvent(Event event) {
@@ -57,19 +88,5 @@ public class EventDAO {
 		transaction.commit();
 		
 		return eventReturn;
-	}
-	
-	public Event findEventById(Integer eventID) {
-		
-		StringBuilder hql = new StringBuilder()
-			.append(" FROM Event e")
-			.append(" WHERE e.id = :eventID");
-		
-		Query query = this.session.createQuery(hql.toString())
-			.setParameter("eventID", eventID);
-		
-		Event event = (Event) query.uniqueResult();
-		
-		return event;
 	}
 }

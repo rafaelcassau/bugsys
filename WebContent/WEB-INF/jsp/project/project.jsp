@@ -30,17 +30,17 @@
 				    
 				    <div class="col-lg-12">
 			          <label for="projectName">Nome do Projeto: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="projectName" value="${project.name}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="projectName" value="${project.projectName}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
 			          <label for="startDate">Data de Inicio: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="startDate" value="${project.startDate}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="startDate" value="${project.startDateString}">
 			    	</div>
 
 			    	<div class="col-lg-6">
 			          <label for="estimatedEndDate">Data de Termino Estimada: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="estimatedEndDate" value="${project.estimatedEndDate}">
+			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="estimatedEndDate" value="${project.estimatedEndDateString}">
 			    	</div>
 
 			    	<div class="col-lg-6">
@@ -99,10 +99,10 @@
 						    	<table class="table table-bordered">
 						    	  <thead>
 						    	     <tr>
-						    	        <th>Código</th>
-						    	        <th>Nome</th>
-						    	        <th>Descrição</th>
-						    	        <th>Ações</th>
+						    	        <th width="20%">Código</th>
+						    	        <th width="30%">Nome</th>
+						    	        <th width="35%">Descrição</th>
+						    	        <th width="15%">Ações</th>
 						    	     </tr>
 						    	  </thead>
 						    	  <tbody id="use-case-list-items">
@@ -150,7 +150,6 @@
 		          	
 		          	<input type="hidden" id="useCaseID" value="${useCase.id}">
 		          	<input type="hidden" id="flag-isedit">
-		          	<input type="hidden" id="projectID" value="2">
 				    
 			          <label for="code">Código: </label>
 			          <input usecase="usecase" type="text" class="form-control input-bgsys without-radius" id="code" value="${useCase.code}">

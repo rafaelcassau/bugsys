@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.usecase.UseCase;
+import br.com.bugsys.user.User;
 import br.com.bugsys.userproject.UserProject;
 import br.com.bugsys.workflow.Workflow;
 
@@ -86,7 +87,7 @@ public class Project {
 		this.estimatedEndDate = estimatedEndDate;
 		return this;
 	}
-	
+
 	public Date getEndDate() {
 		return endDate;
 	}

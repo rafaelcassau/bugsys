@@ -7,6 +7,7 @@ public enum FunctionalityEnum {
 	PROJECTS("Projetos"),
 	WORKFLOWS("Workflows"),
 	USERS("Usuários"),
+	EVENT("Ocorrências"),
 	REPORTS("Relatórios"),
 	CONFIGURATION("Configurações");
 	

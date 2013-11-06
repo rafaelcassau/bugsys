@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import br.com.bugsys.client.Client;
+import br.com.bugsys.client.ClientDAO;
 import br.com.bugsys.employeeType.EmployeeType;
 
 @Entity
@@ -20,6 +22,9 @@ public class User {
 	private String name;
 	private String mail;
 	private String functionality;
+	
+	@OneToOne
+	private Client client;
 	
 	@OneToOne(cascade = CascadeType.DETACH, optional = true, fetch = FetchType.EAGER)
 	private EmployeeType employeeType;
@@ -77,5 +82,15 @@ public class User {
 	}
 	public String getFunctionality() {
 		return functionality;
+	}
+
+	public Client getClient() {
+		if (client == null) {
+			client = new ClientDAO().findClientByUserId(this.id);
+		}
+		return client;
+	}
+	public void setClient(Client client) {
+		this.client = client;
 	}
 }

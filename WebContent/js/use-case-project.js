@@ -7,8 +7,8 @@
 		
 		var UCases = [];
 		
-		var save = function( members ) {
-			UCases.push( members );
+		var save = function( usecase ) {
+			UCases.push( usecase );
 		};
 		
 		var commit = function() {
@@ -24,7 +24,7 @@
  		};
 		
 		var refresh = function (){
- 			storage.update("ucases", UCases);
+ 			storage.store("ucases", UCases);
  		};
 		
 		var getAll = function () {
@@ -45,6 +45,22 @@
 					}
 				}
 			};	
+		};
+		
+		var populate = function ( usecases ) {
+			
+			for (var i = 0; i < usecases.length; i++) {
+				
+				usecase             = {};
+				usecase.id 			= usecases[i].id;
+				usecase.code 		= usecases[i].code;
+				usecase.name 		= usecases[i].name;
+				usecase.description = usecases[i].description;
+				
+				save(JSON.stringify(usecase));
+			}
+			
+			commit();
 		};
 		
 		var findByCode = function (code) {
@@ -73,7 +89,8 @@
 			refresh		   : refresh,
 			getAll		   : getAll,
 			findByCode	   : findByCode,
-			deleteUC       : deleteUC
+			deleteUC       : deleteUC,
+			populate       : populate,
 		};
 		
 	}) ( jQuery, SessionStorage );
@@ -141,6 +158,8 @@
 						
 						model.commit();
 						
+						el.ucmodal.modal('hide');
+						
 					} else {
 						
 						model.deleteUC(el.flagIsEdit.attr("uc-code"));
@@ -153,6 +172,8 @@
 						
 						el.list.append(append(ucase));
 						
+						el.flagIsEdit.val("");
+
 						model.commit();
 			            
                        el.ucmodal.modal('hide');

@@ -45,12 +45,34 @@
 	
 	var newproject 	   = $("#new-project"),
 		persistProject = $("#persistProject"),
+		editProject	   = $(".editProject"),
 		deleteProject  = $(".deleteProject"),
 		modal		   = $('#modal-excluir'),
 		tableProject   = $("#table-project"),
 		cancel         = $("#cancel");
 		search	       = $('#search');
 	
+	editProject.on('click', function(){
+		UCModel.empty();
+		MemberModel.empty();
+		SessionStorage.drop();
+		
+		var id = $(this).closest('tr').children().html();
+		
+		$.get('/bugsys/project/populateUseCaseAndUsersProjectUpdateProject',
+			  {'id' : id},
+			  function(data) {
+				
+				  listUsersProject = data[0][1];
+				  listUseCases     = data[1][1];
+				  
+				  UCModel.populate(listUseCases);
+				  MemberModel.populate(listUsersProject);
+				  
+				  redirectTo('/bugsys/project/' + id);
+			  }
+		);
+	});
 	
 	newproject.on('click', function(){
 		UCModel.empty();

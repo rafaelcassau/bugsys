@@ -4,10 +4,12 @@
 	<div class="col-lg-11" id="content-toolbar">
 		<div class="col-lg-4 pull-left" id="content-toolbar-buttons-left">
 			
-			<a id="persistWorkflow" data-toggle="modal" href="#" class="btn btn-bgsys btn-blue-bgsys">
-				<span class="glyphicon glyphicon-ok"></span>
-				Salvar
-			</a>
+			<c:if test="${workflow.id == null}">
+				<a id="persistWorkflow" data-toggle="modal" href="#" class="btn btn-bgsys btn-blue-bgsys">
+					<span class="glyphicon glyphicon-ok"></span>
+					Salvar
+				</a>
+			</c:if>
 			
 			<a id="cancel" href="#" class="btn btn-bgsys btn-red-bgsys">
 				<span class="glyphicon glyphicon-ban-circle"></span>
@@ -24,17 +26,36 @@
 				<div class="alert alert-danger fade in not-display" id="error-list"> </div>
 			
 				<form id="formWorkflow" class="form-inline bgsys-form-inline">
-		
-		          	<input type="hidden" id="id" value="${workflow.id}">
 	
 				    <div class="col-lg-6">
 			          <label for="user">Título: </label>
-			          <input id="title" valid="valid" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
+			          
+			          <c:choose>
+			          	<c:when test="${workflow.id != null}">
+				          	<input id="title" readonly="readonly" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
+			          	</c:when>
+			          	<c:otherwise>
+				          	<input id="title" valid="valid" type="text" class="form-control input-bgsys without-radius"/>
+			          	</c:otherwise>
+			          </c:choose>
+			          
+			          <c:if test="">
+			          </c:if>
+			          
 			    	</div>
 				    
 				    <div class="col-lg-12">
 			          <label for="user">Descrição: </label>
-			          <textarea id="description" valid="valid" class="form-control input-bgsys without-radius" rows="3">${workflow.description}</textarea>
+			          
+			          <c:choose>
+			          	<c:when test="${workflow.id != null}">
+			          		<textarea id="description" readonly="readonly" class="form-control input-bgsys without-radius" rows="3">${workflow.description}</textarea>
+			          	</c:when>
+			          	<c:otherwise>
+				          	<textarea id="description" valid="valid" class="form-control input-bgsys without-radius" rows="3"></textarea>
+			          	</c:otherwise>
+			          </c:choose>
+			          
 			    	</div>
 			    	
 			    	<div class="col-lg-12">
@@ -43,16 +64,25 @@
 						  <div class="panel-body">
 						     <div class="row">
 						     	<div class="input-group">
-							      <input id="step-input" type="text" class="form-control input-bgsys without-radius">
-							      <span class="input-group-btn">
-							        <button id="step-add" class="btn btn-primary" type="button">
-							             &nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;
-							        </button>
-							      </span>
+							      
+							      <c:if test="${workflow == null}">
+								      <input id="step-input" type="text" class="form-control input-bgsys without-radius">
+									      <span class="input-group-btn">
+									        <button id="step-add" class="btn btn-primary" type="button">
+									             &nbsp;<span class="glyphicon glyphicon-plus"></span>&nbsp;
+									        </button>
+									      </span>
+								  </c:if>							      
+							      
 							    </div><!-- /input-group -->
 					        </div>
 					    	<div class="row step-list">
 						    	<ul id="step-list-items" class="list-group"></ul>
+						    	
+						    	<c:forEach items="${workflow.listSteps}" var="step">
+						    		<li class="list-group-item">${step.title}<a href="#"></a></li>
+						    	</c:forEach>
+						    	
 					    	</div>
 						  </div>
 						</div>

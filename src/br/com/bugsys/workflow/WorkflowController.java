@@ -125,6 +125,14 @@ public class WorkflowController {
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
 	
+	@Get("/workflow/{id}")
+	public Workflow workflow(Integer id) {
+		
+		Workflow workflow = this.workflowDAO.findWorkflowById(id);
+		
+		return workflow;
+	}
+	
 	private boolean workflowIsBoundProject(Integer id) {
 		
 		List<Project> projects = this.projectDAO.findProjectsByWorkflowID(id);

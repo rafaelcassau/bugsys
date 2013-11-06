@@ -6,10 +6,8 @@ $(function (){
 	var linkWorkflows = $('#linkWorkflows');
 	var linkUsers     = $('#linkUsers');
 	var linkClients   = $('#linkClients');
-	var linkReports   = $('#linkReports');
-	var linkSettings  = $('#linkSettings');
+	var linkEvents    = $('#linkEvents');
     
-	
 	linkDashboard.on('click', function() {
 		redirectTo('/bugsys/dashboard/dashboard');
 	});
@@ -30,11 +28,7 @@ $(function (){
 		redirectTo('/bugsys/user/list');
 	});
 
-	linkReports.on('click', function() {
-		redirectTo('bugsys/reports');
-	});
-
-	linkSettings.on('click', function() {
-		redirectTo('bugsys/settings');
+	linkEvents.on('click', function() {
+		redirectTo('/bugsys/event/list');
 	});
 });
