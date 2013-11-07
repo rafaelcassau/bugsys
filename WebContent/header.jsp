@@ -37,7 +37,6 @@
 					<div class="col-lg-3 pull-right" id="content-header-user-info">
 						<ul class="user-info">
 							<!-- NOTIFICATION -->
-							<%@ include file="/notification.jsp" %>
 							
 							<!-- USER INFO -->
 							<li class="user">
@@ -46,8 +45,6 @@
 									<span class="caret"></span>
 								</a>
 								<ul class="dropdown-menu">
-							      <li><a href="#">Prefer&ecirc;ncias</a></li>
-							      <li><a href="#">Configura&ccedil;&otilde;es</a></li>
 							      <li><a href="<c:url value='/login/logout'/>">Sair</a></li>
 							    </ul>
 							</li>

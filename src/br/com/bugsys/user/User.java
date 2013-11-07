@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.client.ClientDAO;
@@ -22,6 +23,9 @@ public class User {
 	private String name;
 	private String mail;
 	private String functionality;
+	
+	@Transient
+	private String employeeTypeString;
 	
 	@OneToOne
 	private Client client;
@@ -92,5 +96,12 @@ public class User {
 	}
 	public void setClient(Client client) {
 		this.client = client;
+	}
+
+	public void setEmployeeTypeString(String employeeTypeString) {
+		this.employeeTypeString = employeeTypeString;
+	}
+	public String getEmployeeTypeString() {
+		return employeeType.getEmployeeType();
 	}
 }

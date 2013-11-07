@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import br.com.bugsys.eventStatus.Status;
 import br.com.bugsys.infra.HibernateUtil;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -63,6 +64,18 @@ public class EventDAO {
 		Event event = (Event) query.uniqueResult();
 		
 		return event;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Status> findAllStatus() {
+		
+		String hql = " FROM Status s";
+	
+		Query query = this.session.createQuery(hql);
+		
+		List<Status> listStatus = (List<Status>) query.list();
+	
+		return listStatus;
 	}
 	
 	public Event persistEvent(Event event) {

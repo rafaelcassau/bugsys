@@ -2,7 +2,7 @@ package br.com.bugsys.util;
 
 public enum FunctionalityEnum {
 	
-	DASHBOARD("Dashboard"),
+	HOME("Home"),
 	CLIENTS("Clientes"),
 	PROJECTS("Projetos"),
 	WORKFLOWS("Workflows"),

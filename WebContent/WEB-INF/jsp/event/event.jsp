@@ -27,22 +27,86 @@
 			
 		          	<input type="hidden" id="idEvent" value="${event.id}">
 				    
-				    <div class="col-lg-6">
-			          <label for=""></label>
-			          
-		          		<div class="col-lg-6">
-				        <label for="userResponsible">Usuário responsável: </label>
+			    	<div class="col-lg-12">
+				    	<div class="col-lg-10">
+					        <label for="project">Projeto: </label>
+					        
+					       	<select id="project" name="project" class="form-control input-bgsys without-radius">
+							
+							</select>
+							
+			    	 	</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+					    <div class="col-lg-10">
+					        <label for="userResponsible">Usuário responsável: </label>
 					        <w:select class="form-control input-bgsys without-radius" 
 					        		  name="userResponsible" 
 					        		  id="userResponsible"
 					        		  items="${userResponsibleList}" 
 					        		  value="id" 
-					        		  var="userResponsible" 
+					        		  var="userResponsible"
+					        		  readOnly="readOnly" 
 					        		  selected="${userResponsible.id}">
 				           		${userResponsible.name}
 					        </w:select>
 			    	 	</div>
-			          
+		    	 	</div>
+			    	
+			    	<div class="col-lg-12">
+				    	<div class="col-lg-10">
+				          <label for="workflow">Workflow: </label>
+				          <input valid="valid" id="workflow" readOnly="readOnly" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}">
+				    	</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+				    	<div class="col-lg-10">
+					        <label for="step">Fases do Projeto: </label>
+					        <w:select class="form-control input-bgsys without-radius" 
+					        		  name="step" 
+					        		  id="step"
+					        		  items="${stepList}" 
+					        		  value="id" 
+					        		  var="step"
+					        		  readOnly="readOnly" 
+					        		  selected="${step.id}">
+				           		${step.title}
+					        </w:select>
+			    	 	</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+				    	<div class="col-lg-10">
+					        <label for="useCase">Casos de Uso: </label>
+					        <w:select class="form-control input-bgsys without-radius" 
+					        		  name="useCase" 
+					        		  id="useCase"
+					        		  items="${useCaseList}" 
+					        		  value="id" 
+					        		  var="useCase"
+					        		  readOnly="readOnly" 
+					        		  selected="${useCase.id}">
+				           		${useCase.name}
+					        </w:select>
+			    	 	</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+				    	<div class="col-lg-10">
+					        <label for="currentStatus">Status: </label>
+					        <w:select class="form-control input-bgsys without-radius" 
+					        		  name="currentStatus" 
+					        		  id="currentStatus"
+					        		  items="${currentStatusList}" 
+					        		  value="id" 
+					        		  var="currentStatus"
+					        		  readOnly="readOnly" 
+					        		  selected="${currentStatus.id}">
+				           		${currentStatus.status}
+					        </w:select>
+			    	 	</div>
 			    	</div>
 			    	
 			     </form>

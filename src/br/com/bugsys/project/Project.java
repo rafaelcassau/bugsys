@@ -40,7 +40,7 @@ public class Project {
 	
 	private Date endDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_FK")
 	private Client client;
 	
@@ -50,7 +50,7 @@ public class Project {
 	@OneToMany(mappedBy = "project")
 	private List<UseCase> listUseCases;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "workflow_FK")
 	private Workflow workflow;
 	

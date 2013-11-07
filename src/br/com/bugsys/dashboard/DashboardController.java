@@ -18,6 +18,6 @@ public class DashboardController {
 	@Get
 	public void dashboard() {
 		
-		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.DASHBOARD.getFunctionality()));
+		this.userSession.setFunctionality(new Functionality(FunctionalityEnum.HOME.getFunctionality()));
 	}
 }

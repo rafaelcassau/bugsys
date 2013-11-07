@@ -171,6 +171,21 @@ public class ProjectDAO {
 		return userProject;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<UserProject> findUserProjectByProjectID(Integer projectID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM UserProject up")
+			.append(" WHERE up.project.id = :projectID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("projectID", projectID);
+	
+		List<UserProject> listUserProject = (List<UserProject>) query.list();
+		
+		return listUserProject;
+	}
+	
 	public Project persistProject(Project project) {
 		
 		this.session.clear();
