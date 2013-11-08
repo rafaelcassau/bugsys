@@ -126,4 +126,16 @@ public class WorkflowDAO {
 		
 		query.executeUpdate();
 	}
+
+	public Step findStepByID(Integer stepID) {
+		
+		String hql = "FROM Step s WHERE s.id = :stepID";
+
+		Query query = this.session.createQuery(hql)
+			.setParameter("stepID", stepID);
+
+		Step step = (Step) query.uniqueResult();
+		
+		return step;
+	}
 }

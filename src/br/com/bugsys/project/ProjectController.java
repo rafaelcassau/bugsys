@@ -505,7 +505,7 @@ public class ProjectController {
 		
 		for (User user : listUsers) {
 			
-			if (this.projectDAO.findUserProjectByProjectIDUserID(project.getId(), user.getId()) == null) {
+			if (this.projectDAO.findUserByProjectIDUserID(project.getId(), user.getId()) == null) {
 				
 				UserProject userProject = new UserProject()
 				.setProject(project)

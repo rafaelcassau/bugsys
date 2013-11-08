@@ -6,7 +6,9 @@ $(function(){
 	var cancel			= $('#cancel');
 	
 	// campos formulario
+	var idEvent			= $('#idEvent');
 	var project 		= $('#project');
+	var eventType		= $('#eventType');
 	var userResponsible = $('#userResponsible');
 	var workflow		= $('#workflow');
 	var step			= $('#step');
@@ -37,35 +39,71 @@ $(function(){
 					listSteps 			= data[1][1];
 					listUsersProject 	= data[2][1];
 					listUseCases 		= data[3][1];
-					workflowValue 		= data[4][1];
+					listEventType		= data[4][1];
+					workflowValue 		= data[5][1];
 					
 					populateComboBoxUserResponsible(userResponsible, listUsersProject);
 					workflow.val(workflowValue.title);
 					populateComboBoxStep(step, listSteps);
 					populateComboBoxUseCase(useCase, listUseCases);
 					populateComboBoxStatus(currentStatus, listStatus);
+					populateComboEventType(eventType, listEventType);
 				}
 			);
 			
 		} else {
-			userResponsible.html('').attr('readOnly','readOnly');
-			workflow.val('').attr('readOnly','readOnly');
-			step.html('').attr('readOnly','readOnly');
-			useCase.html('').attr('readOnly','readOnly');
-			currentStatus.html('').attr('readOnly','readOnly');
+			eventType.html('').attr('readOnly','readOnly').removeClass('input-error');
+			userResponsible.html('').attr('readOnly','readOnly').removeClass('input-error');
+			workflow.val('').attr('readOnly','readOnly').removeClass('input-error');
+			step.html('').attr('readOnly','readOnly').removeClass('input-error');
+			useCase.html('').attr('readOnly','readOnly').removeClass('input-error');
+			currentStatus.html('').attr('readOnly','readOnly').removeClass('input-error');
 		}
 		
 	});
 	
 	persistEvent.on('click', function() {
 		
-		$.post('/bugsys/event/event',{
-				'': 0
-		   }, 
-		   function(data){
-		
-		   }
-		);
+		if(formEventIsValid()) {
+			
+			$.post('/bugsys/event/event',{
+				'id': idEvent.val(),
+				'eventType': eventType.val(),
+				'project': project.val(),
+				'userResponsible': userResponsible.val(),
+				'workflowTitle': workflow.val(),
+				'step': step.val(),
+				'useCase': useCase.val(),
+				'currentStatus': currentStatus.val()
+			}, 
+			function(data) {
+				
+				var status =  data[0][0];
+				var message = data[0][1];
+				
+				if (status == 'success') {
+					
+					if(idEvent.val() == "") {
+						
+						toastr.success('clique aqui para fechar!', 'Registro incluído com sucesso!');
+						setTimeout(function(){
+							redirectTo('/bugsys/event/list');
+						}, 1500);
+						
+					} else {
+						
+						toastr.success('clique aqui para fechar!', 'Registro alterado com sucesso!');
+						setTimeout(function() {
+							redirectTo('/bugsys/event/list');
+						}, 1500);
+					}
+					
+				} else {
+					toastr.error('clique aqui para fechar!', message);
+					return;
+				}
+			});
+		}
 	});
 	
 	// Dados da Tabela
@@ -177,4 +215,38 @@ function populateComboBoxStatus(currentStatus, listStatus) {
 	}
 	
 	currentStatus.html(options);
+}
+
+function populateComboEventType(eventType, listEventType) {
+	
+	eventType.removeAttr('readOnly');
+	
+	var options = '<option value="0">Selecione</option>';
+	
+	for (var i = 0; i < listEventType.length; i++) {
+		options += '<option value="' + listEventType[i].id + '">' + listEventType[i].eventType + '</option>';
+	}
+	
+	eventType.html(options);
+}
+
+function formEventIsValid() {
+	
+	var success = true;
+	$('[valid="valid"]').each(
+	   function(key, item) {
+		 if($(item).val() == "0") {
+			 
+			 $(item).addClass('input-error');
+		
+			 $(item).on('blur', function(){ $(this).removeClass('input-error'); });
+			 
+			 success = false;
+
+		 } else {
+			 $(item).removeClass('input-error');
+		 }
+	   }
+    );
+	return success;
 }

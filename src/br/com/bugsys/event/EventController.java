@@ -1,11 +1,13 @@
 package br.com.bugsys.event;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import br.com.bugsys.eventStatus.Status;
+import br.com.bugsys.eventType.EventType;
 import br.com.bugsys.interceptors.Functionality;
 import br.com.bugsys.interceptors.UserSession;
 import br.com.bugsys.project.Project;
@@ -13,7 +15,9 @@ import br.com.bugsys.project.ProjectDAO;
 import br.com.bugsys.step.Step;
 import br.com.bugsys.usecase.UseCase;
 import br.com.bugsys.user.User;
+import br.com.bugsys.util.AjaxResponseEnum;
 import br.com.bugsys.util.FunctionalityEnum;
+import br.com.bugsys.util.Messages;
 import br.com.bugsys.workflow.Workflow;
 import br.com.bugsys.workflow.WorkflowDAO;
 import br.com.caelum.vraptor.Get;
@@ -88,33 +92,101 @@ public class EventController {
 		List<Step> listSteps = this.workflowDAO.findStepsByWorkflow(workflow.getId()); 
 		List<UseCase> listUseCases = this.projectDAO.findUseCasesByProjectID(projectID);
 		List<Status> listStatus = this.eventDAO.findAllStatus();
+		List<EventType> listEventType = this.eventDAO.findAllEventType();
 		
 		contextValues.put("listUsersProject", listUsersProject);
 		contextValues.put("workflow", workflow);
 		contextValues.put("listSteps", listSteps);
 		contextValues.put("listUseCases", listUseCases);
 		contextValues.put("listStatus", listStatus);
+		contextValues.put("listEventType", listEventType);
 		
 		this.result.use(Results.json()).withoutRoot().from(contextValues).serialize();
 	}
 	
 	@Post
-	public void event(String id) {
+	public void event(
+			String id, 
+			String eventType,
+			String project, 
+			String userResponsible, 
+			String workflowTitle, 
+			String step,
+			String useCase,
+			String currentStatus) {
+		
+		Integer eventID;
+
+		if (id.trim().isEmpty()) {
+			eventID = null;
+		} else {
+			eventID = Integer.valueOf(id);
+		}
+		
+		Integer eventTypeID = Integer.valueOf(eventType);
+		Integer projectID = Integer.valueOf(project);
+		Integer userResponsibleID = Integer.valueOf(userResponsible);
+		Workflow workflow = this.workflowDAO.findWorkflowByTitle(workflowTitle);
+		Integer stepID = Integer.valueOf(step);
+		Integer useCaseID = Integer.valueOf(useCase);
+		Integer currentStatusID = Integer.valueOf(currentStatus);
+		
+		
+		Event event  = this.populateEvent(
+				eventID,
+				eventTypeID,
+				projectID, 
+				userResponsibleID, 
+				workflow, 
+				stepID, 
+				useCaseID, 
+				currentStatusID);
+		
+		this.persistEvent(event);
 		
 	}
 	
-	@Get
-	public void delegateEvent() {
+	private Event populateEvent(
+			Integer eventID, 
+			Integer eventTypeID,
+			Integer projectID,
+			Integer userResponsibleID,
+			Workflow workflow,
+			Integer stepID,
+			Integer useCaseID,
+			Integer currentStatusID) {
 		
+		Project project = this.projectDAO.findProjectByID(projectID);
+		EventType eventType = this.eventDAO.findEventTypeByID(eventTypeID);
+		User userResponsible = this.projectDAO.findUserByProjectIDUserID(projectID, userResponsibleID);
+		Step step = this.workflowDAO.findStepByID(stepID);
+		UseCase useCase = this.projectDAO.findUseCaseByID(useCaseID);
+		Status currentStatus = this.eventDAO.findStatusByID(currentStatusID);
+		User userCreator = this.userSession.getUser();
+		
+		Event event = new Event()
+			.setId(eventID)
+			.setProject(project)
+			.setUserResponsible(userResponsible)
+			.setCurrentStatus(currentStatus)
+			.setEventType(eventType)
+			.setWorkflow(workflow)
+			.setStepWorkflow(step)
+			.setUseCase(useCase)
+			.setUserCreator(userCreator)
+			.setCreationDate(new Date());
+		
+		return event;
 	}
 	
-	@Get
-	public void closeEvent() {
+	private void persistEvent(Event event) {
 		
-	}
-	
-	@Get
-	public void reOpenEvent() {
+		Map<String, String> message = new HashMap<String, String>();
 		
+		this.eventDAO.persistEvent(event);
+		
+		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
+		
+		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
 }

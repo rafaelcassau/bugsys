@@ -142,7 +142,7 @@ public class ProjectDAO {
 		return listUseCases;
 	}
 	
-	private UseCase findUseCaseByID(Integer useCaseID) {
+	public UseCase findUseCaseByID(Integer useCaseID) {
 		
 		String hql = "FROM UseCase uc WHERE uc.id = :useCaseID";
 		
@@ -169,6 +169,23 @@ public class ProjectDAO {
 		UserProject userProject = (UserProject) query.uniqueResult();
 		
 		return userProject;
+	}
+	
+	public User findUserByProjectIDUserID(Integer projectID, Integer userID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" SELECT up.user FROM UserProject up")
+			.append(" WHERE up.project.id = :projectID")
+			.append(" AND")
+			.append(" up.user.id = :userID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("projectID", projectID)
+				.setParameter("userID", userID);
+		
+		User user = (User) query.uniqueResult();
+		
+		return user;
 	}
 	
 	@SuppressWarnings("unchecked")

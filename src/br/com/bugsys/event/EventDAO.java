@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.bugsys.eventStatus.Status;
+import br.com.bugsys.eventType.EventType;
 import br.com.bugsys.infra.HibernateUtil;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -76,6 +77,42 @@ public class EventDAO {
 		List<Status> listStatus = (List<Status>) query.list();
 	
 		return listStatus;
+	}
+	
+	public Status findStatusByID(Integer currentStatusID) {
+		
+		String hql = " FROM Status s WHERE s.id = :currentStatusID";
+		
+		Query query = this.session.createQuery(hql)
+				.setParameter("currentStatusID", currentStatusID);
+		
+		Status status = (Status) query.uniqueResult();
+	
+		return status;
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<EventType> findAllEventType() {
+		
+		String hql = " FROM EventType et";
+		
+		Query query = this.session.createQuery(hql);
+		
+		List<EventType> listEventType = (List<EventType>) query.list();
+		
+		return listEventType;
+	}
+	
+	public EventType findEventTypeByID(Integer eventTypeID) {
+		
+		String hql = " FROM EventType et WHERE et.id = :eventTypeID";
+		
+		Query query = this.session.createQuery(hql)
+				.setParameter("eventTypeID", eventTypeID);
+		
+		EventType eventType = (EventType) query.uniqueResult();
+		
+		return eventType;
 	}
 	
 	public Event persistEvent(Event event) {

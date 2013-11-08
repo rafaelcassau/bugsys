@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import br.com.bugsys.descriptionEvent.DescriptionEvent;
 import br.com.bugsys.eventStatus.Status;
+import br.com.bugsys.eventType.EventType;
 import br.com.bugsys.project.Project;
 import br.com.bugsys.step.Step;
 import br.com.bugsys.usecase.UseCase;
@@ -54,6 +55,10 @@ public class Event {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "status_FK")
 	private Status currentStatus;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "event_type_FK")
+	private EventType eventType;
 	
 	@OneToMany(mappedBy="event", fetch = FetchType.EAGER)
 	private List<DescriptionEvent> descriptionEventList;
@@ -152,15 +157,17 @@ public class Event {
 	public Date getCreationDate() {
 		return creationDate;
 	}
-	public void setCreationDate(Date creationDate) {
+	public Event setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
+		return this;
 	}
 
 	public Date getFinallyDate() {
 		return finallyDate;
 	}
-	public void setFinallyDate(Date finallyDate) {
+	public Event setFinallyDate(Date finallyDate) {
 		this.finallyDate = finallyDate;
+		return this;
 	}
 
 	public List<DescriptionEvent> getDescriptionEventList() {
@@ -169,7 +176,19 @@ public class Event {
 		}
 		return descriptionEventList;
 	}
-	public void setDescriptionEventList(List<DescriptionEvent> descriptionEventList) {
+	public Event setDescriptionEventList(List<DescriptionEvent> descriptionEventList) {
 		this.descriptionEventList = descriptionEventList;
+		return this;
+	}
+
+	public EventType getEventType() {
+		if (eventType == null) {
+			eventType = new EventType();
+		}
+		return eventType;
+	}
+	public Event setEventType(EventType eventType) {
+		this.eventType = eventType;
+		return this;
 	}
 }

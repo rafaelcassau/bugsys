@@ -31,7 +31,7 @@
 				    	<div class="col-lg-10">
 					        <label for="project">Projeto: </label>
 					        
-					       	<select id="project" name="project" class="form-control input-bgsys without-radius">
+					       	<select id="project" valid="valid" name="project" class="form-control input-bgsys without-radius">
 							
 							</select>
 							
@@ -40,8 +40,26 @@
 			    	
 			    	<div class="col-lg-12">
 					    <div class="col-lg-10">
+					        <label for="eventType">Tipo de ocorrência: </label>
+					        <w:select class="form-control input-bgsys without-radius" 
+					        		  valid="valid"
+					        		  name="eventType" 
+					        		  id="eventType"
+					        		  items="${eventTypeList}" 
+					        		  value="id" 
+					        		  var="eventType"
+					        		  readOnly="readOnly" 
+					        		  selected="${eventType.id}">
+				           		${eventType.eventType}
+					        </w:select>
+			    	 	</div>
+		    	 	</div>
+		    	 	
+			    	<div class="col-lg-12">
+					    <div class="col-lg-10">
 					        <label for="userResponsible">Usuário responsável: </label>
 					        <w:select class="form-control input-bgsys without-radius" 
+					        		  valid="valid"
 					        		  name="userResponsible" 
 					        		  id="userResponsible"
 					        		  items="${userResponsibleList}" 
@@ -57,14 +75,15 @@
 			    	<div class="col-lg-12">
 				    	<div class="col-lg-10">
 				          <label for="workflow">Workflow: </label>
-				          <input valid="valid" id="workflow" readOnly="readOnly" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}">
+				          <input id="workflow" readOnly="readOnly" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}">
 				    	</div>
 			    	</div>
 			    	
 			    	<div class="col-lg-12">
 				    	<div class="col-lg-10">
 					        <label for="step">Fases do Projeto: </label>
-					        <w:select class="form-control input-bgsys without-radius" 
+					        <w:select class="form-control input-bgsys without-radius"
+					        	      valid="valid"
 					        		  name="step" 
 					        		  id="step"
 					        		  items="${stepList}" 
@@ -81,6 +100,7 @@
 				    	<div class="col-lg-10">
 					        <label for="useCase">Casos de Uso: </label>
 					        <w:select class="form-control input-bgsys without-radius" 
+					        		  valid="valid"
 					        		  name="useCase" 
 					        		  id="useCase"
 					        		  items="${useCaseList}" 
@@ -97,6 +117,7 @@
 				    	<div class="col-lg-10">
 					        <label for="currentStatus">Status: </label>
 					        <w:select class="form-control input-bgsys without-radius" 
+					        		  valid="valid"
 					        		  name="currentStatus" 
 					        		  id="currentStatus"
 					        		  items="${currentStatusList}" 

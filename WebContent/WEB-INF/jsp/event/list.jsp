@@ -16,10 +16,11 @@
 		<table class="table table-bgsys" id="tableEvent">
 			<thead>
 				<tr>
-					<th width="20%">Tipo</th>
-					<th width="20%">Projeto</th>
-					<th width="20%">Status</th>
-					<th width="20%">Responsável</th>
+					<th width="15%">Tipo</th>
+					<th width="15%">Status</th>
+					<th width="15%">Projeto</th>
+					<th width="15%">Responsável</th>
+					<th width="20%">Fase</th>
 					<th width="20%">Ações</th>
 				</tr>
 			</thead>
@@ -27,9 +28,11 @@
 				<c:forEach items="${eventList}" var="event">
 					<tr>
 						<td class="id-hidden">${event.id}</td>
-					    <td></td>
-					    <td></td>
-						<td></td>
+					    <td>${event.eventType.eventType}</td>
+					    <td>${event.currentStatus.status}</td>
+					    <td>${event.project.projectName}</td>
+					    <td>${event.userResponsible.name}</td>
+					    <td>${event.stepWorkflow.title}</td>
 						<td>
 							<div class="btn-group">
 							  <a class="btn btn-link editEvent" href="<c:url value="/event/${event.id}"/>">

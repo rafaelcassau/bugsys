@@ -30,6 +30,7 @@
         <mapping class="br.com.bugsys.event.Event" />
         <mapping class="br.com.bugsys.eventStatus.Status" />
         <mapping class="br.com.bugsys.descriptionEvent.DescriptionEvent" />
+        <mapping class="br.com.bugsys.eventType.EventType" />
           
     </session-factory>  
       
