@@ -38,9 +38,6 @@
 							  <a class="btn btn-link editEvent" href="<c:url value="/event/${event.id}"/>">
 							  	 <span class="glyphicon glyphicon-edit"></span> Editar
 							  </a>
-							  <a data-toggle="modal" class="btn btn-link deleteClient" href="${event.id}">
-							  	 <span class="glyphicon glyphicon-remove"></span> Excluir
-							  </a>
 							</div>
 						</td>
 					</tr>

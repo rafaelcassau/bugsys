@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.bugsys.descriptionEvent.DescriptionEvent;
 import br.com.bugsys.eventStatus.Status;
 import br.com.bugsys.eventType.EventType;
 import br.com.bugsys.interceptors.Functionality;
@@ -18,6 +19,7 @@ import br.com.bugsys.user.User;
 import br.com.bugsys.util.AjaxResponseEnum;
 import br.com.bugsys.util.FunctionalityEnum;
 import br.com.bugsys.util.Messages;
+import br.com.bugsys.util.Utils;
 import br.com.bugsys.workflow.Workflow;
 import br.com.bugsys.workflow.WorkflowDAO;
 import br.com.caelum.vraptor.Get;
@@ -29,6 +31,17 @@ import br.com.caelum.vraptor.view.Results;
 @Resource
 public class EventController {
 
+	private static final int ABERTO 		= 1;
+	private static final int FECHADO 		= 2;
+	private static final int ACEITO 		= 3;
+	private static final int REJEITADO 		= 4;
+	private static final int CORRIGIDO 		= 5; 
+	private static final int VALIDADO 		= 6;
+	private static final int NAO_VALIDADO 	= 7;
+	private static final int HOMOLOGADO 	= 8;
+	private static final int SUSPENSO 		= 9;
+	
+	
 	private WorkflowDAO workflowDAO;
 	private ProjectDAO projectDAO;
 	private EventDAO eventDAO;
@@ -57,24 +70,24 @@ public class EventController {
 	public void event() {}
 	
 	@Get
-	public void populateProject() {
+	public void populateComboProjectAdd() {
 		
-		List<Project> listProjects = new ArrayList<Project>();
-
-		if (this.userSession.getUser().getClient() != null) {
-			
-			Integer clientID = this.userSession.getUser().getClient().getId();
-			listProjects = this.projectDAO.findProjectsByClientID(clientID);
-			
-		} else {
-			
-			Integer userID = this.userSession.getUser().getId();
-			listProjects = this.projectDAO.findProjectsByUserID(userID);
-		}
+		List<Project> listProjects = findProjectsByUserOrClientID();
 		
 		this.result.use(Results.json()).withoutRoot().from(listProjects).serialize();
 	}
-	
+
+	@Get
+	public void populateComboProjectEdit(Integer id) {
+		
+		Project project = this.eventDAO.findEventByID(Integer.valueOf(id)).getProject();
+
+		List<Project> listProjects = new ArrayList<Project>();
+		listProjects.add(project);
+		
+		this.result.use(Results.json()).withoutRoot().from(listProjects).serialize();
+	}
+
 	@Get
 	public void getOptionsByProject(Integer projectID) {
 		
@@ -91,7 +104,7 @@ public class EventController {
 		Workflow workflow = project.getWorkflow();
 		List<Step> listSteps = this.workflowDAO.findStepsByWorkflow(workflow.getId()); 
 		List<UseCase> listUseCases = this.projectDAO.findUseCasesByProjectID(projectID);
-		List<Status> listStatus = this.eventDAO.findAllStatus();
+		List<Status> listStatus = this.findListStatusAdd();
 		List<EventType> listEventType = this.eventDAO.findAllEventType();
 		
 		contextValues.put("listUsersProject", listUsersProject);
@@ -104,6 +117,116 @@ public class EventController {
 		this.result.use(Results.json()).withoutRoot().from(contextValues).serialize();
 	}
 	
+	@Get("/event/{id}")
+	public Event event(Integer id) {
+		
+		Event event = this.eventDAO.findEventByID(id);
+		
+		Project project = this.projectDAO.findProjectByID(event.getProject().getId());
+
+		Workflow workflow = project.getWorkflow();
+		
+		List<Project> projectList = new ArrayList<Project>();
+		List<Step> stepList = new ArrayList<Step>();
+		List<UseCase> useCaseList = new ArrayList<UseCase>();
+		List<EventType> eventTypeList = new ArrayList<EventType>();
+		List<Status> currentStatusList = this.findListStatusUpdate(event.getCurrentStatus());
+		List<User> userResponsibleList = new ArrayList<User>();
+		
+		if (currentStatusList.size() > 1) {
+
+			Integer currentUserID = this.userSession.getUser().getId();
+			
+			projectList = this.projectDAO.findProjectsByUserID(currentUserID);
+			
+			stepList = this.workflowDAO.findStepsByWorkflow(workflow.getId());
+			
+			useCaseList = this.projectDAO.findUseCasesByProjectID(project.getId());
+			
+			eventTypeList = this.eventDAO.findAllEventType();
+			
+			userResponsibleList = this.projectDAO.findUsersByProjectID(project.getId());
+			// Popula o objeto transient para a exibição do tipo de usuário
+			for (User user : userResponsibleList) {
+				user.setEmployeeTypeString(user.getEmployeeType().getEmployeeType());
+			}
+			
+		} else {
+
+			projectList.add(project);
+			
+			stepList.add(event.getStepWorkflow());
+			
+			useCaseList.add(event.getUseCase());
+			
+			eventTypeList.add(event.getEventType());
+			
+			userResponsibleList.add(event.getUserResponsible());
+			
+		}
+		
+		this.result.include("projectList", projectList);
+		this.result.include("workflow", workflow);
+		this.result.include("eventTypeList", eventTypeList);
+		this.result.include("userResponsibleList", userResponsibleList);
+		this.result.include("stepList", stepList);
+		this.result.include("useCaseList", useCaseList);
+		this.result.include("currentStatusList", currentStatusList);
+		
+		return event;
+	}
+	
+	private List<Status> findListStatusAdd() {
+		
+		List<Status> statusList = this.eventDAO.findAllStatus();
+		List<Status> listAux = new ArrayList<Status>();
+		
+		for (Status status : statusList) {
+			
+			if (status.getStatus().equals("Aberto")) {
+				listAux.add(status);
+			}
+		}
+		
+		return listAux;
+	}
+
+	private List<Status> findListStatusUpdate(Status currentStatus) {
+		
+		List<Status> statusList = new ArrayList<Status>();
+		
+		if (currentStatus.getStatus().equals("Fechado") || currentStatus.getStatus().equals("Suspenso")) {
+
+			statusList.add(currentStatus);
+			
+		} else if (currentStatus.getStatus().equals("Homologado")) {
+			
+			statusList = this.eventDAO.findListStatusByID(HOMOLOGADO, FECHADO, SUSPENSO);
+			
+		} else if (currentStatus.getStatus().equals("Aberto")){
+
+			statusList = this.eventDAO.findListStatusByID(ABERTO, ACEITO, REJEITADO, SUSPENSO);
+			
+		} else if (currentStatus.getStatus().equals("Aceito")){
+		
+			statusList = this.eventDAO.findListStatusByID(ACEITO, CORRIGIDO, SUSPENSO);
+		
+		}  else if (currentStatus.getStatus().equals("Rejeitado")) {
+			
+			statusList = this.eventDAO.findListStatusByID(REJEITADO, ACEITO, NAO_VALIDADO, SUSPENSO);
+			
+		} else if (currentStatus.getStatus().equals("Validado")) {
+			
+			statusList = this.eventDAO.findListStatusByID(VALIDADO, HOMOLOGADO, SUSPENSO);
+			
+		} else if (currentStatus.getStatus().equals("Não Validado")) {
+			
+			statusList = this.eventDAO.findListStatusByID(NAO_VALIDADO, ACEITO, REJEITADO, CORRIGIDO, SUSPENSO);
+		}
+		
+		return statusList;
+	}
+	
 	@Post
 	public void event(
 			String id, 
@@ -113,7 +236,10 @@ public class EventController {
 			String workflowTitle, 
 			String step,
 			String useCase,
-			String currentStatus) {
+			String currentStatus,
+			String description) {
+		
+		Map<String, String> message = new HashMap<String, String>();
 		
 		Integer eventID;
 
@@ -131,7 +257,6 @@ public class EventController {
 		Integer useCaseID = Integer.valueOf(useCase);
 		Integer currentStatusID = Integer.valueOf(currentStatus);
 		
-		
 		Event event  = this.populateEvent(
 				eventID,
 				eventTypeID,
@@ -142,7 +267,19 @@ public class EventController {
 				useCaseID, 
 				currentStatusID);
 		
-		this.persistEvent(event);
+		event = this.persistEvent(event);
+		
+		DescriptionEvent descriptionEvent = new DescriptionEvent()
+			.setCreationDate(Utils.convertDateToString(new Date()))
+			.setDescription(description)
+			.setEvent(event)
+			.setUserDescription(this.userSession.getUser());
+		
+		this.eventDAO.persistDescriptionEvent(descriptionEvent);
+		
+		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
+		
+		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 		
 	}
 	
@@ -162,7 +299,15 @@ public class EventController {
 		Step step = this.workflowDAO.findStepByID(stepID);
 		UseCase useCase = this.projectDAO.findUseCaseByID(useCaseID);
 		Status currentStatus = this.eventDAO.findStatusByID(currentStatusID);
-		User userCreator = this.userSession.getUser();
+		
+		User userCreator = null;
+		
+		if (eventID == null) {
+			userCreator = this.userSession.getUser();
+		} else {
+			userCreator = this.eventDAO.findEventByID(eventID).getUserCreator();
+		}
+		
 		
 		Event event = new Event()
 			.setId(eventID)
@@ -179,14 +324,26 @@ public class EventController {
 		return event;
 	}
 	
-	private void persistEvent(Event event) {
+	private Event persistEvent(Event event) {
+
+		Event eventReturn = this.eventDAO.persistEvent(event);
 		
-		Map<String, String> message = new HashMap<String, String>();
-		
-		this.eventDAO.persistEvent(event);
-		
-		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_INSERT_SUCCESS);
-		
-		this.result.use(Results.json()).withoutRoot().from(message).serialize();
+		return eventReturn;
+	}
+	
+	private List<Project> findProjectsByUserOrClientID() {
+		List<Project> listProjects = new ArrayList<Project>();
+
+		if (this.userSession.getUser().getClient() != null) {
+			
+			Integer clientID = this.userSession.getUser().getClient().getId();
+			listProjects = this.projectDAO.findProjectsByClientID(clientID);
+			
+		} else {
+			
+			Integer userID = this.userSession.getUser().getId();
+			listProjects = this.projectDAO.findProjectsByUserID(userID);
+		}
+		return listProjects;
 	}
 }

@@ -22,7 +22,6 @@ public class User {
 	private String password;
 	private String name;
 	private String mail;
-	private String functionality;
 	
 	@Transient
 	private String employeeTypeString;
@@ -79,13 +78,6 @@ public class User {
 	public User setEmployeeType(EmployeeType employeeType) {
 		this.employeeType = employeeType;
 		return this;
-	}
-	
-	public void setFunctionality(String functionality) {
-		this.functionality = functionality;
-	}
-	public String getFunctionality() {
-		return functionality;
 	}
 
 	public Client getClient() {

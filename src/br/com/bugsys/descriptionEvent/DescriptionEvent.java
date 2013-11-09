@@ -1,15 +1,15 @@
 package br.com.bugsys.descriptionEvent;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import br.com.bugsys.event.Event;
+import br.com.bugsys.user.User;
 
 @Entity
 public class DescriptionEvent {
@@ -20,7 +20,10 @@ public class DescriptionEvent {
 	
 	private String description;
 	
-	private Date lastModifyDate;
+	private String creationDate;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	private User userDescription;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_FK")
@@ -52,12 +55,23 @@ public class DescriptionEvent {
 		this.event = event;
 		return this;
 	}
-	
-	public Date getLastModifyDate() {
-		return lastModifyDate;
+
+	public String getCreationDate() {
+		return creationDate;
 	}
-	public DescriptionEvent setLastModifyDate(Date lastModifyDate) {
-		this.lastModifyDate = lastModifyDate;
+	public DescriptionEvent setCreationDate(String creationDate) {
+		this.creationDate = creationDate;
+		return this;
+	}
+
+	public User getUserDescription() {
+		if (userDescription == null) {
+			userDescription = new User();
+		}
+		return userDescription;
+	}
+	public DescriptionEvent setUserDescription(User userDescription) {
+		this.userDescription = userDescription;
 		return this;
 	}
 }

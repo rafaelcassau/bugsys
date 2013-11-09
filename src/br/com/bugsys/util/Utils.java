@@ -20,4 +20,10 @@ public class Utils {
 		return dateConvert;
 	}
 	
+	public static String convertDateToString(Date date) {
+
+		String dateConvert = new SimpleDateFormat("dd/MM/yyyy").format(date);
+		return dateConvert;
+	}
+	
 }

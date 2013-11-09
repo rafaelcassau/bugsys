@@ -14,6 +14,7 @@ $(function(){
 	var step			= $('#step');
 	var useCase			= $('#useCase');
 	var currentStatus	= $('#currentStatus');
+	var description		= $('#description');
 	
 	loadComboboxProject(project);
 	
@@ -74,7 +75,8 @@ $(function(){
 				'workflowTitle': workflow.val(),
 				'step': step.val(),
 				'useCase': useCase.val(),
-				'currentStatus': currentStatus.val()
+				'currentStatus': currentStatus.val(),
+				'description': description.val()
 			}, 
 			function(data) {
 				
@@ -142,19 +144,45 @@ $(function(){
 
 function loadComboboxProject(project) {
 	
-	$.get('/bugsys/event/populateProject',
-		{},
-		function(data) {
+	var id = $('#idEvent').val();
+	
+	if (id != undefined) {
+		
+		if (id == "") {
 			
-			var options = '<option value="0">Selecione</option>';
+			project.removeAttr('readOnly');
 			
-			for (var i = 0; i < data.length; i++) {
-				options += '<option value="' + data[i].id + '">' + data[i].projectName + '</option>';
-			}
+			$.get('/bugsys/event/populateComboProjectAdd',
+					{},
+					function(data) {
+						
+						var options = '<option value="0">Selecione</option>';
+						
+						for (var i = 0; i < data.length; i++) {
+							options += '<option value="' + data[i].id + '">' + data[i].projectName + '</option>';
+						}
+						
+						project.html(options);
+					}
+			);
+		} else {
 			
-			project.html(options);
+			$.get('/bugsys/event/populateComboProjectEdit',
+					{'id' : id},
+					function(data) {
+						
+						var options = '';
+						
+						for (var i = 0; i < data.length; i++) {
+							options += '<option value="' + data[i].id + '">' + data[i].projectName + '</option>';
+						}
+						
+						project.html(options);
+					}
+			);
 		}
-	);
+	}
+	
 }
 
 function populateComboBoxUserResponsible(userResponsible, listUsersProject) {
@@ -235,7 +263,7 @@ function formEventIsValid() {
 	var success = true;
 	$('[valid="valid"]').each(
 	   function(key, item) {
-		 if($(item).val() == "0") {
+		 if($(item).val() == "0" || $(item).val().trim() == "") {
 			 
 			 $(item).addClass('input-error');
 		

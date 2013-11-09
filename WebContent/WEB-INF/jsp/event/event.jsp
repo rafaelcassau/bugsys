@@ -28,15 +28,21 @@
 		          	<input type="hidden" id="idEvent" value="${event.id}">
 				    
 			    	<div class="col-lg-12">
-				    	<div class="col-lg-10">
+					    <div class="col-lg-10">
 					        <label for="project">Projeto: </label>
-					        
-					       	<select id="project" valid="valid" name="project" class="form-control input-bgsys without-radius">
-							
-							</select>
-							
+					        <w:select class="form-control input-bgsys without-radius" 
+					        		  valid="valid"
+					        		  name="project" 
+					        		  id="project"
+					        		  items="${projectList}" 
+					        		  value="id" 
+					        		  var="project"
+					        		  readOnly="readOnly" 
+					        		  selected="${event.project.id}">
+				           		${project.projectName}
+					        </w:select>
 			    	 	</div>
-			    	</div>
+		    	 	</div>
 			    	
 			    	<div class="col-lg-12">
 					    <div class="col-lg-10">
@@ -49,7 +55,7 @@
 					        		  value="id" 
 					        		  var="eventType"
 					        		  readOnly="readOnly" 
-					        		  selected="${eventType.id}">
+					        		  selected="${event.eventType.id}">
 				           		${eventType.eventType}
 					        </w:select>
 			    	 	</div>
@@ -66,7 +72,7 @@
 					        		  value="id" 
 					        		  var="userResponsible"
 					        		  readOnly="readOnly" 
-					        		  selected="${userResponsible.id}">
+					        		  selected="${event.userResponsible.id}">
 				           		${userResponsible.name}
 					        </w:select>
 			    	 	</div>
@@ -90,7 +96,7 @@
 					        		  value="id" 
 					        		  var="step"
 					        		  readOnly="readOnly" 
-					        		  selected="${step.id}">
+					        		  selected="${event.stepWorkflow.id}">
 				           		${step.title}
 					        </w:select>
 			    	 	</div>
@@ -107,7 +113,7 @@
 					        		  value="id" 
 					        		  var="useCase"
 					        		  readOnly="readOnly" 
-					        		  selected="${useCase.id}">
+					        		  selected="${event.useCase.id}">
 				           		${useCase.name}
 					        </w:select>
 			    	 	</div>
@@ -124,10 +130,25 @@
 					        		  value="id" 
 					        		  var="currentStatus"
 					        		  readOnly="readOnly" 
-					        		  selected="${currentStatus.id}">
+					        		  selected="${event.currentStatus.id}">
 				           		${currentStatus.status}
 					        </w:select>
 			    	 	</div>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+			    		<c:forEach items="${event.descriptionEventList}" var="description">
+					    	<div style="border-bottom:1px solid; border-color: #ddd" class="col-lg-10">
+				    			<h4>${description.userDescription.name}</h4>
+				    			<small>${description.description}</small> <br />
+				    			<span>${description.creationDate}</span>
+					    	</div>
+			    		</c:forEach>
+			    	</div>
+			    	
+			    	<div class="col-lg-12">
+			          	<label for="description">Descrição da Ocorrência: </label>
+			          	<textarea valid="valid" id="description" class="form-control input-bgsys without-radius" rows="3"></textarea>
 			    	</div>
 			    	
 			     </form>

@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import br.com.bugsys.descriptionEvent.DescriptionEvent;
 import br.com.bugsys.eventStatus.Status;
 import br.com.bugsys.eventType.EventType;
 import br.com.bugsys.infra.HibernateUtil;
@@ -35,6 +36,20 @@ public class EventDAO {
 		return listEvents;
 	}
 	
+	public DescriptionEvent findDescriptionEventByID(Integer descriptionEventID) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM DescriptionEvent de")
+			.append(" WHERE de.id = :descriptionEventID");
+	
+		Query query = this.session.createQuery(hql.toString())
+			.setParameter("descriptionEventID", descriptionEventID);
+	
+		DescriptionEvent descriptionEvent = (DescriptionEvent) query.uniqueResult();
+	
+		return descriptionEvent;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Event> findEventByUserID(Integer userID) {
 		
@@ -52,8 +67,24 @@ public class EventDAO {
 		
 		return listEvents;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Event> findEventByClientID(Integer userID) {
+		
+		StringBuilder hql = new StringBuilder()
+		.append(" FROM Event e")
+		.append(" WHERE")
+		.append(" e.client");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("userID", userID);
+		
+		List<Event> listEvents = (List<Event>) query.list();
+		
+		return listEvents;
+	}
 	
-	public Event findEventById(Integer eventID) {
+	public Event findEventByID(Integer eventID) {
 		
 		StringBuilder hql = new StringBuilder()
 			.append(" FROM Event e")
@@ -123,11 +154,11 @@ public class EventDAO {
 		
 		Event eventReturn = null;
 		
-		if(event.getId() == null){
+		if(event.getId() == null) {
 			
 			Integer id = (Integer) this.session.save(event);
 			
-			eventReturn = this.findEventById(id);
+			eventReturn = this.findEventByID(id);
 			
 		} else {
 			
@@ -138,5 +169,46 @@ public class EventDAO {
 		transaction.commit();
 		
 		return eventReturn;
+	}
+
+	public DescriptionEvent persistDescriptionEvent(DescriptionEvent descriptionEvent) {
+		
+		this.session.clear();
+		
+		Transaction transaction = this.session.beginTransaction();
+		
+		DescriptionEvent descriptionEventReturn = null;
+		
+		if (descriptionEvent.getId() == null) {
+			
+			Integer id = (Integer) this.session.save(descriptionEvent);
+			
+			descriptionEventReturn = this.findDescriptionEventByID(id);
+			
+		} else {
+			
+			this.session.update(descriptionEvent);
+			descriptionEventReturn = descriptionEvent;
+		}
+		
+		transaction.commit();
+		
+		return descriptionEventReturn;
+		
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Status> findListStatusByID(Integer...ids) {
+		
+		StringBuilder hql = new StringBuilder()
+			.append(" FROM Status s")
+			.append(" WHERE s.id IN (:ids)");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameterList("ids", ids);
+		
+		List<Status> listStatus = (List<Status>) query.list();
+		
+		return listStatus;
 	}
 }
