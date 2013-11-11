@@ -221,7 +221,12 @@ public class EventController {
 			
 		} else if (currentStatus.getStatus().equals("Não Validado")) {
 			
-			statusList = this.eventDAO.findListStatusByID(NAO_VALIDADO, ACEITO, REJEITADO, CORRIGIDO, SUSPENSO);
+			statusList = this.eventDAO.findListStatusByID(NAO_VALIDADO, ACEITO, REJEITADO, SUSPENSO);
+			
+		} else if (currentStatus.getStatus().equals("Corrigido")) {
+			
+			statusList = this.eventDAO.findListStatusByID(CORRIGIDO, NAO_VALIDADO, VALIDADO, SUSPENSO);
+			
 		}
 		
 		return statusList;
