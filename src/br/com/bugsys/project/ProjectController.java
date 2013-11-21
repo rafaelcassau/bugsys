@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.client.ClientDAO;
+import br.com.bugsys.event.Event;
 import br.com.bugsys.event.EventDAO;
 import br.com.bugsys.interceptors.Functionality;
 import br.com.bugsys.interceptors.UserSession;
@@ -191,13 +192,20 @@ public class ProjectController {
 		
 		Map<String, String> message = new HashMap<String, String>();
 		
-		this.projectDAO.deleteProjectById(id);
+		List<Event> listEvents = this.eventDAO.findEventByProjectID(id);
 		
-		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+		if (listEvents.isEmpty()) {
+			
+			this.projectDAO.deleteProjectById(id);
+			message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+			
+		} else {
+			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_PROJECT_EVENT_VINCULED);
+		}
+		
 		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
-	
 	
 	/***
 	 * Metodo responsavel por popular a entidade projeto para posterior persistencia ou alteração

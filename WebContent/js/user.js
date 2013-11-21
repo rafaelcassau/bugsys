@@ -62,8 +62,13 @@ $(function () {
 		    		}, 1500);
 		    		
 		    	} else {
+		    		
+		    		modal_excluir.hide();
+		    		
 		    		toastr.error('clique aqui para fechar!', message);
-		    		return;
+		    		setTimeout(function(){
+		    			redirectTo('/bugsys/user/list');
+		    		}, 1500);
 		    	}
 			});
     	});

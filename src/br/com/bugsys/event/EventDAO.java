@@ -211,4 +211,19 @@ public class EventDAO {
 		
 		return listStatus;
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<EventType> findListEventTypeByID(Integer...ids) {
+		
+		StringBuilder hql = new StringBuilder()
+		.append(" FROM EventType et")
+		.append(" WHERE et.id IN (:ids)");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameterList("ids", ids);
+		
+		List<EventType> listEventType = (List<EventType>) query.list();
+		
+		return listEventType;
+	}
 }

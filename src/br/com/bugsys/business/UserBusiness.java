@@ -1,10 +1,13 @@
 package br.com.bugsys.business;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import br.com.bugsys.client.Client;
 import br.com.bugsys.client.ClientDAO;
+import br.com.bugsys.project.Project;
+import br.com.bugsys.project.ProjectDAO;
 import br.com.bugsys.user.User;
 import br.com.bugsys.user.UserDAO;
 import br.com.bugsys.util.AjaxResponseEnum;
@@ -14,10 +17,12 @@ public class UserBusiness {
 	
 	private UserDAO userDAO;
 	private ClientDAO clientDAO;
+	private ProjectDAO projectDAO;
 	
 	public UserBusiness() {
 		this.userDAO = new UserDAO();
 		this.clientDAO = new ClientDAO();
+		this.projectDAO = new ProjectDAO();
 	}
 	
 	public Map<String, String> addUser(User user) {
@@ -109,13 +114,52 @@ public class UserBusiness {
 		Client client =  this.clientDAO.findClientByUserId(id);
 		
 		if (client != null) {
-			this.clientDAO.deleteClientById(client.getId());
+			
+			message = this.existClientProject(client.getId());
+			
+			if (message.isEmpty()) {
+				
+				this.clientDAO.deleteClientById(client.getId());
+				message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+			} 
+			
 		} else {
-			this.userDAO.deleteUserById(id);
+			
+			message = this.existUserProject(id);
+			
+			if (message.isEmpty()) {
+				
+				this.userDAO.deleteUserById(id);
+				message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+			} 
 		}
-		
-		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
 		
 		return message;
 	}
+	
+	private Map<String, String> existUserProject(Integer userID) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		List<Project> projectList = this.projectDAO.findProjectsByUserID(userID);
+		
+		if (!projectList.isEmpty())
+		
+			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_USER_PROJECT_VINCULED);
+		
+		return message;
+	}
+	
+	private Map<String, String> existClientProject(Integer clientID) {
+		
+		Map<String, String> message = new HashMap<String, String>();
+		
+		List<Project> projectList = this.projectDAO.findProjectsByClientID(clientID);
+		
+		if (!projectList.isEmpty())
+		
+			message.put(AjaxResponseEnum.ERROR.getResponse(), Messages.MSG_CLIENT_PROJECT_VINCULED);
+		
+		return message;
+	} 
 }

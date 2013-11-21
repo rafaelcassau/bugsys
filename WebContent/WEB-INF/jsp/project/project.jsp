@@ -26,11 +26,10 @@
 				<form id="formProject" class="form-inline bgsys-form-inline">
 			
 		          	<input type="hidden" id="id" value="${project.id}">
-		          	<input type="hidden" id="projectID" value="2">
 				    
 				    <div class="col-lg-12">
 			          <label for="projectName">Nome do Projeto: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="projectName" value="${project.projectName}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="projectName" value="${project.projectName}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
@@ -152,10 +151,10 @@
 		          	<input type="hidden" id="flag-isedit">
 				    
 			          <label for="code">Código: </label>
-			          <input usecase="usecase" type="text" class="form-control input-bgsys without-radius" id="code" value="${useCase.code}">
+			          <input usecase="usecase" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="code" value="${useCase.code}">
 	
 			          <label for="name">Nome: </label>
-			          <input usecase="usecase" type="text" class="form-control input-bgsys without-radius" id="name" value="${useCase.name}">
+			          <input usecase="usecase" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="name" value="${useCase.name}">
 			    	
 			          <label for="descriptionUseCase">Descrição: </label>
 			          <textarea usecase="usecase" id="descriptionUseCase" class="form-control input-bgsys without-radius" rows="3">${useCase.description}</textarea>

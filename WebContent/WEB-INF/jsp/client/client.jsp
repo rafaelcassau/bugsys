@@ -29,12 +29,12 @@
 				    
 				    <div class="col-lg-6">
 			          <label for="user">Empresa: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="corporate" value="${client.corporateName}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="corporate" value="${client.corporateName}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
 			          <label for="user">Nome Fantasia: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="fancyName" value="${client.fancyName}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="fancyName" value="${client.fancyName}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
@@ -49,7 +49,7 @@
 			    	
 			    	<div class="col-lg-6">
 			          <label for="name">Endereço: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="address" value="${client.address}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="address" value="${client.address}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
@@ -68,27 +68,27 @@
 			   		
 			   		<div class="col-lg-6">
 			          <label for="name">Nome: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="name" value="${client.user.name}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="name" value="${client.user.name}">
 			    	</div>
 			    	
 			    	<div class="col-lg-6">
 			          <label for="email">E-mail: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="mail" value="${client.user.mail}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="mail" value="${client.user.mail}">
 			    	</div>
 			    	
 			   		<div class="col-lg-6">
 			          <label for="email">Usuário: </label>
-			          <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="username" value="${client.user.username}">
+			          <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="username" value="${client.user.username}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
 			          <label for="email">Senha: </label>
-			          <input valid="valid" type="password" class="form-control input-bgsys without-radius" id="password" value="${client.user.password}">
+			          <input valid="valid" type="password" maxlength="50" class="form-control input-bgsys without-radius" id="password" value="${client.user.password}">
 			    	</div>
 			    	
 			    	<div class="col-lg-3">
 			          <label for="email">Confirmação: </label>
-			          <input valid="valid" type="password" class="form-control input-bgsys without-radius" id="confirm" value="${client.user.password}">
+			          <input valid="valid" type="password" maxlength="50" class="form-control input-bgsys without-radius" id="confirm" value="${client.user.password}">
 			    	</div>
 			   		
 			     </form>

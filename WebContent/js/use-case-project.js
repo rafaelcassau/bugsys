@@ -1,4 +1,13 @@
 
+	$("#descriptionUseCase").on('keyup', function () {
+	        var maxLength = 250;
+	        var text = $(this).val();
+	        var textLength = text.length;
+	        if (textLength > maxLength) {
+	            $(this).val(text.substring(0, (maxLength)));
+	        } 
+	    });
+
 	var UCModel = ( function ( jQ, storage ) { 
 		
 		var url = {

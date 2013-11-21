@@ -16,6 +16,15 @@ $(function(){
 	var currentStatus	= $('#currentStatus');
 	var description		= $('#description');
 	
+	description.on('keyup', function () {
+        var maxLength = 250;
+        var text = $(this).val();
+        var textLength = text.length;
+        if (textLength > maxLength) {
+            $(this).val(text.substring(0, (maxLength)));
+        } 
+    });
+	
 	loadComboboxProject(project);
 	
 	newEvent.on('click', function(){
@@ -180,6 +189,12 @@ function loadComboboxProject(project) {
 						project.html(options);
 					}
 			);
+			
+			var currentStatus = $('#currentStatus');
+			
+			if (currentStatus.val() != '2' && currentStatus.val() != '9') {
+				currentStatus.removeAttr('readOnly');
+			}
 		}
 	}
 	

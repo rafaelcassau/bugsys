@@ -12,6 +12,14 @@
 		workflow         = $('#workflow'),
 		description		 = $('#description');
 	
+	description.on('keyup', function () {
+        var maxLength = 250;
+        var text = $(this).val();
+        var textLength = text.length;
+        if (textLength > maxLength) {
+            $(this).val(text.substring(0, (maxLength)));
+        } 
+    });
 	
 	startDate       .mask("99/99/9999");
 	estimatedEndDate.mask("99/99/9999");
@@ -174,8 +182,13 @@
 			    		}, 1500);
 			    		
 			    	} else {
+			    		
+			    		modal.hide();
+			    		
 			    		toastr.error('clique aqui para fechar!', result.message);
-			    		return;
+			    		setTimeout( function () {
+			    			redirectTo('/bugsys/project/list');
+			    		}, 1500);
 			    	}
 			});
     	});

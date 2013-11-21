@@ -26,7 +26,7 @@ public class User {
 	@Transient
 	private String employeeTypeString;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.REMOVE)
 	private Client client;
 	
 	@OneToOne(cascade = CascadeType.DETACH, optional = true, fetch = FetchType.EAGER)

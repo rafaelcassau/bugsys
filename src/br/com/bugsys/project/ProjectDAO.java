@@ -117,6 +117,22 @@ public class ProjectDAO {
 		return users;
 	}
 
+	public User findUserByProjectAndByEmployeeTypeID(Integer projectID, Integer employeeTypeID) {
+		
+		StringBuilder hql = new StringBuilder()
+		.append(" SELECT up.user FROM UserProject up")
+		.append(" WHERE up.project.id = :projectID")
+		.append(" AND up.user.employeeType.id = :employeeTypeID");
+		
+		Query query = this.session.createQuery(hql.toString())
+				.setParameter("projectID", projectID)
+				.setParameter("employeeTypeID", employeeTypeID);
+		
+		User user = (User) query.uniqueResult();
+		
+		return user;
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Project> findAllProjects() {
 		

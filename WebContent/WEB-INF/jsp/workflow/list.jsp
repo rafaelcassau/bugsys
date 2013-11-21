@@ -27,14 +27,15 @@
 						<td>${workflow.title}</td>
 						<td>
 							<div class="btn-group">
-							
-								<a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
-							  		<span class="glyphicon glyphicon-remove"></span> Excluir
-							  	</a>
-							
+
 							  	<a data-toggle="modal" class="btn btn-link visualizeWorkflow" href="<c:url value="/workflow/${workflow.id}"/>">
 							  	 	<span class="glyphicon glyphicon-edit"></span> Visualizar
 							  	</a>
+
+								<a data-toggle="modal" class="btn btn-link deleteWorkflow" href="${workflow.id}">
+							  		<span class="glyphicon glyphicon-remove"></span> Excluir
+							  	</a>
+							  	
 							</div>
 						</td>
 					</tr>

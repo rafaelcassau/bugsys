@@ -1,6 +1,5 @@
 package br.com.bugsys.client;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,9 +105,10 @@ public class ClientController {
 		
 		Map<String, String> message = new HashMap<String, String>();
 
-		this.clientDAO.deleteClientById(id);
-
-		message.put(AjaxResponseEnum.SUCCESS.getResponse(), Messages.MSG_DELETE_SUCCESS);
+		Client client = this.clientDAO.findClientById(id);
+		
+		message = this.userBusiness.deleteUserById(client.getUser().getId());
+		
 		this.result.use(Results.json()).withoutRoot().from(message).serialize();
 	}
 	

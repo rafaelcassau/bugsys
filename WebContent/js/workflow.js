@@ -1,6 +1,6 @@
 
 ;(function ( $ , StepModel) {
-	
+
 	var newWorkflow 		= $('#new-workflow'),
 	    persistWorkflow 	= $('#persistWorkflow'),
 	    deleteWorkflow  	= $('.deleteWorkflow'),
@@ -43,7 +43,14 @@
 		title       = $("#title"),
 		description = $("#description");
 	
-	
+	description.on('keyup', function () {
+         var maxLength = 250;
+         var text = $(this).val();
+         var textLength = text.length;
+         if (textLength > maxLength) {
+             $(this).val(text.substring(0, (maxLength)));
+         } 
+     });
 	
 	persistWorkflow.on('click', function() {
 		
@@ -121,8 +128,13 @@
 			    		}, 1500);
 			    		
 			    	} else {
+			    		
+			    		modal.hide();
+			    		
 			    		toastr.error('clique aqui para fechar!', result.message);
-			    		return;
+			    		setTimeout( function () {
+			    			redirectTo('/bugsys/workflow/list');
+			    		}, 1500);
 			    	}
 			});
     	});

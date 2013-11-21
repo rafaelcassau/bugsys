@@ -31,6 +31,8 @@ import br.com.caelum.vraptor.view.Results;
 @Resource
 public class EventController {
 
+	// constantes que representam os status da ocorrencia
+	
 	private static final int ABERTO 		= 1;
 	private static final int FECHADO 		= 2;
 	private static final int ACEITO 		= 3;
@@ -41,7 +43,12 @@ public class EventController {
 	private static final int HOMOLOGADO 	= 8;
 	private static final int SUSPENSO 		= 9;
 	
+	private static final int FALHA	 				= 3;
+	private static final int SUGESTAO 				= 5;
+	private static final int SOLICITACAO_MUDANCA 	= 6;
 	
+	private static final int GERENTE_PROJETOS 		= 9;
+
 	private WorkflowDAO workflowDAO;
 	private ProjectDAO projectDAO;
 	private EventDAO eventDAO;
@@ -93,8 +100,23 @@ public class EventController {
 		
 		Map<String, Object> contextValues = new HashMap<String, Object>();
 		
-		List<User> listUsersProject = this.projectDAO.findUsersByProjectID(projectID);
+		List<User> listUsersProject = new ArrayList<User>(); 
+		List<EventType> listEventType = new ArrayList<EventType>();
 		
+		if (this.userSession.getUser().getClient() == null) {
+			
+			listEventType = this.eventDAO.findAllEventType();
+			
+			listUsersProject = this.projectDAO.findUsersByProjectID(projectID);
+			
+		} else {
+			listEventType = this.eventDAO.findListEventTypeByID(FALHA, SUGESTAO, SOLICITACAO_MUDANCA);
+			
+			User userProject = this.projectDAO.findUserByProjectAndByEmployeeTypeID(projectID, GERENTE_PROJETOS);
+		
+			listUsersProject.add(userProject);
+		}
+
 		// Popula o objeto transient para a exibição do tipo de usuário
 		for (User user : listUsersProject) {
 			user.setEmployeeTypeString(user.getEmployeeType().getEmployeeType());
@@ -105,7 +127,7 @@ public class EventController {
 		List<Step> listSteps = this.workflowDAO.findStepsByWorkflow(workflow.getId()); 
 		List<UseCase> listUseCases = this.projectDAO.findUseCasesByProjectID(projectID);
 		List<Status> listStatus = this.findListStatusAdd();
-		List<EventType> listEventType = this.eventDAO.findAllEventType();
+		
 		
 		contextValues.put("listUsersProject", listUsersProject);
 		contextValues.put("workflow", workflow);
@@ -133,7 +155,21 @@ public class EventController {
 		List<Status> currentStatusList = this.findListStatusUpdate(event.getCurrentStatus());
 		List<User> userResponsibleList = new ArrayList<User>();
 		
-		if (currentStatusList.size() > 1) {
+		if (this.userSession.getUser().getClient() != null) {
+			
+			projectList.add(project);
+			
+			stepList.add(event.getStepWorkflow());
+			
+			useCaseList.add(event.getUseCase());
+			
+			eventTypeList.add(event.getEventType());
+			
+			User userProject = this.projectDAO.findUserByProjectAndByEmployeeTypeID(project.getId(), GERENTE_PROJETOS);
+			
+			userResponsibleList.add(userProject);
+			
+		} else if (currentStatusList.size() > 1) {
 
 			Integer currentUserID = this.userSession.getUser().getId();
 			
@@ -146,10 +182,6 @@ public class EventController {
 			eventTypeList = this.eventDAO.findAllEventType();
 			
 			userResponsibleList = this.projectDAO.findUsersByProjectID(project.getId());
-			// Popula o objeto transient para a exibição do tipo de usuário
-			for (User user : userResponsibleList) {
-				user.setEmployeeTypeString(user.getEmployeeType().getEmployeeType());
-			}
 			
 		} else {
 
@@ -163,6 +195,11 @@ public class EventController {
 			
 			userResponsibleList.add(event.getUserResponsible());
 			
+		}
+		
+		// Popula o objeto transient para a exibição do tipo de usuário
+		for (User user : userResponsibleList) {
+			user.setEmployeeTypeString(user.getEmployeeType().getEmployeeType());
 		}
 		
 		this.result.include("projectList", projectList);

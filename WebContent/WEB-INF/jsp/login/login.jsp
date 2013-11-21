@@ -28,11 +28,11 @@
 				    <legend>Autenticar</legend>
 				    <div class="form-group">
 				      <label for="username">Usuário </label>
-				      <input valid="valid" type="text" class="form-control input-bgsys without-radius" id="username" name="username" >
+				      <input valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius" id="username" name="username" >
 				    </div>
 				    <div class="form-group">
 				      <label for="password">Senha</label>
-				      <input valid="valid" type="password" class="form-control input-bgsys without-radius" id="password" name="password" >
+				      <input valid="valid" type="password" maxlength="50" class="form-control input-bgsys without-radius" id="password" name="password" >
 				    </div>
 				    <a href="#" id="lnkLogin" class="btn btn-primary pull-right">Entrar</a>
 				  </fieldset>

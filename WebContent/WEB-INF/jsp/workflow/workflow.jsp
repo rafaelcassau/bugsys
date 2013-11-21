@@ -32,10 +32,10 @@
 			          
 			          <c:choose>
 			          	<c:when test="${workflow.id != null}">
-				          	<input id="title" readonly="readonly" type="text" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
+				          	<input id="title" readonly="readonly" type="text" maxlength="50" class="form-control input-bgsys without-radius" value="${workflow.title}"/>
 			          	</c:when>
 			          	<c:otherwise>
-				          	<input id="title" valid="valid" type="text" class="form-control input-bgsys without-radius"/>
+				          	<input id="title" valid="valid" type="text" maxlength="50" class="form-control input-bgsys without-radius"/>
 			          	</c:otherwise>
 			          </c:choose>
 			          
