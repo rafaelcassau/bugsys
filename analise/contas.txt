@@ -1,0 +1,7 @@
+faculdade              - 468
+INSS                   - 150
+banco limite           - 115
+cartao                 - 338
+encargos transferencia - 8
+processo               - 272
+investimento caixa     - 100
